@@ -119,7 +119,7 @@ class Vehicle(models.Model):
     """
 
     """
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     type_of_vehicle = models.CharField(max_length=50, default='range_rover')
     brand = models.CharField(max_length=50, default='range_rover')
@@ -129,7 +129,7 @@ class Vehicle(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Vehicle, self).save()
 
     def __str__(self):
@@ -138,7 +138,7 @@ class Vehicle(models.Model):
 
 
 class Organisation(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     name = models.CharField(
         max_length=50, default='organisationx')
@@ -146,7 +146,7 @@ class Organisation(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Organisation, self).save()
 
     def __str__(self):
@@ -155,7 +155,7 @@ class Organisation(BaseModel):
 
 
 class OrganisationFleetManager(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     organisation = models.ForeignKey(
         Organisation, related_name="organisations", on_delete=models.CASCADE)
@@ -165,7 +165,7 @@ class OrganisationFleetManager(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(OrganisationFleetManager, self).save()
 
     def __str__(self):
@@ -174,7 +174,7 @@ class OrganisationFleetManager(BaseModel):
 
 
 class OrganisationDriver(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     organisation = models.ForeignKey(
         Organisation, related_name="Organisation_driver", on_delete=models.CASCADE)
@@ -184,7 +184,7 @@ class OrganisationDriver(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(OrganisationDriver, self).save()
 
     def __str__(self):
@@ -193,7 +193,7 @@ class OrganisationDriver(BaseModel):
 
 
 class OrganisationVehicle(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     organisation = models.ForeignKey(
         Organisation, related_name="Organisation_vehicle", on_delete=models.CASCADE)
@@ -204,7 +204,7 @@ class OrganisationVehicle(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(OrganisationVehicle, self).save()
 
     def __str__(self):
@@ -213,7 +213,7 @@ class OrganisationVehicle(BaseModel):
 
 
 class Project(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     name = models.CharField(max_length=50, default='projectx')
     organisation = models.ForeignKey(
@@ -222,7 +222,7 @@ class Project(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Project, self).save()
 
     def __str__(self):
@@ -231,7 +231,7 @@ class Project(BaseModel):
 
 
 class Branch(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
 
     name = models.CharField(max_length=50, default='branchx')
@@ -242,7 +242,7 @@ class Branch(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Branch, self).save()
 
     def __str__(self):
@@ -251,7 +251,7 @@ class Branch(BaseModel):
 
 
 class Station(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     name = models.CharField(max_length=50, default='Stationx')
     organisation = models.ForeignKey(
@@ -260,7 +260,7 @@ class Station(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Station, self).save()
 
     def __str__(self):
@@ -269,7 +269,7 @@ class Station(BaseModel):
 
 
 class Department(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     name = models.CharField(max_length=50, default='departmentx')
     organisation = models.ForeignKey(
@@ -278,7 +278,7 @@ class Department(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Department, self).save()
 
     def __str__(self):
@@ -287,7 +287,7 @@ class Department(BaseModel):
 
 
 class Directorate(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     name = models.CharField(max_length=50, default='directoratex')
 
@@ -297,7 +297,7 @@ class Directorate(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Directorate, self).save()
 
     def __str__(self):
@@ -306,7 +306,7 @@ class Directorate(BaseModel):
 
 
 class Blacklist(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     organisation = models.ForeignKey(
         Organisation, related_name="Blacklist_organisations", on_delete=models.CASCADE)
@@ -314,7 +314,7 @@ class Blacklist(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Blacklist, self).save()
 
     def __str__(self):
@@ -323,7 +323,7 @@ class Blacklist(BaseModel):
 
 
 class PassengerBlacklist(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     blacklist = models.ForeignKey(
         Blacklist, related_name="Blacklists", on_delete=models.CASCADE)
@@ -335,7 +335,7 @@ class PassengerBlacklist(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(PassengerBlacklist, self).save()
 
     def __str__(self):
@@ -344,7 +344,7 @@ class PassengerBlacklist(BaseModel):
 
 
 class DriverBlacklist(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     blacklist = models.ForeignKey(
         Blacklist, related_name="Driver_blacklists", on_delete=models.CASCADE)
@@ -356,7 +356,7 @@ class DriverBlacklist(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(DriverBlacklist, self).save()
 
     def __str__(self):
@@ -365,7 +365,7 @@ class DriverBlacklist(BaseModel):
 
 
 class VehicleBlacklist(BaseModel):
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     blacklist = models.ForeignKey(
         Blacklist, related_name="Vehicle_blacklists", on_delete=models.CASCADE)
@@ -377,7 +377,7 @@ class VehicleBlacklist(BaseModel):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(VehicleBlacklist, self).save()
 
     def __str__(self):
