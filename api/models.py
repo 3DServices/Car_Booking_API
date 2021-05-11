@@ -1,4 +1,5 @@
 from django.db import models
+
 from .mixins.django_default_user_mixin import DefaultUser
 from .mixins.base_model_mixin import BaseModel
 import uuid
