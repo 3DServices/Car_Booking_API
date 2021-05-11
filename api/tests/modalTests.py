@@ -5,8 +5,8 @@ import uuid
 
 
 class TestUserModal(TestCase):
-    def test_uuid(self):
-        generatedId = uuid.uuid4()
+    def test_if_user_can_be_created(self):
+        generatedId = '123e4567-e89b-12d3-a456-426614174000'
         user = User.objects.create(Id=generatedId)
         self.assertEqual(str(user.Id), str(generatedId))
 
@@ -16,3 +16,6 @@ class TestUserModal(TestCase):
 
         check_existence = User.objects.filter(first_name='timo').exists()
         self.assertEqual(check_existence, True)
+
+
+# guidance with the crud operation

@@ -12,8 +12,8 @@ class User(DefaultUser):
     """
     Id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
-    primary_contact = PhoneNumberField()
-    secondary_contact = PhoneNumberField()
+    primary_contact = PhoneNumberField(default='+256777777')
+    secondary_contact = PhoneNumberField(default='+256777777')
     # profile_photo =
 
     def save(self, force_insert=False, force_update=False, using=None,
@@ -249,6 +249,10 @@ class Branch(BaseModel):
     def __str__(self):
         _str = '%s' % self.name
         return _str
+
+    class Meta:
+        verbose_name_plural = "Branches"
+        ordering = ['name']
 
 
 class Station(BaseModel):
