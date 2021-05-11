@@ -9,6 +9,7 @@ class User(DefaultUser):
     """
     id = models.Charfield(primary_key=True, max_length=50, default=uuid.uuid4())
 
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
@@ -85,8 +86,16 @@ class Driver(models.Model):
     """
 
     """
+    permit_choices = (
+        ("B", "b"),
+        ("C", "c"),
+        ("DL", "dl"),
+        ("CM", "cm"),
+        ("CH", "ch"),
+    )
     id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
     user = models.OneToOneField(User, related_name="Driver", on_delete=models.CASCADE)
+    permit_class = models.CharField(max_length=2, choices=permit_choices, default="B")
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -277,6 +286,22 @@ class VehicleBlacklist(BaseModel):
     id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
     blacklist = models.OneToManyField(Blacklist, related_name="Blacklist", on_delete=models.CASCADE)
     reason = models.CharField(max_length = 100)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(User, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.first_name
+        return _str
+
+
+class VehicleBlacklist(BaseModel):
+    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
+    blacklist = models.OneToManyField(Blacklist, related_name="Blacklist", on_delete=models.CASCADE)
+    reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
