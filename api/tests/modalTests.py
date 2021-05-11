@@ -10,7 +10,7 @@ class TestUserModal(TestCase):
         user = User.objects.create(Id=generatedId)
         self.assertEqual(str(user.Id), str(generatedId))
 
-    def test_user_created(self):
+    def test_existence_of_user_created(self):
         generatedId = uuid.uuid4()
         user = User.objects.create(
             first_name='timo', last_name='timo', password='xsxsee2323')
