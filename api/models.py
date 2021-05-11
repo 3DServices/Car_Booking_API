@@ -119,7 +119,7 @@ class Vehicle(models.Model):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50,
+    Id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     type_of_vehicle = models.CharField(max_length=50, default='range_rover')
     brand = models.CharField(max_length=50, default='range_rover')
