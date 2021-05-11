@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
+
+
 class BaseModel(models.Model):
     """
     Base class for all Models with no direct attachment with any of the system users.
@@ -23,7 +26,6 @@ class BaseModel(models.Model):
         related_name="%(app_label)s_%(class)s_lastmodified",
         on_delete=models.SET_NULL
     )
-
 
     class Meta:
         abstract = True

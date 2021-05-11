@@ -1,19 +1,26 @@
 from django.db import models
+
 from .mixins.django_default_user_mixin import DefaultUser
+from .mixins.base_model_mixin import BaseModel
 import uuid
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(DefaultUser):
     """
 
     """
-    id = models.Charfield(primary_key=True, max_length=50, default=uuid.uuid4())
+    Id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    primary_contact = PhoneNumberField()
+    secondary_contact = PhoneNumberField()
+    # profile_photo =
 
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.id = uuid.uuid4()
+            self.Id = uuid.uuid4()
         super(User, self).save()
 
     def __str__(self):
@@ -32,13 +39,15 @@ class SystemAdmin(models.Model):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    user = models.OneToOneField(User, related_name="SysAdmin", on_delete=models.CASCADE)
+    Id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    user = models.OneToOneField(
+        User, related_name="SysAdmin", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.id = uuid.uuid4()
+            self.Id = uuid.uuid4()
         super(SystemAdmin, self).save()
 
     def __str__(self):
@@ -50,13 +59,15 @@ class FleetManager(models.Model):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    user = models.OneToOneField(User, related_name="FleetManager", on_delete=models.CASCADE)
+    Id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    user = models.OneToOneField(
+        User, related_name="FleetManager", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.id = uuid.uuid4()
+            self.Id = uuid.uuid4()
         super(FleetManager, self).save()
 
     def __str__(self):
@@ -68,13 +79,15 @@ class Passenger(models.Model):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    user = models.OneToOneField(User, related_name="Passenger", on_delete=models.CASCADE)
+    Id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    user = models.OneToOneField(
+        User, related_name="Passenger", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.id = uuid.uuid4()
+            self.Id = uuid.uuid4()
         super(Passenger, self).save()
 
     def __str__(self):
@@ -86,30 +99,51 @@ class Driver(models.Model):
     """
 
     """
-    permit_choices = (
-        ("B", "b"),
-        ("C", "c"),
-        ("DL", "dl"),
-        ("CM", "cm"),
-        ("CH", "ch"),
-    )
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    user = models.OneToOneField(User, related_name="Driver", on_delete=models.CASCADE)
-    permit_class = models.CharField(max_length=2, choices=permit_choices, default="B")
+    Id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    permit = models.CharField(max_length=50,
+                              default='UAX')
+    user = models.OneToOneField(
+        User, related_name="Driver", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.id = uuid.uuid4()
+            self.Id = uuid.uuid4()
         super(Driver, self).save()
 
     def __str__(self):
         _str = '%s' % self.user.first_name
         return _str
 
+
+class Vehicle(models.Model):
+    """
+
+    """
+    Id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    type_of_vehicle = models.CharField(max_length=50, default='range_rover')
+    brand = models.CharField(max_length=50, default='range_rover')
+    carrying_capacity = models.CharField(max_length=50,
+                                         default='range_rover')
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(Vehicle, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.type_of_vehicle
+        return _str
+
+
 class Organisation(BaseModel):
-    id = models.CharField(primary_key = True, max_length = 50, default = uuid.uuid4())
-    name = models.CharField(primary_key = True, max_length = 50, default = 'organisationx')
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    name = models.CharField(
+        max_length=50, default='organisationx')
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -121,10 +155,14 @@ class Organisation(BaseModel):
         _str = '%s' % self.name
         return _str
 
+
 class OrganisationFleetManager(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default = uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="organisations", on_delete=models.CASCADE)
-    fleet_manager = models.OneToManyField(FleetManager, related_name="fleet_managers", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    organisation = models.ForeignKey(
+        Organisation, related_name="organisations", on_delete=models.CASCADE)
+    fleet_manager = models.ForeignKey(
+        FleetManager, related_name="fleet_managers", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -133,13 +171,17 @@ class OrganisationFleetManager(BaseModel):
         super(OrganisationFleetManager, self).save()
 
     def __str__(self):
-        _str = '%s %s' % self.organisation.name,self.fleet_manager.user.firstname
+        _str = '%s %s' % self.organisation.name, self.fleet_manager.user.firstname
         return _str
 
 
 class OrganisationDriver(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default = uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="Organisation", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    organisation = models.ForeignKey(
+        Organisation, related_name="Organisation_driver", on_delete=models.CASCADE)
+    driver = models.ForeignKey(
+        Driver, related_name="drivers", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -148,167 +190,198 @@ class OrganisationDriver(BaseModel):
         super(OrganisationDriver, self).save()
 
     def __str__(self):
-        _str = '%s' % self.user.first_name
+        _str = '%s %s' % self.organisation.name, self.driver.user.firstname
         return _str
+
 
 class OrganisationVehicle(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default = uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="Organisation", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    organisation = models.ForeignKey(
+        Organisation, related_name="Organisation_vehicle", on_delete=models.CASCADE)
+
+    vehicle = models.ForeignKey(
+        Vehicle, related_name="vehicles", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(OrganisationVehicle, self).save()
 
     def __str__(self):
-        _str = '%s' % self.user.first_name
+        _str = '%s %s' % self.organisation.name, self.vehicle.type_of_vehicle
         return _str
+
 
 class Project(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default = uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="Organisation", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    name = models.CharField(max_length=50, default='projectx')
+    organisation = models.ForeignKey(
+        Organisation, related_name="Organisations", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(Project, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.name
         return _str
 
+
 class Branch(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default = uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="Organisation", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+
+    name = models.CharField(max_length=50, default='branchx')
+
+    organisation = models.ForeignKey(
+        Organisation, related_name="Branch_organisations", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(Branch, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.name
         return _str
 
 
 class Station(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default = uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="Organisation", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    name = models.CharField(max_length=50, default='Stationx')
+    organisation = models.ForeignKey(
+        Organisation, related_name="Station_organisations", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(Station, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.name
         return _str
 
+
 class Department(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default = uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="Organisation", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    name = models.CharField(max_length=50, default='departmentx')
+    organisation = models.ForeignKey(
+        Organisation, related_name="Department_organisations", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(Department, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.name
         return _str
 
 
 class Directorate(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default = uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="Organisation", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    name = models.CharField(max_length=50, default='directoratex')
+
+    organisation = models.ForeignKey(
+        Organisation, related_name="Directorate_organisations", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(Directorate, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.name
         return _str
+
 
 class Blacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    organisation = models.OneToManyField(Organisation, related_name="Organisation", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    organisation = models.ForeignKey(
+        Organisation, related_name="Blacklist_organisations", on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(Blacklist, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.organisation.name
         return _str
 
+
 class PassengerBlacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    blacklist = models.OneToManyField(Blacklist, related_name="Blacklist", on_delete=models.CASCADE)
-    reason = models.CharField(max_length = 100)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    blacklist = models.ForeignKey(
+        Blacklist, related_name="Blacklists", on_delete=models.CASCADE)
+
+    passenger = models.ForeignKey(
+        Passenger, related_name="Passengers", on_delete=models.CASCADE)
+    reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(PassengerBlacklist, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.passenger.user.first_name
         return _str
 
 
 class DriverBlacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    blacklist = models.OneToManyField(Blacklist, related_name="Blacklist", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    blacklist = models.ForeignKey(
+        Blacklist, related_name="Driver_blacklists", on_delete=models.CASCADE)
+
+    driver = models.ForeignKey(
+        Driver, related_name="Drivers", on_delete=models.CASCADE)
     reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(DriverBlacklist, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
-        return _str
-
-class VehicleBlacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    blacklist = models.OneToManyField(Blacklist, related_name="Blacklist", on_delete=models.CASCADE)
-    reason = models.CharField(max_length = 100)
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if self._state.adding:
-            self.id = uuid.uuid4()
-        super(User, self).save()
-
-    def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.driver.user.first_name
         return _str
 
 
 class VehicleBlacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50, default=uuid.uuid4())
-    blacklist = models.OneToManyField(Blacklist, related_name="Blacklist", on_delete=models.CASCADE)
+    id = models.CharField(primary_key=True, max_length=50,
+                          default=uuid.uuid4())
+    blacklist = models.ForeignKey(
+        Blacklist, related_name="Vehicle_blacklists", on_delete=models.CASCADE)
+
+    vehicle = models.ForeignKey(
+        Vehicle, related_name="Vehicle", on_delete=models.CASCADE)
     reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(User, self).save()
+        super(VehicleBlacklist, self).save()
 
     def __str__(self):
-        _str = '%s' % self.first_name
+        _str = '%s' % self.vehicle.type_of_vehicle
         return _str
