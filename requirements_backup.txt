@@ -26,7 +26,7 @@ defusedxml==0.6.0
 distlib==0.3.0
 distro==1.4.0
 distro-info===0.23ubuntu1
-Django==3.2.2
+Django==2.2.23
 django-allauth==0.44.0
 django-cors-headers==3.7.0
 django-factory-generator==1.0.4
@@ -74,6 +74,7 @@ oauthlib==3.1.0
 olefile==0.46
 paramiko==2.6.0
 pathspec==0.8.1
+pbr==5.6.0
 pexpect==4.6.0
 phonenumbers==8.12.22
 Pillow==7.0.0
@@ -111,6 +112,7 @@ six==1.15.0
 sqlparse==0.4.1
 system-service==0.3
 systemd-python==234
+testresources==2.0.1
 toml==0.10.2
 typed-ast==1.4.2
 typing-extensions==3.7.4.3
