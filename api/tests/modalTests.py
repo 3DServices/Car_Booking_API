@@ -5,10 +5,6 @@ import uuid
 
 
 class TestUserModal(TestCase):
-    def test_if_user_can_be_created(self):
-        generatedId = '123e4567-e89b-12d3-a456-426614174000'
-        user = User.objects.create(Id=generatedId)
-        self.assertEqual(str(user.Id), str(generatedId))
 
     def test_existence_of_user_created(self):
         user = User.objects.create(
@@ -16,6 +12,25 @@ class TestUserModal(TestCase):
 
         check_existence = User.objects.filter(first_name='timo').exists()
         self.assertEqual(check_existence, True)
+
+    def test_update_of_user_record(self):
+        user = User.objects.create(
+            first_name='timo', last_name='timo', password='xsxsee2323')
+        user_store = User.objects.get(first_name='timo')
+        user_store.first_name = 'masiko'
+
+        user_store.save()
+
+        check_existence = User.objects.filter(first_name='masiko').exists()
+        self.assertEqual(check_existence, True)
+
+    def test_delete_of_user_record(self):
+        user = User.objects.create(
+            first_name='timo', last_name='timo', password='xsxsee2323')
+        user_store = User.objects.get(first_name='timo')
+        user_store.delete()
+        check_existence = User.objects.filter(first_name='timo').exists()
+        self.assertEqual(check_existence, False)
 
 
 # guidance with the crud operation
