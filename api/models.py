@@ -38,7 +38,7 @@ class SystemAdmin(models.Model):
     """
 
     """
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     user = models.OneToOneField(
         User, related_name="SysAdmin", on_delete=models.CASCADE)
@@ -46,7 +46,7 @@ class SystemAdmin(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(SystemAdmin, self).save()
 
     def __str__(self):
@@ -58,7 +58,7 @@ class FleetManager(models.Model):
     """
 
     """
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     user = models.OneToOneField(
         User, related_name="FleetManager", on_delete=models.CASCADE)
@@ -66,7 +66,7 @@ class FleetManager(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(FleetManager, self).save()
 
     def __str__(self):
@@ -78,7 +78,7 @@ class Passenger(models.Model):
     """
 
     """
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     user = models.OneToOneField(
         User, related_name="Passenger", on_delete=models.CASCADE)
@@ -86,7 +86,7 @@ class Passenger(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Passenger, self).save()
 
     def __str__(self):
@@ -98,7 +98,7 @@ class Driver(models.Model):
     """
 
     """
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     permit = models.CharField(max_length=50,
                               default='UAX')
@@ -108,7 +108,7 @@ class Driver(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
-            self.Id = uuid.uuid4()
+            self.id = uuid.uuid4()
         super(Driver, self).save()
 
     def __str__(self):
@@ -120,7 +120,7 @@ class Vehicle(models.Model):
     """
 
     """
-    Id = models.CharField(primary_key=True, max_length=50,
+    id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     type_of_vehicle = models.CharField(max_length=50, default='range_rover')
     brand = models.CharField(max_length=50, default='range_rover')
