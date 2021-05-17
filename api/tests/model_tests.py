@@ -94,3 +94,34 @@ class TestOrganisationModal(TestCase):
         check_existence = api_models.Organisation.objects.filter(
             name='Unra').exists()
         self.assertFalse(check_existence)
+
+
+class TestProjectModal(TestCase):
+    def setUp(self):
+        project = api_models.Project.objects.create(
+            name='projectx')
+
+    def test_existence_of_project_created(self):
+
+        check_existence = api_models.Project.objects.filter(
+            name='projectx').exists()
+        self.assertEqual(check_existence, True)
+
+    def test_update_of_project_record(self):
+
+        project_store = api_models.Project.objects.get(
+            name='projectx')
+        project_store.name = 'kakira'
+        project_store.save()
+        check_existence = api_models.Project.objects.filter(
+            name='kakira').exists()
+        self.assertTrue(check_existence)
+
+    def test_delete_of_project_record(self):
+
+        project_store = api_models.Project.objects.get(
+            name='projectx')
+        project_store.delete()
+        check_existence = api_models.Project.objects.filter(
+            name='projectx').exists()
+        self.assertFalse(check_existence)
