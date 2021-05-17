@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'api',
     'rest_framework',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -146,3 +147,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ALLOWED_HOSTS = ['*']
+
+AUTH_USER_MODEL = "authentication.User"
