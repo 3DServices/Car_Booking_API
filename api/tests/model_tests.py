@@ -68,7 +68,7 @@ class TestVehicleModal(TestCase):
 class TestOrganisationModal(TestCase):
     def setUp(self):
         organisation = api_models.Organisation.objects.create(
-            name='Unra')
+            name='Unra', id=1)
 
     def test_existence_of_organisation_created(self):
 
@@ -98,8 +98,11 @@ class TestOrganisationModal(TestCase):
 
 class TestProjectModal(TestCase):
     def setUp(self):
+        organisation = api_models.Organisation.objects.create(
+            name='Unra')
+
         project = api_models.Project.objects.create(
-            name='projectx')
+            name='projectx', organisation=organisation)
 
     def test_existence_of_project_created(self):
 
