@@ -14,4 +14,4 @@ WORKDIR /car_booking_app
 ADD . /car_booking_app/
 
 # Install any needed packages specified in requirements.txt
-RUN pip3 install -r requirements_backup.txt
+RUN pip3 install -r requirements.txt
