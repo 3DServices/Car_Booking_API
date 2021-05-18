@@ -7,6 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.core.mail import send_mail
 
 
 class UserManager(BaseUserManager):
