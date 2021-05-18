@@ -1,6 +1,6 @@
 from django.db import models
 
-from authentication.mixins.django_default_user_mixin import DefaultUser
+from authentication.models import User
 from .mixins.base_model_mixin import BaseModel
 import uuid
 from phonenumber_field.modelfields import PhoneNumberField
