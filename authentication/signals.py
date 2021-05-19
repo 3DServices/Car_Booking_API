@@ -5,6 +5,7 @@ from .models import User,FleetManager,SystemAdmin,Driver,Passenger
   
 @receiver(post_save, sender=User) 
 def create_profile(sender, instance, created, **kwargs):
+    print("in signal")
     user_group="SystemAdmin"
     if created:
         if user_group == "SystemAdmin":
@@ -19,6 +20,6 @@ def create_profile(sender, instance, created, **kwargs):
             pass
         
    
-@receiver(post_save, sender=User) 
-def save_profile(sender, instance, **kwargs):
-        instance.profile.save()
+#@receiver(post_save, sender=User) 
+#def save_profile(sender, instance, **kwargs):
+#       instance.profile.save()
