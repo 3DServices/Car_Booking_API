@@ -1,15 +1,78 @@
 from django.shortcuts import render
-from authentication.models import User
+from api.models import Vehicle
 from rest_framework import viewsets
-from api.serializers import UserSerializer
+from api.serializers import VehicleSerializer
+from car_booking_api.mixins import view_mixins
 
 
 # Create your views here.
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class CreateVehicleViewSet(view_mixins.BaseCreateAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
+
+    def post(self, request):
+        try:
+            return self.create(request)
+        except Exception as exception:
+            raise exception
+
+
+class ViewVehiclesListViewSet(view_mixins.BaseListAPIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
+
+    def get(self, request):
+        try:
+            return self.list(request)
+        except Exception as exception:
+            raise exception
+
+
+class RetrieveVehicleViewSet(view_mixins.BaseRetrieveAPIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
+
+    def get(self, request, id=None):
+        try:
+            return self.retrieve(request, id)
+        except Exception as exception:
+            raise exception
+
+
+class UpdateVehicleViewSet(view_mixins.BaseRetrieveAPIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
+
+    def put(self, request, id=None):
+        try:
+            return self.update(request, id)
+        except Exception as exception:
+            raise exception
+
+
+class DeleteVehicleViewSet(view_mixins.BaseRetrieveAPIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
+
+    def delete(self, request, id=None):
+        try:
+            return self.destroy(request, id)
+        except Exception as exception:
+            raise exception
