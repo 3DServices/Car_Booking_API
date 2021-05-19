@@ -14,6 +14,7 @@ class CreateVehicleViewSet(view_mixins.BaseCreateAPIView):
     """
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
+    lookup_field = 'id'
 
     def post(self, request):
         try:
@@ -28,6 +29,7 @@ class ViewVehiclesListViewSet(view_mixins.BaseListAPIView):
     """
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
+    lookup_field = 'id'
 
     def get(self, request):
         try:
@@ -42,6 +44,7 @@ class RetrieveVehicleViewSet(view_mixins.BaseRetrieveAPIView):
     """
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
+    lookup_field = 'id'
 
     def get(self, request, id=None):
         try:
@@ -56,6 +59,7 @@ class UpdateVehicleViewSet(view_mixins.BaseRetrieveAPIView):
     """
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
+    lookup_field = 'id'
 
     def put(self, request, id=None):
         try:
@@ -70,6 +74,7 @@ class DeleteVehicleViewSet(view_mixins.BaseRetrieveAPIView):
     """
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
+    lookup_field = 'id'
 
     def delete(self, request, id=None):
         try:
