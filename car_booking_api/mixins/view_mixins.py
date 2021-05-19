@@ -1,21 +1,22 @@
-from rest_framework import generics, mixins, status, viewsets
+from rest_framework import generics, mixins, status
+from rest_framework import viewsets
 
 
-class BaseCreateAPIView(generics.GenericAPIView, mixins.CreateModelMixin, viewsets.Viewset):
+class BaseCreateAPIView(generics.GenericAPIView, mixins.CreateModelMixin, viewsets.ViewSet):
     pass
 
 
-class BaseListAPIView(generics.GenericAPIView, mixins.ListModelMixin, ):
+class BaseListAPIView(generics.GenericAPIView, mixins.ListModelMixin, viewsets.ViewSet):
     pass
 
 
-class BaseRetrieveAPIView(generics.GenericAPIView, mixins.RetrieveModelMixin, ):
+class BaseRetrieveAPIView(generics.GenericAPIView, mixins.RetrieveModelMixin, viewsets.ViewSet):
     pass
 
 
-class BaseUpdateAPIView(generics.GenericAPIView, mixins.UpdateModelMixin, ):
+class BaseUpdateAPIView(generics.GenericAPIView, mixins.UpdateModelMixin, viewsets.ViewSet):
     pass
 
 
-class BaseDeleteAPIView(generics.GenericAPIView, mixins.DestroyModelMixin):
+class BaseDeleteAPIView(generics.GenericAPIView, mixins.DestroyModelMixin, viewsets.ViewSet):
     pass
