@@ -1,9 +1,9 @@
-from authentication.models import User
+from api.models import Vehicle
 
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class VehicleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
-        fields = ['url', 'email']
+        model = Vehicle
+        fields = ['url', 'type_of_vehicle', 'brand']
