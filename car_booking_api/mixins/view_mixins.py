@@ -6,11 +6,11 @@ class BaseCreateAPIView(generics.GenericAPIView, mixins.CreateModelMixin, viewse
     pass
 
 
-class BaseListAPIView(generics.GenericAPIView, mixins.ListModelMixin, viewsets.ViewSet):
+class BaseListAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.ViewSet):
     pass
 
 
-class BaseRetrieveAPIView(generics.GenericAPIView, mixins.RetrieveModelMixin, viewsets.ViewSet):
+class BaseRetrieveAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.ViewSet):
     pass
 
 

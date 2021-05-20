@@ -3,7 +3,10 @@ from api.models import Vehicle
 from rest_framework import serializers
 
 
-class VehicleSerializer(serializers.HyperlinkedModelSerializer):
+class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
-        fields = ['url', 'type_of_vehicle', 'brand']
+        fields = '__all__'
+        lookup_field = 'id'
+        # depth = 2
+        
