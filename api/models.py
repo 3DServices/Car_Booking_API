@@ -3,20 +3,19 @@ from django.db import models
 from authentication.models import User
 from .mixins.base_model_mixin import BaseModel
 import uuid
-from phonenumber_field.modelfields import PhoneNumberField
 from authentication.models import (Driver, Passenger, FleetManager)
 
 
-class Vehicle(models.Model):
+class Vehicle(BaseModel):
     """
 
     """
     id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
-    type_of_vehicle = models.CharField(max_length=50, default='range_rover')
-    brand = models.CharField(max_length=50, default='range_rover')
+    type_of_vehicle = models.CharField(max_length=50, default='Double Cabin')
+    brand = models.CharField(max_length=50, default='Toyota')
     carrying_capacity = models.CharField(max_length=50,
-                                         default='range_rover')
+                                         default='4')
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
