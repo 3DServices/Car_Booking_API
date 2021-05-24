@@ -3,10 +3,13 @@ from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from api.mixins.base_model_mixin import BaseModel
 import uuid
+from django.core.mail import send_mail
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class UserManager(BaseUserManager):
@@ -138,6 +141,18 @@ class SystemAdmin(models.Model):
             self.id = uuid.uuid4()
         super(SystemAdmin, self).save()
 
+    def create_systemadmin(sender,instance,created,**kwargs):
+        if created:
+            SystemAdmin.objects.create(user=instance)
+            print("System Admin Created")
+
+    post_save.connect(create_systemadmin,sender=User)
+
+    def update_systemadmin(sender,instance,created,**kwargs):
+        if created == False:
+            instance.systemadmin.save()
+            print("system admin updated")
+
     def __str__(self):
         _str = '%s' % self.user.first_name
         return _str
@@ -199,6 +214,7 @@ class Driver(models.Model):
         if self._state.adding:
             self.id = uuid.uuid4()
         super(Driver, self).save()
+    
 
     def __str__(self):
         _str = '%s' % self.user.first_name
