@@ -1,5 +1,6 @@
 from django.test import TestCase
 import api.models as api_models
+import authentication.models as auth_models
 import uuid
 # Create your tests here.
 
@@ -98,3 +99,43 @@ class TestProjectModal(TestCase):
         check_existence = api_models.Project.objects.filter(
             name='projectx').exists()
         self.assertFalse(check_existence)
+
+
+# organisationfleetmanager
+
+class TestOrganisationFleetManagerModal(TestCase):
+    def setUp(self):
+        user = auth_models.User.objects.create(
+            first_name='timo', last_name='timo', password='xsxsee2323')
+        fleetmanager = auth_models.FleetManager.objects.create(
+            user=user, id=1)
+        organisation = api_models.Organisation.objects.create(
+            name='Unra', id=1)
+        organisationfleetmanager = api_models.OrganisationFleetManager.objects.create(
+            organisation=organisation, fleet_manager=fleetmanager)
+        print(organisationfleetmanager)
+
+    def test_existence_of_OrganisationFleetManager_created(self):
+
+        check_existence = api_models.OrganisationFleetManager.objects.filter(
+            id=1).exists()
+        self.assertEqual(check_existence, True)
+
+    # def test_update_of_project_record(self):
+
+    #     project_store = api_models.Project.objects.get(
+    #         name='projectx')
+    #     project_store.name = 'kakira'
+    #     project_store.save()
+    #     check_existence = api_models.Project.objects.filter(
+    #         name='kakira').exists()
+    #     self.assertTrue(check_existence)
+
+    # def test_delete_of_project_record(self):
+
+    #     project_store = api_models.Project.objects.get(
+    #         name='projectx')
+    #     project_store.delete()
+    #     check_existence = api_models.Project.objects.filter(
+    #         name='projectx').exists()
+    #     self.assertFalse(check_existence)
