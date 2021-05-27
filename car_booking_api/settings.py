@@ -85,13 +85,14 @@ WSGI_APPLICATION = 'car_booking_api.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
     ]
 }
 
+SIMPLE_JWT = {'USER_ID_FIELD': 'Id'}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
