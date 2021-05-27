@@ -20,6 +20,7 @@ import authentication.urls as auth_urls
 import api.urls as api_urls
 import api.views as views
 from django.urls import path
+from rest_framework_simplejwt import views as jwt_views
 
 
 router = routers.DefaultRouter()
@@ -30,4 +31,11 @@ urlpatterns = [
     path('', include(router.urls)),
     path('auth/', include(auth_urls)),
     path('api/', include(api_urls)),
+
+
+    path('login/', jwt_views.TokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+    path('refresh/', jwt_views.TokenRefreshView.as_view(),
+         name='token_refresh'),
+
 ]
