@@ -204,7 +204,14 @@ class Driver(models.Model):
     """
     id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
-    permit = models.CharField(max_length=50,
+    permit_number = models.CharField(max_length=50,
+                              default='UAX')
+    permit_class = models.CharField(max_length=50,
+                              default='UAX')                          
+    
+    permit_expiry_date = models.CharField(max_length=50,
+                              default='UAX')
+    permit_issuance_date = models.CharField(max_length=50,
                               default='UAX')
     user = models.OneToOneField(
         User, related_name="Driver", on_delete=models.CASCADE)
