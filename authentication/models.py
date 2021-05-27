@@ -3,10 +3,12 @@ from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from api.mixins.base_model_mixin import BaseModel
 import uuid
+from django.core.mail import send_mail
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.db.models.signals import post_save
 
 
 class UserManager(BaseUserManager):
@@ -28,7 +30,7 @@ class UserManager(BaseUserManager):
     def create_user(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user( email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self,  email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
@@ -39,7 +41,7 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user( email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
