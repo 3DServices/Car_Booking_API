@@ -9,7 +9,6 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 
 class UserManager(BaseUserManager):
@@ -31,7 +30,7 @@ class UserManager(BaseUserManager):
     def create_user(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user( email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self,  email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
@@ -42,7 +41,7 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user( email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -141,18 +140,6 @@ class SystemAdmin(models.Model):
             self.id = uuid.uuid4()
         super(SystemAdmin, self).save()
 
-    def create_systemadmin(sender,instance,created,**kwargs):
-        if created:
-            SystemAdmin.objects.create(user=instance)
-            print("System Admin Created")
-
-    post_save.connect(create_systemadmin,sender=User)
-
-    def update_systemadmin(sender,instance,created,**kwargs):
-        if created == False:
-            instance.systemadmin.save()
-            print("system admin updated")
-
     def __str__(self):
         _str = '%s' % self.user.first_name
         return _str
@@ -204,7 +191,14 @@ class Driver(models.Model):
     """
     id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
-    permit = models.CharField(max_length=50,
+    permit_number = models.CharField(max_length=50,
+                              default='UAX')
+    permit_class = models.CharField(max_length=50,
+                              default='UAX')                          
+    
+    permit_expiry_date = models.CharField(max_length=50,
+                              default='UAX')
+    permit_issuance_date = models.CharField(max_length=50,
                               default='UAX')
     user = models.OneToOneField(
         User, related_name="Driver", on_delete=models.CASCADE)
@@ -214,7 +208,6 @@ class Driver(models.Model):
         if self._state.adding:
             self.id = uuid.uuid4()
         super(Driver, self).save()
-    
 
     def __str__(self):
         _str = '%s' % self.user.first_name
