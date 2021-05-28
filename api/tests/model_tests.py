@@ -104,38 +104,41 @@ class TestProjectModal(TestCase):
 # organisationfleetmanager
 
 class TestOrganisationFleetManagerModal(TestCase):
-    def setUp(self):
-        user = auth_models.User.objects.create(
+
+    @classmethod
+    def setUp(cls):
+        cls.user = auth_models.User.objects.create(
             first_name='timo', last_name='timo', password='xsxsee2323')
-        fleetmanager = auth_models.FleetManager.objects.create(
-            user=user, id=1)
-        organisation = api_models.Organisation.objects.create(
+        cls.fleetmanager = auth_models.FleetManager.objects.create(
+            user=cls.user, id=1)
+        cls.organisation = api_models.Organisation.objects.create(
             name='Unra', id=1)
-        organisationfleetmanager = api_models.OrganisationFleetManager.objects.create(
-            organisation=organisation, fleet_manager=fleetmanager)
-        print(organisationfleetmanager)
+        cls.organisation1 = api_models.Organisation.objects.create(
+            name='Unrax', id=1)
+        cls.organisationfleetmanager = api_models.OrganisationFleetManager.objects.create(
+            organisation=cls.organisation, fleet_manager=cls.fleetmanager)
 
     def test_existence_of_OrganisationFleetManager_created(self):
 
         check_existence = api_models.OrganisationFleetManager.objects.filter(
-            id=1).exists()
+            organisation=self.organisation).exists()
         self.assertEqual(check_existence, True)
 
-    # def test_update_of_project_record(self):
+    def test_update_of_OrganisationFleetManager_record(self):
 
-    #     project_store = api_models.Project.objects.get(
-    #         name='projectx')
-    #     project_store.name = 'kakira'
-    #     project_store.save()
-    #     check_existence = api_models.Project.objects.filter(
-    #         name='kakira').exists()
-    #     self.assertTrue(check_existence)
+        organisationfleetmanager_store = api_models.OrganisationFleetManager.objects.get(
+            organisation=self.organisation)
+        organisationfleetmanager_store.organisation = self.organisation1
+        organisationfleetmanager_store.save()
+        check_existence = api_models.OrganisationFleetManager.objects.filter(
+            organisation=self.organisation1).exists()
+        self.assertTrue(check_existence)
 
-    # def test_delete_of_project_record(self):
+    def test_delete_of_OrganisationFleetManager(self):
 
-    #     project_store = api_models.Project.objects.get(
-    #         name='projectx')
-    #     project_store.delete()
-    #     check_existence = api_models.Project.objects.filter(
-    #         name='projectx').exists()
-    #     self.assertFalse(check_existence)
+        organisationfleetmanager = api_models.OrganisationFleetManager.objects.get(
+            organisation=self.organisation)
+        organisationfleetmanager.delete()
+        check_existence = api_models.OrganisationFleetManager.objects.filter(
+            organisation=self.organisation).exists()
+        self.assertFalse(check_existence)
