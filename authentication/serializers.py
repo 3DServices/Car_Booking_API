@@ -1,4 +1,4 @@
-from authentication.models import User, SystemAdmin, Driver, Passenger
+from authentication.models import User, SystemAdmin, Driver, Passenger, FleetManager
 from rest_framework import serializers
 
 
@@ -24,4 +24,10 @@ class DriverSerializer(serializers.HyperlinkedModelSerializer):
 class PassengerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Passenger
+        fields = '__all__'
+
+
+class FleetManagerSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = FleetManager
         fields = '__all__'
