@@ -1,11 +1,7 @@
 import authentication._views.driver as views
 from django.urls import path
 
-# from rest_framework import routers
-# router = routers.DefaultRouter()
-
 urlpatterns = [
-    # path('', include(router.urls)),
     path(r'create/',
          views.CreateDriverViewSet.as_view({'post': 'create'})),
     path('', views.ViewDriversListViewSet.as_view(
