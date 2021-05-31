@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'api',
     'rest_framework',
-    'authentication'
+    'authentication',
+    'drf_yasg',
 ]
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
