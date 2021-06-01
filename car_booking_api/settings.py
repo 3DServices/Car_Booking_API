@@ -32,8 +32,11 @@ SECRET_KEY = 'reserved'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
+
+
+ALLOWED_HOSTS = [  '127.0.0.1', 'localhost' ] 
+CORS_ORIGIN_WHITELIST = [ "http://localhost:3000", "http://127.0.0.1:3000" ] 
 
 # Application definition
 
@@ -59,6 +62,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -96,7 +100,10 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated', ],
+         'rest_framework.permissions.IsAuthenticated', 
+       # 'rest_framework.permissions.AllowAny', 
+        
+        ],
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE' : 20,
@@ -162,7 +169,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-ALLOWED_HOSTS = ['*']
+
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -200,4 +207,10 @@ SWAGGER_SETTINGS = {
     }
 }
 
+# ALLOWED_HOSTS =['*']
+
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_HEADERS = list(default_headers) + ['user-group', ]
+CORS_ALLOW_CREDENTIALS = True
+
+

@@ -1,5 +1,6 @@
-from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
+from django.core.signals import post_save
+
 from .models import User,FleetManager,SystemAdmin,Driver,Passenger
   
   
