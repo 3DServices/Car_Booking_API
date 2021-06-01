@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
+from corsheaders.defaults import default_headers
 
 load_dotenv(verbose=True)
 
@@ -47,6 +49,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication',
     'drf_yasg',
+    'corsheaders',
+    'drf_extra_fields'
 ]
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
@@ -87,13 +91,18 @@ WSGI_APPLICATION = 'car_booking_api.wsgi.application'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',#passord and username
+        # 'rest_framework.authentication.TokenAuthentication', #django token
         # 'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated', ],
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE' : 20,
+    # 'PAGE_SIZE' : 4,
 }
 
-SIMPLE_JWT = {'USER_ID_FIELD': 'Id'}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -156,3 +165,39 @@ STATIC_URL = '/static/'
 ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = "authentication.User"
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=14),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=28),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'VERIFYING_KEY': None,
+    'AUTH_HEADER_TYPES': (
+        'Bearer',),
+    'USER_ID_FIELD': 'Id',
+    'USER_ID_CLAIM': 'Id',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=14),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=28), }
+
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        },
+        'user-group': {
+            'type': 'apiKey',
+            'name': 'user-group',
+            'in': 'header'
+        },
+    }
+}
+
+CORS_ALLOW_HEADERS = list(default_headers) + ['user-group', ]
