@@ -108,6 +108,88 @@ class TestOrganisationFleetManagerModal(TestCase):
         self.assertFalse(check_existence)
 
 
+class TestOrganisationDriverModal(TestCase):
+
+    @classmethod
+    def setUp(cls):
+        cls.user = auth_models.User.objects.create(
+            first_name='timo', last_name='timo', password='xsxsee2323')
+        cls.driver = auth_models.Driver.objects.create(
+            user=cls.user, id=1)
+        cls.organisation = api_models.Organisation.objects.create(
+            name='Unra', id=1)
+        cls.organisation1 = api_models.Organisation.objects.create(
+            name='Unrax', id=1)
+        cls.organisationdriver = api_models.OrganisationDriver.objects.create(
+            organisation=cls.organisation, driver=cls.driver)
+
+    def test_existence_of_OrganisationDriver_created(self):
+
+        check_existence = api_models.OrganisationDriver.objects.filter(
+            organisation=self.organisation).exists()
+        self.assertEqual(check_existence, True)
+
+    def test_update_of_OrganisationDriver_record(self):
+
+        organisationdriver_store = api_models.OrganisationDriver.objects.get(
+            organisation=self.organisation)
+        organisationdriver_store.organisation = self.organisation1
+        organisationdriver_store.save()
+        check_existence = api_models.OrganisationDriver.objects.filter(
+            organisation=self.organisation1).exists()
+        self.assertTrue(check_existence)
+
+    def test_delete_of_OrganisationDriver(self):
+
+        organisationdriver = api_models.OrganisationDriver.objects.get(
+            organisation=self.organisation)
+        organisationdriver.delete()
+        check_existence = api_models.OrganisationDriver.objects.filter(
+            organisation=self.organisation).exists()
+        self.assertFalse(check_existence)
+
+
+class TestOrganisationVehicleModal(TestCase):
+
+    @classmethod
+    def setUp(cls):
+        cls.user = auth_models.User.objects.create(
+            first_name='timo', last_name='timo', password='xsxsee2323')
+        cls.vehicle = api_models.Vehicle.objects.create(
+            type_of_vehicle='range-rover')
+        cls.organisation = api_models.Organisation.objects.create(
+            name='Unra', id=1)
+        cls.organisation1 = api_models.Organisation.objects.create(
+            name='Unrax', id=1)
+        cls.organisationvehicle = api_models.OrganisationVehicle.objects.create(
+            organisation=cls.organisation, vehicle=cls.vehicle)
+
+    def test_existence_of_OrganisationVehicle_created(self):
+
+        check_existence = api_models.OrganisationVehicle.objects.filter(
+            organisation=self.organisation).exists()
+        self.assertEqual(check_existence, True)
+
+    def test_update_of_OrganisationVehicle_record(self):
+
+        organisationvehicle_store = api_models.OrganisationVehicle.objects.get(
+            organisation=self.organisation)
+        organisationvehicle_store.organisation = self.organisation1
+        organisationvehicle_store.save()
+        check_existence = api_models.OrganisationVehicle.objects.filter(
+            organisation=self.organisation1).exists()
+        self.assertTrue(check_existence)
+
+    def test_delete_of_OrganisationVehicle(self):
+
+        organisationvehicle = api_models.OrganisationVehicle.objects.get(
+            organisation=self.organisation)
+        organisationvehicle.delete()
+        check_existence = api_models.OrganisationVehicle.objects.filter(
+            organisation=self.organisation).exists()
+        self.assertFalse(check_existence)
+
+
 class TestProjectModal(TestCase):
     def setUp(self):
         organisation = api_models.Organisation.objects.create(
@@ -356,5 +438,95 @@ class TestPassengerBlacklistModal(TestCase):
             blacklist=self.blacklist)
         passengerblacklist.delete()
         check_existence = api_models.PassengerBlacklist.objects.filter(
+            blacklist=self.blacklist).exists()
+        self.assertFalse(check_existence)
+
+
+class TestDriverBlacklistModal(TestCase):
+    def setUp(cls):
+        cls.organisation = api_models.Organisation.objects.create(
+            name='Unrax')
+
+        cls.blacklist = api_models.Blacklist.objects.create(
+            organisation=cls.organisation)
+        cls.blacklist1 = api_models.Blacklist.objects.create(
+            organisation=cls.organisation)
+
+        cls.user = auth_models.User.objects.create(
+            first_name='timo', last_name='timo', password='xsxsee2323')
+
+        cls.driver = auth_models.Driver.objects.create(
+            user=cls.user)
+
+        cls.driverblacklist = api_models.DriverBlacklist.objects.create(
+            blacklist=cls.blacklist, driver=cls.driver)
+
+    def test_existence_of_driverblacklist_created(self):
+
+        check_existence = api_models.DriverBlacklist.objects.filter(
+            blacklist=self.blacklist).exists()
+        self.assertEqual(check_existence, True)
+
+    def test_update_of_driverblacklist_record(self):
+
+        driverblacklist = api_models.DriverBlacklist.objects.get(
+            blacklist=self.blacklist)
+        driverblacklist.blacklist = self.blacklist1
+        driverblacklist.save()
+        check_existence = api_models.DriverBlacklist.objects.filter(
+            blacklist=self.blacklist1).exists()
+        self.assertTrue(check_existence)
+
+    def test_delete_of_driverblacklist_record(self):
+
+        driverblacklist = api_models.DriverBlacklist.objects.get(
+            blacklist=self.blacklist)
+        driverblacklist.delete()
+        check_existence = api_models.DriverBlacklist.objects.filter(
+            blacklist=self.blacklist).exists()
+        self.assertFalse(check_existence)
+
+
+class TestVehicleBlacklistModal(TestCase):
+    def setUp(cls):
+        cls.organisation = api_models.Organisation.objects.create(
+            name='Unrax')
+
+        cls.blacklist = api_models.Blacklist.objects.create(
+            organisation=cls.organisation)
+        cls.blacklist1 = api_models.Blacklist.objects.create(
+            organisation=cls.organisation)
+
+        cls.user = auth_models.User.objects.create(
+            first_name='timo', last_name='timo', password='xsxsee2323')
+
+        cls.vehicle = api_models.Vehicle.objects.create(
+            type_of_vehicle='range-rover')
+
+        cls.vehicleblacklist = api_models.VehicleBlacklist.objects.create(
+            blacklist=cls.blacklist, vehicle=cls.vehicle)
+
+    def test_existence_of_vehicleblacklist_created(self):
+
+        check_existence = api_models.VehicleBlacklist.objects.filter(
+            blacklist=self.blacklist).exists()
+        self.assertEqual(check_existence, True)
+
+    def test_update_of_vehicleblacklist_record(self):
+
+        vehicleblacklist = api_models.VehicleBlacklist.objects.get(
+            blacklist=self.blacklist)
+        vehicleblacklist.blacklist = self.blacklist1
+        vehicleblacklist.save()
+        check_existence = api_models.VehicleBlacklist.objects.filter(
+            blacklist=self.blacklist1).exists()
+        self.assertTrue(check_existence)
+
+    def test_delete_of_vehicleblacklist_record(self):
+
+        vehicleblacklist = api_models.VehicleBlacklist.objects.get(
+            blacklist=self.blacklist)
+        vehicleblacklist.delete()
+        check_existence = api_models.VehicleBlacklist.objects.filter(
             blacklist=self.blacklist).exists()
         self.assertFalse(check_existence)
