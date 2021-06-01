@@ -1,6 +1,6 @@
 """car_booking_api URL Configuration
 """
-from django.conf.urls import url, include
+from django.conf.urls import url,re_path, include
 from django.contrib import admin
 from rest_framework import routers, permissions
 import authentication.urls as auth_urls
@@ -9,9 +9,9 @@ from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 
 # DRF - YASG
+from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",
@@ -28,6 +28,12 @@ schema_view = get_schema_view(
 router = routers.DefaultRouter()
 
 urlpatterns = [
+    re_path(r'^doc(?P<format>\.json|\.yaml)$',
+            schema_view.without_ui(cache_timeout=0), name='schema-json'),  #<-- Here
+    path('doc/', schema_view.with_ui('swagger', cache_timeout=0),
+         name='schema-swagger-ui'),  #<-- Here
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0),
+         name='schema-redoc'), 
     url(r'^admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('', include(router.urls)),
