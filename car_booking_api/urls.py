@@ -7,6 +7,7 @@ import authentication.urls as auth_urls
 import api.urls as api_urls
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
+from authentication.views import VerifyEmail, UserViewSet, RegisterView
 
 # DRF - YASG
 from drf_yasg.views import get_schema_view
@@ -26,6 +27,7 @@ schema_view = get_schema_view(
 )
 
 router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -33,6 +35,8 @@ urlpatterns = [
     path('', include(router.urls)),
 
     # auth
+    path('registration/', RegisterView().as_view(), name="registration"),
+    path('email-verify/', VerifyEmail.as_view(), name="email-verify"),
     path('drivers/', include(auth_urls.driver_urls)),
     path('passengers/', include(auth_urls.passenger_urls)),
     path('systemadmins/', include(auth_urls.system_admin_urls)),
