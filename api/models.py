@@ -79,7 +79,7 @@ class OrganisationDriver(BaseModel):
         super(OrganisationDriver, self).save()
 
     def __str__(self):
-        _str = '%s %s' % self.organisation.name , self.driver.user.firstname
+        _str = '%s %s' % (self.organisation.name , self.driver.user.first_name)
         return _str
 
 

@@ -9,7 +9,7 @@ class VehicleSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin)
         model = api_models.Vehicle
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class OrganisationSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -17,7 +17,7 @@ class OrganisationSerializer(serializers.ModelSerializer, FriendlyErrorMessagesM
         model = api_models.Organisation
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class OrganisationFleetManagerSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -25,7 +25,7 @@ class OrganisationFleetManagerSerializer(serializers.ModelSerializer, FriendlyEr
         model = api_models.OrganisationFleetManager
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class OrganisationDriverSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -33,7 +33,7 @@ class OrganisationDriverSerializer(serializers.ModelSerializer, FriendlyErrorMes
         model = api_models.OrganisationDriver
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class OrganisationVehicleSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -41,7 +41,7 @@ class OrganisationVehicleSerializer(serializers.ModelSerializer, FriendlyErrorMe
         model = api_models.OrganisationVehicle
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class ProjectSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -49,7 +49,7 @@ class ProjectSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin)
         model = api_models.Project
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class BranchSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -57,7 +57,7 @@ class BranchSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
         model = api_models.Branch
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class StationSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -65,7 +65,7 @@ class StationSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin)
         model = api_models.Station
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class DepartmentSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -73,7 +73,7 @@ class DepartmentSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMix
         model = api_models.Department
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class DirectorateSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -81,7 +81,7 @@ class DirectorateSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMi
         model = api_models.Directorate
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class BlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -89,7 +89,7 @@ class BlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixi
         model = api_models.Blacklist
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class PassengerBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -97,7 +97,7 @@ class PassengerBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMes
         model = api_models.PassengerBlacklist
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class DriverBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -105,7 +105,7 @@ class DriverBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessag
         model = api_models.DriverBlacklist
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
 
 
 class VehicleBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -113,4 +113,4 @@ class VehicleBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessa
         model = api_models.VehicleBlacklist
         fields = '__all__'
         lookup_field = 'id'
-        # depth = 2
+        depth = 2
