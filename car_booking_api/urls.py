@@ -17,8 +17,8 @@ schema_view = get_schema_view(
         title="Snippets API",
         default_version='v1',
         description="Test description",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="senjackglobal@gmail.com"),
+        terms_of_service="https://3dservices.co.ug/pages.php?page=vehicles",
+        contact=openapi.Contact(email="info@3dservices.co.ug"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -28,23 +28,27 @@ schema_view = get_schema_view(
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    re_path(r'^doc(?P<format>\.json|\.yaml)$',
-            schema_view.without_ui(cache_timeout=0), name='schema-json'),  #<-- Here
-    path('doc/', schema_view.with_ui('swagger', cache_timeout=0),
-         name='schema-swagger-ui'),  #<-- Here
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0),
-         name='schema-redoc'), 
-    url(r'^admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('', include(router.urls)),
+    # Default route
+    path('', schema_view.with_ui('swagger',
+         cache_timeout=0), name='schema-swagger-ui'),
 
-    # auth
+    # Admin route
+    url(r'^admin/', admin.site.urls),
+
+    # Auth routes
+    path('login/', jwt_views.TokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+    path('refresh/', jwt_views.TokenRefreshView.as_view(),
+         name='token_refresh'),
+
+    # User Routes
     path('drivers/', include(auth_urls.driver_urls)),
     path('passengers/', include(auth_urls.passenger_urls)),
     path('systemadmins/', include(auth_urls.system_admin_urls)),
     path('fleetmanagers/', include(auth_urls.fleet_manager_urls)),
+          # TD: to add a route for user
 
-    # api
+    # api routes
     path('vehicles/', include(api_urls.vehicle_urls)),
     path('blacklists/', include(api_urls.blacklist_urls)),
     path('branches/', include(api_urls.branch_urls)),
@@ -61,19 +65,16 @@ urlpatterns = [
     path('stations/', include(api_urls.station_urls)),
     path('vehicleblacklists/', include(api_urls.vehicle_blacklist_urls)),
 
-    path('login/', jwt_views.TokenObtainPairView.as_view(),
-         name='token_obtain_pair'),
-    path('refresh/', jwt_views.TokenRefreshView.as_view(),
-         name='token_refresh'),
-
-    # drf-yasg
-    # path('docs/swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    # drf-yasg Routes
     path('docs/swagger/', schema_view.with_ui('swagger',
          cache_timeout=0), name='schema-swagger-ui'),
     path('docs/redoc/', schema_view.with_ui('redoc',
          cache_timeout=0), name='schema-redoc'),
 
-    # Reserve
-    # path('api/', include(api_urls)),
-    # path('auth/', include(auth_urls)),
+    # Reserved routes
+          #path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+          #path('', include(router.urls)),
+          # path('api/', include(api_urls)),
+          # path('auth/', include(auth_urls)),
+          # path('docs/swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
 ]
