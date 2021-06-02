@@ -8,9 +8,11 @@ import authentication._views.passenger as passenger_views
 import authentication._views.fleet_manager as fleet_manager_views
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+import jwt
 from .utils import Util
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.conf import settings
 
 # Create your views here.
 
@@ -48,4 +50,16 @@ class RegisterView(generics.GenericAPIView):
 
 
 class VerifyEmail(views.APIView):
-    pass
+    def get(self, request):
+        token = request.GET.get('token')
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY)
+            user = User.objects.get(Id=payload['Id'])
+            if not user.is_verified:
+                user.is_verified = True
+                user.save()
+            return Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
+        except jwt.ExpiredSignatureError as identifier:
+            return Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
+        except jwt.exceptions.DecodeError as identifier:
+            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
