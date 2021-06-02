@@ -79,7 +79,7 @@ class OrganisationDriver(BaseModel):
         super(OrganisationDriver, self).save()
 
     def __str__(self):
-        _str = '%s %s' % self.organisation.name, self.driver.user.firstname
+        _str = '%s %s' % self.organisation.name , self.driver.user.firstname
         return _str
 
 
@@ -99,7 +99,7 @@ class OrganisationVehicle(BaseModel):
         super(OrganisationVehicle, self).save()
 
     def __str__(self):
-        _str = '%s %s' % self.organisation.name, self.vehicle.type_of_vehicle
+        _str = '%s %s' % self.organisation.name,self.vehicle.type_of_vehicle
         return _str
 
 
@@ -234,7 +234,7 @@ class DirectorateDepartment(BaseModel):
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(Directorate, self).save()
+        super(DirectorateDepartment, self).save()
 
     def __str__(self):
         _str = '%s' % self.name
@@ -343,7 +343,7 @@ class Trip(BaseModel):
             self.id = uuid.uuid4()
         super(Trip, self).save()
     def __str__(self):
-        _str = '%s' % self.name
+        _str = '%s' % self.id
         return _str
 
 
@@ -370,7 +370,7 @@ class PassengerTrip(BaseModel):
             self.id = uuid.uuid4()
         super(PassengerTrip, self).save()
     def __str__(self):
-        _str = '%s' % self.name
+        _str = '%s' % self.id
         return _str
 
 class DriverTrip(BaseModel):
@@ -396,7 +396,7 @@ class DriverTrip(BaseModel):
             self.id = uuid.uuid4()
         super(DriverTrip, self).save()
     def __str__(self):
-        _str = '%s' % self.name
+        _str = '%s' % self.id
         return _str
 
 
@@ -423,7 +423,7 @@ class FleetManagerTrip(BaseModel):
             self.id = uuid.uuid4()
         super(FleetManagerTrip, self).save()
     def __str__(self):
-        _str = '%s' % self.name
+        _str = '%s' % self.id
         return _str
 
 class ProjectVehicleDeploy(BaseModel):
