@@ -37,11 +37,9 @@ urlpatterns = [
     # Admin route
     url(r'^admin/', admin.site.urls),
 
-<<<<<<< HEAD
     # auth
     path('registration/', RegisterView().as_view(), name="registration"),
     path('email-verify/', VerifyEmail.as_view(), name="email-verify"),
-=======
     # Auth routes
     path('login/', jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
@@ -49,7 +47,6 @@ urlpatterns = [
          name='token_refresh'),
 
     # User Routes
->>>>>>> main
     path('drivers/', include(auth_urls.driver_urls)),
     path('passengers/', include(auth_urls.passenger_urls)),
     path('systemadmins/', include(auth_urls.system_admin_urls)),
