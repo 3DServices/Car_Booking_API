@@ -32,8 +32,15 @@ SECRET_KEY = 'reserved'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['*']
+=======
+>>>>>>> main
 
+
+
+ALLOWED_HOSTS = [  '127.0.0.1', 'localhost' ] 
+CORS_ORIGIN_WHITELIST = [ "http://localhost:3000", "http://127.0.0.1:3000" ] 
 
 # Application definition
 
@@ -98,7 +105,14 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
+<<<<<<< HEAD
         'rest_framework.permissions.AllowAny', ],
+=======
+         'rest_framework.permissions.IsAuthenticated', 
+       # 'rest_framework.permissions.AllowAny', 
+        
+        ],
+>>>>>>> main
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE' : 20,
@@ -157,7 +171,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-ALLOWED_HOSTS = ['*']
+
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -195,7 +209,11 @@ SWAGGER_SETTINGS = {
     }
 }
 
+# ALLOWED_HOSTS =['*']
+
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_HEADERS = list(default_headers) + ['user-group', ]
+<<<<<<< HEAD
 
 
 EMAIL_USE_TLS = True
@@ -203,3 +221,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL')
 EMAIL_HOST_PASSWORD = os.getenv('PASSWORD')
+=======
+CORS_ALLOW_CREDENTIALS = True
+
+
+>>>>>>> main
