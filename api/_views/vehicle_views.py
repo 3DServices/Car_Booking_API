@@ -3,7 +3,11 @@ from api.models import Vehicle
 from rest_framework import viewsets
 from api.serializers import VehicleSerializer
 from car_booking_api.mixins import view_mixins
+from django.core.cache import cache
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # Create your views here.
 
@@ -32,10 +36,22 @@ class ViewVehiclesListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'vehicles' in cache:
+            # get results from cache
+            vehicles = cache.get('vehicles')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [vehicle.to_json() for vehicle in queryset]
+            # store data in cache
+            cache.set('vehicles', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveVehicleViewSet(view_mixins.BaseRetrieveAPIView):
