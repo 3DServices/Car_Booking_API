@@ -34,4 +34,12 @@ class FleetManagerSerializer(serializers.ModelSerializer, FriendlyErrorMessagesM
     class Meta:
         model = FleetManager
         fields = '__all__'
-        depth = 1
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'password']
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
