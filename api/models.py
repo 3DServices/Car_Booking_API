@@ -60,7 +60,7 @@ class OrganisationFleetManager(BaseModel):
         super(OrganisationFleetManager, self).save()
 
     def __str__(self):
-        _str = '%s %s' % self.organisation.name, self.fleet_manager.user.firstname
+        _str = '%s %s' % (self.organisation.name, self.fleet_manager.user.first_name)
         return _str
 
 
@@ -99,7 +99,7 @@ class OrganisationVehicle(BaseModel):
         super(OrganisationVehicle, self).save()
 
     def __str__(self):
-        _str = '%s %s' % self.organisation.name,self.vehicle.type_of_vehicle
+        _str = '%s %s' % (self.organisation.name,self.vehicle.type_of_vehicle)
         return _str
 
 
