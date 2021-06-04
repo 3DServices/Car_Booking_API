@@ -32,10 +32,22 @@ class ViewBranchsListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'branches' in cache:
+            # get results from cache
+            branches = cache.get('branches')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [branch.to_json() for branch in queryset]
+            # store data in cache
+            cache.set('branches', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveBranchViewSet(view_mixins.BaseRetrieveAPIView):

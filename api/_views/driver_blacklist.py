@@ -32,10 +32,23 @@ class ViewDriverBlacklistsListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'driverblacklists' in cache:
+            # get results from cache
+            driverblacklists = cache.get('driverblacklists')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [driverblacklist.to_json()
+                       for driverblacklist in queryset]
+            # store data in cache
+            cache.set('driverblacklists', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveDriverBlacklistViewSet(view_mixins.BaseRetrieveAPIView):

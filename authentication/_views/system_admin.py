@@ -32,10 +32,22 @@ class ViewSystemAdminsListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'vehicles' in cache:
+            # get results from cache
+            vehicles = cache.get('vehicles')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [vehicle.to_json() for vehicle in queryset]
+            # store data in cache
+            cache.set('vehicles', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveSystemAdminViewSet(view_mixins.BaseRetrieveAPIView):

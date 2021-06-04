@@ -32,10 +32,23 @@ class ViewOrganisationDriversListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'organisationdrivers' in cache:
+            # get results from cache
+            organisationdrivers = cache.get('organisationdrivers')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [organisationdriver.to_json()
+                       for organisationdriver in queryset]
+            # store data in cache
+            cache.set('organisationdrivers', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveOrganisationDriverViewSet(view_mixins.BaseRetrieveAPIView):

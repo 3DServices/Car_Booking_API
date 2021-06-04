@@ -32,10 +32,23 @@ class ViewOrganisationFleetManagersListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'organisationfleetmanagers' in cache:
+            # get results from cache
+            organisationfleetmanagers = cache.get('organisationfleetmanagers')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [organisationfleetmanager.to_json()
+                       for organisationfleetmanager in queryset]
+            # store data in cache
+            cache.set('organisationfleetmanagers', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveOrganisationFleetManagerViewSet(view_mixins.BaseRetrieveAPIView):

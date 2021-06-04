@@ -32,10 +32,22 @@ class ViewDepartmentsListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'departments' in cache:
+            # get results from cache
+            departments = cache.get('departments')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [department.to_json() for department in queryset]
+            # store data in cache
+            cache.set('departments', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveDepartmentViewSet(view_mixins.BaseRetrieveAPIView):
