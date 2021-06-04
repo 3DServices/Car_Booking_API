@@ -67,6 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), blank=True, unique=True)
+    is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -192,14 +193,14 @@ class Driver(models.Model):
     id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
     permit_number = models.CharField(max_length=50,
-                              default='UAX')
+                                     default='UAX')
     permit_class = models.CharField(max_length=50,
-                              default='UAX')                          
-    
+                                    default='UAX')
+
     permit_expiry_date = models.CharField(max_length=50,
-                              default='UAX')
+                                          default='UAX')
     permit_issuance_date = models.CharField(max_length=50,
-                              default='UAX')
+                                            default='UAX')
     user = models.OneToOneField(
         User, related_name="Driver", on_delete=models.CASCADE)
 

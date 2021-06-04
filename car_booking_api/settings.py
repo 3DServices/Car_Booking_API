@@ -32,6 +32,7 @@ SECRET_KEY = 'reserved'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -205,6 +206,13 @@ SWAGGER_SETTINGS = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_HEADERS = list(default_headers) + ['user-group', ]
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('PASSWORD')
 CORS_ALLOW_CREDENTIALS = True
 
 
