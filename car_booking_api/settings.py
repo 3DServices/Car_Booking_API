@@ -35,9 +35,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-
-ALLOWED_HOSTS = [  '127.0.0.1', 'localhost' ] 
-CORS_ORIGIN_WHITELIST = [ "http://localhost:3000", "http://127.0.0.1:3000" ] 
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
 # Application definition
 
@@ -102,10 +101,10 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-         'rest_framework.permissions.IsAuthenticated', 
-       # 'rest_framework.permissions.AllowAny', 
-        
-        ],
+        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+
+    ],
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE' : 20,
@@ -165,7 +164,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-
 AUTH_USER_MODEL = "authentication.User"
 
 
@@ -216,3 +214,12 @@ EMAIL_HOST_PASSWORD = os.getenv('PASSWORD')
 CORS_ALLOW_CREDENTIALS = True
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
