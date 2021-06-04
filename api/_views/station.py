@@ -32,10 +32,22 @@ class ViewStationsListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'stations' in cache:
+            # get results from cache
+            stations = cache.get('stations')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [station.to_json() for station in queryset]
+            # store data in cache
+            cache.set('stations', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveStationViewSet(view_mixins.BaseRetrieveAPIView):

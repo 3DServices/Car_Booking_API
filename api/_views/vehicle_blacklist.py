@@ -32,10 +32,23 @@ class ViewVehicleBlacklistsListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'vehicleblacklists' in cache:
+            # get results from cache
+            vehicleblacklists = cache.get('vehicleblacklists')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [vehicleblacklist.to_json()
+                       for vehicleblacklist in queryset]
+            # store data in cache
+            cache.set('vehicleblacklists', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveVehicleBlacklistViewSet(view_mixins.BaseRetrieveAPIView):

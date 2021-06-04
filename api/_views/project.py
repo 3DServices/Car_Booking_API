@@ -32,10 +32,22 @@ class ViewProjectsListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'projects' in cache:
+            # get results from cache
+            projects = cache.get('projects')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [project.to_json() for project in queryset]
+            # store data in cache
+            cache.set('projects', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveProjectViewSet(view_mixins.BaseRetrieveAPIView):

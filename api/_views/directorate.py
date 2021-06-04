@@ -32,10 +32,22 @@ class ViewDirectoratesListViewSet(view_mixins.BaseListAPIView):
     lookup_field = 'id'
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'directorates' in cache:
+            # get results from cache
+            directorates = cache.get('directorates')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [directorate.to_json() for directorate in queryset]
+            # store data in cache
+            cache.set('directorates', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveDirectorateViewSet(view_mixins.BaseRetrieveAPIView):
