@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'authentication',
     'drf_yasg',
     'corsheaders',
-    'drf_extra_fields'
+    'drf_extra_fields',
+    'django_filters',
 ]
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
@@ -109,6 +110,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE' : 20,
     # 'PAGE_SIZE' : 4,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'EXCEPTION_HANDLER': 'rest_framework_friendly_errors.handlers.friendly_exception_handler'
 }
 

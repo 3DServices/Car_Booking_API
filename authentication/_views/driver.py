@@ -30,6 +30,8 @@ class ViewDriversListViewSet(view_mixins.BaseListAPIView):
     queryset = Driver.objects.all()
     serializer_class = DriverSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['user']
 
     def get(self, request):
         if 'vehicles' in cache:

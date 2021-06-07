@@ -3,6 +3,7 @@ from api.models import Branch
 from rest_framework import viewsets
 from api.serializers import BranchSerializer
 from car_booking_api.mixins import view_mixins
+from car_booking_api import filters
 
 
 # Create your views here.
@@ -30,6 +31,8 @@ class ViewBranchsListViewSet(view_mixins.BaseListAPIView):
     queryset = Branch.objects.all()
     serializer_class = BranchSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
     def get(self, request):
         if 'branches' in cache:

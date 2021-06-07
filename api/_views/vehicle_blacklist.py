@@ -3,7 +3,7 @@ from api.models import VehicleBlacklist
 from rest_framework import viewsets
 from api.serializers import VehicleBlacklistSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,6 +30,8 @@ class ViewVehicleBlacklistsListViewSet(view_mixins.BaseListAPIView):
     queryset = VehicleBlacklist.objects.all()
     serializer_class = VehicleBlacklistSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['vehicle']
 
     def get(self, request):
         if 'vehicleblacklists' in cache:

@@ -30,6 +30,8 @@ class ViewSystemAdminsListViewSet(view_mixins.BaseListAPIView):
     queryset = SystemAdmin.objects.all()
     serializer_class = SystemAdminSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['user']
 
     def get(self, request):
         if 'vehicles' in cache:

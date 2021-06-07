@@ -30,6 +30,8 @@ class ViewPassengersListViewSet(view_mixins.BaseListAPIView):
     queryset = Passenger.objects.all()
     serializer_class = PassengerSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['user']
 
     def get(self, request):
         if 'vehicles' in cache:

@@ -3,7 +3,7 @@ from api.models import Station
 from rest_framework import viewsets
 from api.serializers import StationSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,6 +30,8 @@ class ViewStationsListViewSet(view_mixins.BaseListAPIView):
     queryset = Station.objects.all()
     serializer_class = StationSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
     def get(self, request):
         if 'stations' in cache:
