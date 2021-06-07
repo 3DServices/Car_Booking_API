@@ -3,7 +3,7 @@ from api.models import Directorate
 from rest_framework import viewsets
 from api.serializers import DirectorateSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,6 +30,8 @@ class ViewDirectoratesListViewSet(view_mixins.BaseListAPIView):
     queryset = Directorate.objects.all()
     serializer_class = DirectorateSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
     def get(self, request):
         if 'directorates' in cache:

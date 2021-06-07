@@ -3,7 +3,7 @@ from api.models import OrganisationDriver
 from rest_framework import viewsets
 from api.serializers import OrganisationDriverSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,6 +30,8 @@ class ViewOrganisationDriversListViewSet(view_mixins.BaseListAPIView):
     queryset = OrganisationDriver.objects.all()
     serializer_class = OrganisationDriverSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['driver']
 
     def get(self, request):
         if 'organisationdrivers' in cache:

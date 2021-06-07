@@ -6,6 +6,7 @@ from car_booking_api.mixins import view_mixins
 from django.core.cache import cache
 from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from car_booking_api import filters
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
@@ -34,6 +35,8 @@ class ViewVehiclesListViewSet(view_mixins.BaseListAPIView):
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['type_of_vehicle', 'brand']
 
     def get(self, request):
         if 'vehicles' in cache:

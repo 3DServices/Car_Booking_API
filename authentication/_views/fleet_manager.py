@@ -30,6 +30,8 @@ class ViewFleetManagersListViewSet(view_mixins.BaseListAPIView):
     queryset = FleetManager.objects.all()
     serializer_class = FleetManagerSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['user']
 
     def get(self, request):
         if 'vehicles' in cache:
