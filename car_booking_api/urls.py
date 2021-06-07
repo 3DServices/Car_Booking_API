@@ -1,13 +1,13 @@
 """car_booking_api URL Configuration
 """
-from django.conf.urls import url,re_path, include
+from django.conf.urls import url, re_path, include
 from django.contrib import admin
 from rest_framework import routers, permissions
 import authentication.urls as auth_urls
 import api.urls as api_urls
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
-from authentication.views import VerifyEmail, UserViewSet, RegisterView
+from authentication.views import VerifyEmail, UserViewSet, RegisterView, RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView
 
 # DRF - YASG
 from rest_framework import permissions
@@ -40,6 +40,14 @@ urlpatterns = [
     # auth
     path('registration/', RegisterView().as_view(), name="registration"),
     path('email-verify/', VerifyEmail.as_view(), name="email-verify"),
+    path('request-reset-email/', RequestPasswordResetEmail.as_view(),
+         name="request-reset-email"),
+    path('password-reset/<uidb64>/<token>/',
+         PasswordTokenCheckAPI.as_view(), name='password-reset-confirm'),
+    path('password-reset-complete', SetNewPasswordAPIView.as_view(),
+         name='password-reset-complete'),
+
+
     # Auth routes
     path('login/', jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
@@ -51,7 +59,7 @@ urlpatterns = [
     path('passengers/', include(auth_urls.passenger_urls)),
     path('systemadmins/', include(auth_urls.system_admin_urls)),
     path('fleetmanagers/', include(auth_urls.fleet_manager_urls)),
-          # TD: to add a route for user
+    # TD: to add a route for user
 
     # api routes
     path('vehicles/', include(api_urls.vehicle_urls)),
@@ -77,9 +85,9 @@ urlpatterns = [
          cache_timeout=0), name='schema-redoc'),
 
     # Reserved routes
-          #path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-          #path('', include(router.urls)),
-          # path('api/', include(api_urls)),
-          # path('auth/', include(auth_urls)),
-          # path('docs/swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    #path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    #path('', include(router.urls)),
+    # path('api/', include(api_urls)),
+    # path('auth/', include(auth_urls)),
+    # path('docs/swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
 ]
