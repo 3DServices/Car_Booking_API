@@ -1,6 +1,9 @@
 from authentication.models import User, SystemAdmin, Driver, Passenger, FleetManager
 from rest_framework import serializers
 from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 class UserSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -68,6 +71,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
             password = attrs.get('password')
             token = attrs.get('token')
             uidb64 = attrs.get('uidb64')
+            print(token, uidb64)
 
             id = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(Id=id)
