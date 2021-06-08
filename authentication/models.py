@@ -70,7 +70,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(
         _('staff status'),
-        default=False,
+        default=True,
         help_text=_(
             'Designates whether the user can log into this admin site.'),
     )
@@ -142,7 +142,7 @@ class SystemAdmin(models.Model):
         super(SystemAdmin, self).save()
 
     def __str__(self):
-        _str = '%s' % self.user.first_name
+        _str = '%s' % self.user.email
         return _str
 
 
@@ -162,7 +162,7 @@ class FleetManager(models.Model):
         super(FleetManager, self).save()
 
     def __str__(self):
-        _str = '%s' % self.user.first_name
+        _str = '%s' % self.user.email
         return _str
 
 
@@ -182,7 +182,7 @@ class Passenger(models.Model):
         super(Passenger, self).save()
 
     def __str__(self):
-        _str = '%s' % self.user.first_name
+        _str = '%s' % self.user.email
         return _str
 
 
@@ -211,5 +211,5 @@ class Driver(models.Model):
         super(Driver, self).save()
 
     def __str__(self):
-        _str = '%s' % self.user.first_name
+        _str = '%s' % self.user.email
         return _str
