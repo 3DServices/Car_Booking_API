@@ -114,3 +114,45 @@ class VehicleBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessa
         fields = '__all__'
         lookup_field = 'id'
         depth = 2
+
+class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    class Meta:
+        model = api_models.Trip
+        fields = '__all__'
+        lookup_field = 'id'
+        depth = 2
+
+class PassengerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    class Meta:
+        model = api_models.PassengerTrip
+        fields = '__all__'
+        lookup_field = 'id'
+        depth = 2
+
+class FleetManagerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    class Meta:
+        model = api_models.FleetManagerTrip
+        fields = '__all__'
+        lookup_field = 'id'
+        depth = 2
+
+class FleetManagerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    class Meta:
+        model = api_models.FleetManagerTrip
+        fields = '__all__'
+        lookup_field = 'id'
+        depth = 2
+
+class DriverTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    class Meta:
+        model = api_models.DriverTrip
+        fields = '__all__'
+        lookup_field = 'id'
+        depth = 2
+
+class StationVehicleDeploySerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    class Meta:
+        model = api_models.StationVehicleDeploy
+        fields = '__all__'
+        lookup_field = 'id'
+        depth = 2

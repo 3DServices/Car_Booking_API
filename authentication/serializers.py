@@ -34,6 +34,7 @@ class FleetManagerSerializer(serializers.ModelSerializer, FriendlyErrorMessagesM
     class Meta:
         model = FleetManager
         fields = '__all__'
+        depth = 1
 
 
 class RegisterSerializer(serializers.ModelSerializer):
