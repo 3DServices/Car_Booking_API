@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'authentication',
     'drf_yasg',
     'corsheaders',
-    'drf_extra_fields',
     'django_filters',
 ]
 
