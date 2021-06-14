@@ -3,7 +3,7 @@ from api.models import OrganisationFleetManager
 from rest_framework import viewsets
 from api.serializers import OrganisationFleetManagerSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,12 +30,27 @@ class ViewOrganisationFleetManagersListViewSet(view_mixins.BaseListAPIView):
     queryset = OrganisationFleetManager.objects.all()
     serializer_class = OrganisationFleetManagerSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['fleetmanager']
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'organisationfleetmanagers' in cache:
+            # get results from cache
+            organisationfleetmanagers = cache.get('organisationfleetmanagers')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [organisationfleetmanager.to_json()
+                       for organisationfleetmanager in queryset]
+            # store data in cache
+            cache.set('organisationfleetmanagers', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveOrganisationFleetManagerViewSet(view_mixins.BaseRetrieveAPIView):

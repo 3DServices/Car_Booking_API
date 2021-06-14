@@ -3,7 +3,7 @@ from api.models import PassengerBlacklist
 from rest_framework import viewsets
 from api.serializers import PassengerBlacklistSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,12 +30,27 @@ class ViewPassengerBlacklistsListViewSet(view_mixins.BaseListAPIView):
     queryset = PassengerBlacklist.objects.all()
     serializer_class = PassengerBlacklistSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['passenger']
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'passengerblacklists' in cache:
+            # get results from cache
+            passengerblacklists = cache.get('passengerblacklists')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [passengerblacklist.to_json()
+                       for passengerblacklist in queryset]
+            # store data in cache
+            cache.set('passengerblacklists', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrievePassengerBlacklistViewSet(view_mixins.BaseRetrieveAPIView):
