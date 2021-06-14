@@ -131,7 +131,7 @@ class Region(BaseModel):
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(Project, self).save()
+        super(Region, self).save()
 
     def __str__(self):
         _str = '%s' % self.name
