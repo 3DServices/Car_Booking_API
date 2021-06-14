@@ -3,7 +3,7 @@ from api.models import OrganisationVehicle
 from rest_framework import viewsets
 from api.serializers import OrganisationVehicleSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,12 +30,27 @@ class ViewOrganisationVehiclesListViewSet(view_mixins.BaseListAPIView):
     queryset = OrganisationVehicle.objects.all()
     serializer_class = OrganisationVehicleSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['vehicle']
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'organisationvehicles' in cache:
+            # get results from cache
+            organisationvehicles = cache.get('organisationvehicles')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [organisationvehicle.to_json()
+                       for organisationvehicle in queryset]
+            # store data in cache
+            cache.set('organisationvehicles', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveOrganisationVehicleViewSet(view_mixins.BaseRetrieveAPIView):

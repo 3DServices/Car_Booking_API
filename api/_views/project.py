@@ -3,7 +3,7 @@ from api.models import Project
 from rest_framework import viewsets
 from api.serializers import ProjectSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,12 +30,26 @@ class ViewProjectsListViewSet(view_mixins.BaseListAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'projects' in cache:
+            # get results from cache
+            projects = cache.get('projects')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [project.to_json() for project in queryset]
+            # store data in cache
+            cache.set('projects', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveProjectViewSet(view_mixins.BaseRetrieveAPIView):

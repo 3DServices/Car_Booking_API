@@ -3,7 +3,7 @@ from api.models import Department
 from rest_framework import viewsets
 from api.serializers import DepartmentSerializer
 from car_booking_api.mixins import view_mixins
-
+from car_booking_api import filters
 
 # Create your views here.
 
@@ -30,12 +30,26 @@ class ViewDepartmentsListViewSet(view_mixins.BaseListAPIView):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
     def get(self, request):
-        try:
-            return self.list(request)
-        except Exception as exception:
-            raise exception
+        if 'departments' in cache:
+            # get results from cache
+            departments = cache.get('departments')
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
+
+        else:
+            results = [department.to_json() for department in queryset]
+            # store data in cache
+            cache.set('departments', results, timeout=CACHE_TTL)
+            try:
+                return self.list(request)
+            except Exception as exception:
+                raise exception
 
 
 class RetrieveDepartmentViewSet(view_mixins.BaseRetrieveAPIView):
