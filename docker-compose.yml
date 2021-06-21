@@ -7,5 +7,6 @@ services:
     container_name: car_booking_app
     volumes:
       - .:/car_booking_app
+      - db.sqlite3
     ports:
       - "8000:8000"
