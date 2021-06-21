@@ -4,7 +4,7 @@ from django.contrib.auth.models import (
 from api.mixins.base_model_mixin import BaseModel
 import uuid
 from django.core.mail import send_mail
-from phonenumber_field.modelfields import PhoneNumberField
+# from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
@@ -86,8 +86,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     Id = models.CharField(primary_key=True, max_length=50,
                           default=uuid.uuid4())
-    primary_contact = PhoneNumberField(default='+256777777777')
-    secondary_contact = PhoneNumberField(default='+256777777777')
+    # primary_contact = PhoneNumberField(default='+256777777777')
+    # secondary_contact = PhoneNumberField(default='+256777777777')
     # profile_photo =
 
     objects = UserManager()
