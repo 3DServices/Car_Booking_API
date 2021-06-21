@@ -81,3 +81,4 @@ webencodings==0.5.1
 whitenoise==5.1.0
 wrapt==1.12.1
 django-phonenumber-field==5.1.0
+phonenumbers==8.12.22
