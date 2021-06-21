@@ -5,35 +5,35 @@ import uuid
 # Create your tests here.
 
 
-# class TestVehicleModal(TestCase):
-#     def setUp(self):
-#         vehicle = api_models.Vehicle.objects.create(
-#             type_of_vehicle='range-rover', carrying_capacity=5)
+class TestVehicleModal(TestCase):
+    def setUp(self):
+        vehicle = api_models.Vehicle.objects.create(
+            type_of_vehicle='range-rover', carrying_capacity=5)
 
-#     def test_existence_of_vehicle_created(self):
+    def test_existence_of_vehicle_created(self):
 
-#         check_existence = api_models.Vehicle.objects.filter(
-#             type_of_vehicle='range-rover').exists()
-#         self.assertEqual(check_existence, True)
+        check_existence = api_models.Vehicle.objects.filter(
+            type_of_vehicle='range-rover').exists()
+        self.assertEqual(check_existence, True)
 
-#     def test_update_of_vehicle_record(self):
+    def test_update_of_vehicle_record(self):
 
-#         vehicle_store = api_models.Vehicle.objects.get(
-#             type_of_vehicle='range-rover')
-#         vehicle_store.type_of_vehicle = 'bmw'
-#         vehicle_store.save()
-#         check_existence = api_models.Vehicle.objects.filter(
-#             type_of_vehicle='bmw').exists()
-#         self.assertTrue(check_existence)
+        vehicle_store = api_models.Vehicle.objects.get(
+            type_of_vehicle='range-rover')
+        vehicle_store.type_of_vehicle = 'bmw'
+        vehicle_store.save()
+        check_existence = api_models.Vehicle.objects.filter(
+            type_of_vehicle='bmw').exists()
+        self.assertTrue(check_existence)
 
-#     def test_delete_of_vehicle_record(self):
+    def test_delete_of_vehicle_record(self):
 
-#         vehicle_store = api_models.Vehicle.objects.get(
-#             type_of_vehicle='range-rover')
-#         vehicle_store.delete()
-#         check_existence = api_models.Vehicle.objects.filter(
-#             type_of_vehicle='range-rover').exists()
-#         self.assertFalse(check_existence)
+        vehicle_store = api_models.Vehicle.objects.get(
+            type_of_vehicle='range-rover')
+        vehicle_store.delete()
+        check_existence = api_models.Vehicle.objects.filter(
+            type_of_vehicle='range-rover').exists()
+        self.assertFalse(check_existence)
 
 
 class TestOrganisationModal(TestCase):
