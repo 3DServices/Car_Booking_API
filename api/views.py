@@ -12,3 +12,8 @@ import api._views.blacklist as blacklist_views
 import api._views.passenger_blacklist as passenger_blacklist_views
 import api._views.driver_blacklist as driver_blacklist_views
 import api._views.vehicle_blacklist as vehicle_blacklist_views
+import api._views.trip_views as trip_views
+import api._views.passenger_trip_views as passenger_trip_views
+import api._views.driver_trip_views as driver_trip_views
+import api._views.fleet_manager_trip_views as fleet_manager_trip_views
+import api._views.project_vehicle_deploy_views as project_vehicle_deploy_views
