@@ -10,8 +10,8 @@ class Vehicle(BaseModel):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     type_of_vehicle = models.CharField(max_length=50, default='Double Cabin')
     brand = models.CharField(max_length=50, default='Toyota')
     carrying_capacity = models.CharField(max_length=50,
@@ -29,8 +29,8 @@ class Vehicle(BaseModel):
 
 
 class Organisation(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     name = models.CharField(
         max_length=50, default='organisationx')
 
@@ -46,8 +46,8 @@ class Organisation(BaseModel):
 
 
 class OrganisationFleetManager(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE)
     fleet_manager = models.ForeignKey(
@@ -60,13 +60,14 @@ class OrganisationFleetManager(BaseModel):
         super(OrganisationFleetManager, self).save()
 
     def __str__(self):
-        _str = '%s %s' % (self.organisation.name, self.fleet_manager.user.first_name)
+        _str = '%s %s' % (self.organisation.name,
+                          self.fleet_manager.user.first_name)
         return _str
 
 
 class OrganisationDriver(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE)
     driver = models.ForeignKey(
@@ -79,13 +80,13 @@ class OrganisationDriver(BaseModel):
         super(OrganisationDriver, self).save()
 
     def __str__(self):
-        _str = '%s %s' % (self.organisation.name , self.driver.user.first_name)
+        _str = '%s %s' % (self.organisation.name, self.driver.user.first_name)
         return _str
 
 
 class OrganisationVehicle(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE)
 
@@ -99,13 +100,13 @@ class OrganisationVehicle(BaseModel):
         super(OrganisationVehicle, self).save()
 
     def __str__(self):
-        _str = '%s %s' % (self.organisation.name,self.vehicle.type_of_vehicle)
+        _str = '%s %s' % (self.organisation.name, self.vehicle.type_of_vehicle)
         return _str
 
 
 class Project(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     name = models.CharField(max_length=50, default='projectx')
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE)
@@ -120,9 +121,10 @@ class Project(BaseModel):
         _str = '%s' % self.name
         return _str
 
+
 class Region(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     name = models.CharField(max_length=50, default='projectx')
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE)
@@ -137,9 +139,10 @@ class Region(BaseModel):
         _str = '%s' % self.name
         return _str
 
+
 class Branch(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
 
     name = models.CharField(max_length=50, default='branchx')
 
@@ -162,8 +165,8 @@ class Branch(BaseModel):
 
 
 class Station(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     name = models.CharField(max_length=50, default='Stationx')
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE)
@@ -180,8 +183,8 @@ class Station(BaseModel):
 
 
 class Department(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     name = models.CharField(max_length=50, default='departmentx')
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE)
@@ -198,8 +201,8 @@ class Department(BaseModel):
 
 
 class Directorate(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     name = models.CharField(max_length=50, default='directoratex')
 
     organisation = models.ForeignKey(
@@ -217,14 +220,14 @@ class Directorate(BaseModel):
 
 
 class DirectorateDepartment(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     directorate = models.ForeignKey(
         Directorate, on_delete=models.CASCADE)
-    
+
     department = models.ForeignKey(
         Department, on_delete=models.CASCADE)
-    
+
     name = models.CharField(max_length=50, default='directoratex')
 
     organisation = models.ForeignKey(
@@ -242,8 +245,8 @@ class DirectorateDepartment(BaseModel):
 
 
 class Blacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     organisation = models.ForeignKey(
         Organisation,  on_delete=models.CASCADE)
 
@@ -259,8 +262,8 @@ class Blacklist(BaseModel):
 
 
 class PassengerBlacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     blacklist = models.ForeignKey(
         Blacklist, on_delete=models.CASCADE)
 
@@ -280,8 +283,8 @@ class PassengerBlacklist(BaseModel):
 
 
 class DriverBlacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     blacklist = models.ForeignKey(
         Blacklist, on_delete=models.CASCADE)
 
@@ -301,8 +304,8 @@ class DriverBlacklist(BaseModel):
 
 
 class VehicleBlacklist(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     blacklist = models.ForeignKey(
         Blacklist, on_delete=models.CASCADE)
 
@@ -320,93 +323,73 @@ class VehicleBlacklist(BaseModel):
         _str = '%s' % self.vehicle.type_of_vehicle
         return _str
 
+
 class Trip(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
-    pick_up_location =models.CharField(max_length=100)
-    date =models.DateField()
-    time =models.TimeField()
-    destination =models.CharField(max_length=100)
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    pick_up_location = models.CharField(max_length=100)
+    date = models.DateField()
+    time = models.TimeField()
+    destination = models.CharField(max_length=100)
     vehicle = models.ForeignKey(
         Vehicle, on_delete=models.CASCADE)
     reason = models.CharField(max_length=100)
-    passenger = models.ForeignKey(
-        Passenger, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
     driver = models.ForeignKey(
         Driver, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
         super(Trip, self).save()
+
     def __str__(self):
         _str = '%s' % self.id
         return _str
 
 
 class PassengerTrip(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
-    pick_up_location =models.CharField(max_length=100)
-    date =models.DateField()
-    time =models.TimeField()
-    destination =models.CharField(max_length=100)
-    vehicle = models.ForeignKey(
-        Vehicle, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     passenger = models.ForeignKey(
         Passenger, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
-    driver = models.ForeignKey(
-        Driver, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
         super(PassengerTrip, self).save()
+
     def __str__(self):
         _str = '%s' % self.id
         return _str
 
+
 class DriverTrip(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
-    pick_up_location =models.CharField(max_length=100)
-    date =models.DateField()
-    time =models.TimeField()
-    destination =models.CharField(max_length=100)
-    vehicle = models.ForeignKey(
-        Vehicle, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
-    passenger = models.ForeignKey(
-        Passenger,  on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
-    driver = models.ForeignKey(
-        Driver, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
         super(DriverTrip, self).save()
+
     def __str__(self):
         _str = '%s' % self.id
         return _str
 
 
 class FleetManagerTrip(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
-    pick_up_location =models.CharField(max_length=100)
-    date =models.DateField()
-    time =models.TimeField()
-    destination =models.CharField(max_length=100)
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    pick_up_location = models.CharField(max_length=100)
+    date = models.DateField()
+    time = models.TimeField()
+    destination = models.CharField(max_length=100)
     vehicle = models.ForeignKey(
         Vehicle, on_delete=models.CASCADE)
     reason = models.CharField(max_length=100)
@@ -422,13 +405,15 @@ class FleetManagerTrip(BaseModel):
         if self._state.adding:
             self.id = uuid.uuid4()
         super(FleetManagerTrip, self).save()
+
     def __str__(self):
         _str = '%s' % self.id
         return _str
 
+
 class ProjectVehicleDeploy(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE)
 
@@ -445,9 +430,10 @@ class ProjectVehicleDeploy(BaseModel):
         _str = '%s' % self.project
         return _str
 
+
 class StationVehicleDeploy(BaseModel):
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     station = models.ForeignKey(
         Station, on_delete=models.CASCADE)
 

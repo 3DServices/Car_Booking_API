@@ -84,8 +84,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    Id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    Id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     # primary_contact = PhoneNumberField(default='+256777777777')
     # secondary_contact = PhoneNumberField(default='+256777777777')
     # profile_photo =
@@ -130,8 +130,8 @@ class SystemAdmin(models.Model):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     user = models.OneToOneField(
         User, related_name="SysAdmin", on_delete=models.CASCADE)
 
@@ -150,8 +150,8 @@ class FleetManager(models.Model):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     user = models.OneToOneField(
         User, related_name="FleetManager", on_delete=models.CASCADE)
 
@@ -170,8 +170,8 @@ class Passenger(models.Model):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     user = models.OneToOneField(
         User, related_name="Passenger", on_delete=models.CASCADE)
 
@@ -190,8 +190,8 @@ class Driver(models.Model):
     """
 
     """
-    id = models.CharField(primary_key=True, max_length=50,
-                          default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     permit_number = models.CharField(max_length=50,
                                      default='UAX')
     permit_class = models.CharField(max_length=50,
