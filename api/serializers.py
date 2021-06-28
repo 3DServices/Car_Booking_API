@@ -2,6 +2,7 @@ import api.models as api_models
 
 from rest_framework import serializers
 from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
+from api._serializers import project_vehicle_deploy_serializer as project_vehicle_deploy_serializer
 
 
 class VehicleSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -115,12 +116,14 @@ class VehicleBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessa
         lookup_field = 'id'
         depth = 2
 
+
 class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
         model = api_models.Trip
         fields = '__all__'
         lookup_field = 'id'
         depth = 2
+
 
 class PassengerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
@@ -129,12 +132,6 @@ class PassengerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessages
         lookup_field = 'id'
         depth = 2
 
-class FleetManagerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
-    class Meta:
-        model = api_models.FleetManagerTrip
-        fields = '__all__'
-        lookup_field = 'id'
-        depth = 2
 
 class FleetManagerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
@@ -142,6 +139,15 @@ class FleetManagerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessa
         fields = '__all__'
         lookup_field = 'id'
         depth = 2
+
+
+class FleetManagerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    class Meta:
+        model = api_models.FleetManagerTrip
+        fields = '__all__'
+        lookup_field = 'id'
+        depth = 2
+
 
 class DriverTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
@@ -149,6 +155,7 @@ class DriverTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMix
         fields = '__all__'
         lookup_field = 'id'
         depth = 2
+
 
 class StationVehicleDeploySerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:

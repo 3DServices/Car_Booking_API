@@ -14,4 +14,8 @@ import api._urls.directorate as directorate_urls
 import api._urls.blacklist as blacklist_urls
 import api._urls.passenger_blacklist as passenger_blacklist_urls
 import api._urls.driver_blacklist as driver_blacklist_urls
-import api._urls.vehicle_blacklist as vehicle_blacklist_urls
+import api._urls.trip_urls as trip_urls
+import api._urls.passenger_trip_urls as passenger_trip_urls
+import api._urls.driver_trip_urls as driver_trip_urls
+import api._urls.fleet_manager_trip_urls as fleet_manager_trip_urls
+import api._urls.project_vehicle_deploy_urls as project_vehicle_deploy_urls
