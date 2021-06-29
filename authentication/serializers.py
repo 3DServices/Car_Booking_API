@@ -12,12 +12,23 @@ class UserSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
         fields = '__all__'
         lookup_field = 'id'
 
+        exclude = [
+            'password',
+            'is_superuser',
+            'username',
+            'is_staff',
+            'is_active',
+            'groups',
+            'user_permissions'
+        ]
+
 
 class SystemAdminSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
         model = SystemAdmin
         fields = '__all__'
         depth = 1
+
 
 class DriverSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
