@@ -9,6 +9,10 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db.models.signals import post_save
+from core.mixins.model_mixins import Registrable
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from core.utilities.unique_code_generators import UniqueMonotonicCodeGenerator
+
 
 
 class UserManager(BaseUserManager):
@@ -86,9 +90,22 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     Id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
-    # primary_contact = PhoneNumberField(default='+256777777777')
-    # secondary_contact = PhoneNumberField(default='+256777777777')
-    # profile_photo =
+    is_passenger = models.BooleanField(
+        _('user is a passenger'),
+        default=False,
+    )
+    is_systemadmin = models.BooleanField(
+        _('user is a passenger'),
+        default=False,
+    )
+    is_fleetmanager = models.BooleanField(
+        _('user is a passenger'),
+        default=False,
+    )
+    is_driver = models.BooleanField(
+        _('user is a passenger'),
+        default=False,
+    )
 
     objects = UserManager()
 
@@ -126,7 +143,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
-class SystemAdmin(models.Model):
+class SystemAdmin(Registrable):
     """
 
     """
@@ -146,7 +163,7 @@ class SystemAdmin(models.Model):
         return _str
 
 
-class FleetManager(models.Model):
+class FleetManager(Registrable):
     """
 
     """
@@ -166,7 +183,7 @@ class FleetManager(models.Model):
         return _str
 
 
-class Passenger(models.Model):
+class Passenger(Registrable):
     """
 
     """
@@ -186,7 +203,7 @@ class Passenger(models.Model):
         return _str
 
 
-class Driver(models.Model):
+class Driver(Registrable):
     """
 
     """
@@ -213,3 +230,42 @@ class Driver(models.Model):
     def __str__(self):
         _str = '%s' % self.user.email
         return _str
+
+class PasswordResetInfo(models.Model):
+    """
+    The PasswordResetInfo Model:
+        Lays specifications of how the PasswordResetInfo Entity / Table Should be Created in the Database.
+    """
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    reset_code = models.CharField(max_length=6, default='000000', unique=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    expires_at = models.DateTimeField(
+        default=(timezone.now() + timezone.timedelta(hours=24)))
+
+    def __str__(self):
+        _str = ''
+        if(self.user.first_name or self.user.last_name):
+            if self.user.first_name:
+                _str += self.user.first_name
+            if self.user.last_name:
+                _str += ' ' + self.user.last_name
+        if self.user.email:
+            _str += ' ' + self.user.email + ''
+        if self.reset_code:
+            _str += ' (' + str(self.reset_code) + ')'
+        return _str
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+        if self._state.adding:
+            code_generator = UniqueMonotonicCodeGenerator()
+            self.reset_code = code_generator.generate()
+            print(self.reset_code)
+        super(PasswordResetInfo, self).save()
+
+    class Meta:
+        verbose_name_plural = 'Password Reset Info'
+        ordering = ['user']
+    # End class Meta

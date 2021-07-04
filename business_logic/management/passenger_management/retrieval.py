@@ -1,9 +1,9 @@
 from core.management.retrieval import Retriever
-from authentication.models import Courier
+from authentication.models import Passenger
 
 
-class CourierRetriever(Retriever):
+class PassengerRetriever(Retriever):
 
     def retrieve(self, instance_id) -> object:
-        instance = Courier.objects.get(id=instance_id)
+        instance = Passenger.objects.get(id=instance_id)
         return instance

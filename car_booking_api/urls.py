@@ -6,9 +6,18 @@ from rest_framework import routers, permissions
 import authentication.urls as auth_urls
 import api.urls as api_urls
 from django.urls import path
-from rest_framework_simplejwt import views as jwt_views
-from authentication.views import VerifyEmail, UserViewSet, RegisterView, RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
+from rest_auth.views import (LogoutView, PasswordChangeView)
 
+
+from authentication.views import (
+    # RegisterUserView,
+    VerifyEmailView,
+    SendVerificationLinkView,
+    # UserLoginView,
+    PasswordResetView, PasswordResetConfirmView
+)
 # DRF - YASG
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -26,8 +35,6 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
 
 urlpatterns = [
     # Default route
@@ -37,22 +44,40 @@ urlpatterns = [
     # Admin route
     url(r'^admin/', admin.site.urls),
 
-    # auth
-    path('registration/', RegisterView().as_view(), name="registration"),
-    path('email-verify/', VerifyEmail.as_view(), name="email-verify"),
-    path('request-reset-email/', RequestPasswordResetEmail.as_view(),
-         name="request-reset-email"),
-    path('password-reset/<uidb64>/<token>/',
-         PasswordTokenCheckAPI.as_view(), name='password-reset-confirm'),
-    path('password-reset-complete', SetNewPasswordAPIView.as_view(),
-         name='password-reset-complete'),
+    # accounts
+    path(r'token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+
+    # jwt : User a Refresh Token to refresh the Access Token
+    path(r'token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 
-    # Auth routes
-    path('login/', jwt_views.TokenObtainPairView.as_view(),
-         name='token_obtain_pair'),
-    path('refresh/', jwt_views.TokenRefreshView.as_view(),
-         name='token_refresh'),
+    # Verifies email for successfull Registration
+    path(
+        r'verify-email/',
+        VerifyEmailView.as_view(),
+        name='verify-email'
+    ),
+
+    # Resends email verification link for successfull Registration
+    path(
+        r'verification-link/',
+        SendVerificationLinkView.as_view(),
+        name='email-verification-link'
+    ),
+
+    # URLs that do not require a session or valid token
+    path(r'password/reset/', PasswordResetView.as_view(),
+         name='rest_password_reset'),
+    path(r'password/reset/confirm/', PasswordResetConfirmView.as_view(),
+         name='rest_password_reset_confirm'),
+
+
+
+    # URLs that require a user to be logged in with a valid session / token.
+    path(r'logout/', LogoutView.as_view(), name='rest_logout'),
+    path(r'password/change/', PasswordChangeView.as_view(),
+         name='rest_password_change'),
+
 
     # User Routes
     path('drivers/', include(auth_urls.driver_urls)),
@@ -88,10 +113,5 @@ urlpatterns = [
     path('docs/redoc/', schema_view.with_ui('redoc',
          cache_timeout=0), name='schema-redoc'),
 
-    # Reserved routes
-    #path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    #path('', include(router.urls)),
-    # path('api/', include(api_urls)),
-    # path('auth/', include(auth_urls)),
-    # path('docs/swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+
 ]

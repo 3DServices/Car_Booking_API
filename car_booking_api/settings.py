@@ -42,11 +42,17 @@ CORS_ORIGIN_WHITELIST = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django_cleanup.apps.CleanupConfig',
     'phonenumber_field',
     'api',
     'rest_framework',
@@ -54,6 +60,9 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django_filters',
+    'core',
+    'business_logic',
+
 ]
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
@@ -227,3 +236,7 @@ CACHES = {
         }
     }
 }
+
+SITE_ID = 1
+# To Be removed
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

@@ -40,13 +40,13 @@ class UserAccountsController():
         return self._driver_account_manager.register_driver(request)
 
     def register_fleetmanager(self, request):
-        self.set_passenger_account_manager(FleetManagerManager())
-        return self._passenger_account_manager.register_fleetmanager(request)
+        self.set_fleetmanager_account_manager(FleetManagerManager())
+        return self._fleetmanager_account_manager.register_fleetmanager(request)
 
     def register_systemadmin(self, request):
         self.set_systemadmin_account_manager(SystemAdminAccountManager())
         return self._systemadmin_account_manager.register_systemadmin(request)
 
     def register_passenger(self, request):
-        self.set_fleetmanager_account_manager(PassengerAccountManager())
-        return self._fleetmanager_account_manager.register_passenger(request)
+        self.set_passenger_account_manager(PassengerAccountManager())
+        return self._passenger_account_manager.register_passenger(request)

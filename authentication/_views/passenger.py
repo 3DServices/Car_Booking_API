@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from authentication.models import Passenger
 from rest_framework import viewsets
-from authentication.serializers import PassengerSerializer
+from authentication._serializers.passenger_serializers import PassengerSerializer, CreatePassengerSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
 
@@ -14,7 +14,7 @@ class CreatePassengerViewSet(view_mixins.BaseCreateAPIView):
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Passenger.objects.all()
-    serializer_class = PassengerSerializer
+    serializer_class = CreatePassengerSerializer
     lookup_field = 'id'
 
     def post(self, request):

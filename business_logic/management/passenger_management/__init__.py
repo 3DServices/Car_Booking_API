@@ -1,13 +1,14 @@
 from core.management import AbstractManager
 
-from .creation import CourierCreator as Creator
-from .list_viewing import CourierListViewer as ListViewer
-from  .retrieval import CourierRetriever as Retriever
-from .updating import CourierUpdater as Updater
-from .patching import CourierPatcher as Patcher
-from .deletion import CourierDeleter as Deleter
+from .creation import PassengerCreator as Creator
+from .list_viewing import PassengerListViewer as ListViewer
+from .retrieval import PassengerRetriever as Retriever
+from .updating import PassengerUpdater as Updater
+from .patching import PassengerPatcher as Patcher
+from .deletion import PassengerDeleter as Deleter
 
-class CourierManager(AbstractManager):
+
+class PassengerManager(AbstractManager):
 
     def __init__(self) -> None:
         super().__init__()

@@ -6,7 +6,7 @@ from rest_framework import status
 
 from business_logic.management.passenger_management import PassengerManager
 from business_logic.management.user_management import UserManager
-from authentication.serializers import user_serializers
+from authentication._serializers import user_serializers
 from business_logic.utilities.mailing import EmailVerificationLinkSender
 from core.utilities.auth import get_authenticated_user
 
