@@ -4,23 +4,17 @@ from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+import authentication._serializers.passenger_serializers as passenger_serializers
+import authentication._serializers.user_serializers as user_serializers
+import authentication._serializers.account_serializers as account_serializers
 
-
-class UserSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
-    class Meta:
-        model = User
-        fields = '__all__'
-        lookup_field = 'id'
-
-        exclude = [
-            'password',
-            'is_superuser',
-            'username',
-            'is_staff',
-            'is_active',
-            'groups',
-            'user_permissions'
-        ]
+CreatePassengerSerializer = passenger_serializers.CreatePassengerSerializer
+PassengerSerializer = passenger_serializers.PassengerSerializer
+RegisterUserSerializer = user_serializers.RegisterUserSerializer
+UserLoginSerializer = account_serializers.UserLoginSerializer
+SendVerificationLinkSerializer = account_serializers.SendVerificationLinkSerializer
+PasswordResetSerializer = account_serializers.PasswordResetSerializer
+PasswordResetConfirmSerializer = account_serializers.PasswordResetConfirmSerializer
 
 
 class SystemAdminSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -33,13 +27,6 @@ class SystemAdminSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMi
 class DriverSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
         model = Driver
-        fields = '__all__'
-        depth = 1
-
-
-class PassengerSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
-    class Meta:
-        model = Passenger
         fields = '__all__'
         depth = 1
 

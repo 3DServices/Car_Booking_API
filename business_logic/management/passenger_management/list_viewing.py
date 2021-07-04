@@ -1,7 +1,8 @@
 from core.management.list_viewing import ListViewer
-from authentication.models import Courier
+from authentication.models import Passenger
 
-class CourierListViewer(ListViewer):
-    
+
+class PassengerListViewer(ListViewer):
+
     def get_list(self):
-        return Courier.objects.all()
+        return Passenger.objects.all()

@@ -1,7 +1,8 @@
 from core.management.deletion import Deleter
-from authentication.models import Courier
+from authentication.models import Passenger
 
-class CourierDeleter(Deleter):
-    
+
+class PassengerDeleter(Deleter):
+
     def delete(self, instance_id):
-        return Courier.objects.delete(id=instance_id)
+        return Passenger.objects.delete(id=instance_id)

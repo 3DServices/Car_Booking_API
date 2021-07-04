@@ -10,7 +10,7 @@ from business_logic.management.user_management import UserManager
 from business_logic.utilities.mailing import EmailVerificationLinkSender
 from core.utilities.auth import get_authenticated_user
 
-from authentication.serializers import user_serializers
+from authentication._serializers import user_serializers
 
 RegisterUserSerializer = user_serializers.RegisterUserSerializer
 
