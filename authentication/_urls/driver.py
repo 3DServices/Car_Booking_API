@@ -12,4 +12,6 @@ urlpatterns = [
          views.UpdateDriverViewSet.as_view({'put': 'update'})),
     path(r'<str:id>/delete/',
          views.DeleteDriverViewSet.as_view({'delete': 'destroy'})),
+    path(r'account/login/', views.DriverLoginView.as_view()),
+
 ]

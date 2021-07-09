@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from authentication.models import Driver
-from rest_framework import viewsets
-from authentication.serializers import DriverSerializer
+from rest_framework import viewsets, generics
+from authentication._serializers.driver_serializers import DriverSerializer, CreateDriverSerializer, DriverLoginSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
 
@@ -14,7 +14,7 @@ class CreateDriverViewSet(view_mixins.BaseCreateAPIView):
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Driver.objects.all()
-    serializer_class = DriverSerializer
+    serializer_class = CreateDriverSerializer
     lookup_field = 'id'
 
     def post(self, request):
@@ -96,3 +96,16 @@ class DeleteDriverViewSet(view_mixins.BaseDeleteAPIView):
             return self.destroy(request, id)
         except Exception as exception:
             raise exception
+
+
+class DriverLoginView(generics.GenericAPIView):
+    serializer_class = DriverLoginSerializer
+    permission_classes = []
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            # print(data)
+            return Response(data=data, status=status.HTTP_200_OK)
