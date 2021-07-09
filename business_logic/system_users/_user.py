@@ -36,15 +36,6 @@ class AbstractUser(AbstractClass):
     def get_accounts_controller(self):
         return self._accounts_controller
 
-    # def get_organizations_controller(self):
-    #     return self._organizations_controller
-
-    # def get_orders_controller(self):
-    #     return self._orders_controller
-
-    # def get_payments_controller(self):
-    #     return self._payments_controller
-
 
 class User(AbstractUser):
     # Generic User Operations

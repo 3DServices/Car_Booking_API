@@ -329,7 +329,7 @@ class Trip(BaseModel):
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     pick_up_location = models.CharField(max_length=100)
     date = models.DateField()
-    time = models.TimeField()
+    time = models.TimeField(default="00:00:00")
     destination = models.CharField(max_length=100)
     vehicle = models.ForeignKey(
         Vehicle, on_delete=models.CASCADE)

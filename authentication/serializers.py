@@ -30,6 +30,10 @@ class DriverSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
         fields = '__all__'
         depth = 1
 
+        extra_kwargs = {
+            'id': {'validators': []},
+        }
+
 
 class FleetManagerSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
