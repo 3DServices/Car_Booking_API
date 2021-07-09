@@ -44,3 +44,7 @@ class PassengerSerializer(ModelSerializer):
         model = Passenger
         fields = ['id', 'user', 'registered_at']
         depth = 2
+
+        extra_kwargs = {
+            'id': {'validators': []},
+        }

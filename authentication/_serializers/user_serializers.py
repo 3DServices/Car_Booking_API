@@ -6,6 +6,7 @@ from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 from authentication.models import User
 from core.mixins.serializer_mixins import ModelSerializer
 
+
 class RegisterUserSerializer(ModelSerializer):
     password = serializers.CharField(
         max_length=254,
@@ -34,25 +35,32 @@ class RegisterUserSerializer(ModelSerializer):
             user=user, email=user.email, verified=True, primary=True)
         return user
 
+
 class UserSerializer(ModelSerializer):
     # address = useraddress_serializers()
     class Meta:
         model = User
         exclude = [
-            'password', 
-            'is_superuser', 
-            'username', 
+            'password',
+            'is_superuser',
+            'username',
             'is_staff',
-            'is_active', 
-            'groups', 
-            'user_permissions'
-            ]
-        extra_kwargs={
-            'is_verified': {'write_only':True},
-            'is_admin': {'write_only':True},
-                'is_medihub_staff': {'write_only':True},
-                'is_vendor': {'write_only':True},
-                'is_courier': {'write_only':True},
-                'is_client': {'write_only':True},
-            }
+            'is_active',
+            'groups',
+            'user_permissions',
+            'date_joined',
+            'is_fleetmanager',
+            'is_systemadmin',
+            'is_driver',
+            'is_passenger',
+            'is_verified',
+        ]
+        extra_kwargs = {
+            'is_verified': {'write_only': True},
+            'is_admin': {'write_only': True},
+            'is_passenger': {'write_only': True},
+            'is_driver': {'write_only': True},
+            'is_systemadmin': {'write_only': True},
+            'is_fleetmanager': {'write_only': True},
+        }
         depth = 3
