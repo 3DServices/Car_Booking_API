@@ -12,10 +12,10 @@ from rest_auth.views import (LogoutView, PasswordChangeView)
 
 
 from authentication.views import (
-    # RegisterUserView,
+    #     RegisterUserView,
     VerifyEmailView,
     SendVerificationLinkView,
-    # UserLoginView,
+    #     UserLoginView,
     PasswordResetView, PasswordResetConfirmView
 )
 # DRF - YASG

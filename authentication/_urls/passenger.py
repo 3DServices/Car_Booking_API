@@ -12,4 +12,5 @@ urlpatterns = [
          views.UpdatePassengerViewSet.as_view({'put': 'update'})),
     path(r'<str:id>/delete/',
          views.DeletePassengerViewSet.as_view({'delete': 'destroy'})),
+    path(r'account/login/', views.PassengerLoginView.as_view()),
 ]

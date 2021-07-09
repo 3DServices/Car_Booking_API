@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from authentication.models import Passenger
-from rest_framework import viewsets
-from authentication._serializers.passenger_serializers import PassengerSerializer, CreatePassengerSerializer
+from rest_framework import viewsets, generics
+from authentication._serializers.passenger_serializers import PassengerSerializer, CreatePassengerSerializer, PassengerLoginSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
 
@@ -96,3 +96,16 @@ class DeletePassengerViewSet(view_mixins.BaseDeleteAPIView):
             return self.destroy(request, id)
         except Exception as exception:
             raise exception
+
+
+class PassengerLoginView(generics.GenericAPIView):
+    serializer_class = PassengerLoginSerializer
+    permission_classes = []
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            # print(data)
+            return Response(data=data, status=status.HTTP_200_OK)

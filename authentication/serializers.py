@@ -7,9 +7,14 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 import authentication._serializers.passenger_serializers as passenger_serializers
 import authentication._serializers.user_serializers as user_serializers
 import authentication._serializers.account_serializers as account_serializers
+import authentication._serializers.driver_serializers as driver_serializers
 
 CreatePassengerSerializer = passenger_serializers.CreatePassengerSerializer
 PassengerSerializer = passenger_serializers.PassengerSerializer
+
+CreateDriverSerializer = driver_serializers.CreateDriverSerializer
+DriverSerializer = driver_serializers.DriverSerializer
+
 RegisterUserSerializer = user_serializers.RegisterUserSerializer
 UserLoginSerializer = account_serializers.UserLoginSerializer
 SendVerificationLinkSerializer = account_serializers.SendVerificationLinkSerializer
@@ -24,15 +29,13 @@ class SystemAdminSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMi
         depth = 1
 
 
-class DriverSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
-    class Meta:
-        model = Driver
-        fields = '__all__'
-        depth = 1
+# class DriverSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+#     class Meta:
+#         model = Driver
+#         fields = '__all__'
+#         depth = 1
 
-        extra_kwargs = {
-            'id': {'validators': []},
-        }
+        
 
 
 class FleetManagerSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):

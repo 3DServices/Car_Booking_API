@@ -1,13 +1,13 @@
-from rest_framework import serializers
+from rest_framework import serializers, generics
 
-from authentication.models import User, Passenger
+from authentication.models import User, Driver
 from business_logic.system_users._user import User as UserFacade
 from core.mixins.serializer_mixins import ModelSerializer
 from business_logic.utilities.mailing import EmailVerificationLinkSender
 from .user_serializers import UserSerializer
 
 
-class CreatePassengerSerializer(ModelSerializer):
+class CreateDriverSerializer(ModelSerializer):
     email = serializers.EmailField(
         max_length=254,
         min_length=5,
@@ -37,11 +37,11 @@ class CreatePassengerSerializer(ModelSerializer):
         return UserFacade().register_passenger(request)
 
 
-class PassengerSerializer(ModelSerializer):
+class DriverSerializer(ModelSerializer):
     user = UserSerializer()
 
     class Meta:
-        model = Passenger
+        model = Driver
         fields = ['id', 'user', 'registered_at']
         depth = 2
 
@@ -50,7 +50,7 @@ class PassengerSerializer(ModelSerializer):
         }
 
 
-class PassengerLoginSerializer(ModelSerializer):
+class DriverLoginSerializer(ModelSerializer):
     email = serializers.EmailField(max_length=254, min_length=5)
     password = serializers.CharField(
         max_length=254,
