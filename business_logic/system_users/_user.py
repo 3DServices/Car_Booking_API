@@ -2,16 +2,15 @@ from abc import ABC as AbstractClass
 
 from business_logic.user_accounts import UserAccountsController
 from business_logic.auth import AuthController
+from business_logic.auth.authentication import PassengerEmailAndPasswordAuthentication
 
 
 class AbstractUser(AbstractClass):
     """
     A controller for the system user.
     """
-    # _profile_controller: None
     _accounts_controller: None
     _auth_controller = None
-    # _organizations_controller: None
 
     # Mutators
 

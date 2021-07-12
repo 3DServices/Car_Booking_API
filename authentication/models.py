@@ -12,7 +12,7 @@ from django.db.models.signals import post_save
 from core.mixins.model_mixins import Registrable
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from core.utilities.unique_code_generators import UniqueMonotonicCodeGenerator
-
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserManager(BaseUserManager):
@@ -95,7 +95,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
     )
     is_systemadmin = models.BooleanField(
-        _('user is a passenger'),
+        _('user is a system admin'),
         default=False,
     )
     is_fleetmanager = models.BooleanField(
@@ -103,7 +103,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
     )
     is_driver = models.BooleanField(
-        _('user is a passenger'),
+        _('user is a driver'),
         default=False,
     )
 
@@ -141,6 +141,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
 
 
 class SystemAdmin(Registrable):
@@ -230,6 +237,7 @@ class Driver(Registrable):
     def __str__(self):
         _str = '%s' % self.user.email
         return _str
+
 
 class PasswordResetInfo(models.Model):
     """
