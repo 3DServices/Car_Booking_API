@@ -32,7 +32,7 @@ class AccountCreator():
             if passenger_count > 0:
                 response_data = {
                     'email': [
-                        'Client with this email address (' +
+                        'Passenger with this email address (' +
                         email + ') already exists.'
                     ]
                 }

@@ -5,6 +5,7 @@ from business_logic.system_users._user import User as UserFacade
 from core.mixins.serializer_mixins import ModelSerializer
 from business_logic.utilities.mailing import EmailVerificationLinkSender
 from .user_serializers import UserSerializer
+from business_logic.auth.authentication import PassengerEmailAndPasswordAuthentication
 
 
 class CreatePassengerSerializer(ModelSerializer):
@@ -67,4 +68,4 @@ class PassengerLoginSerializer(ModelSerializer):
 
     def validate(self, attrs):
         login_data = attrs
-        return UserFacade().login(login_data)
+        return PassengerEmailAndPasswordAuthentication().login(login_data)

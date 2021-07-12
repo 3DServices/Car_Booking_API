@@ -20,16 +20,16 @@ Authorization: is when you look up in your access control whether you allow the 
 
 
 class AuthController():
-    _in_logger = None
+    in_logger = None
 
     def set_in_logger(self, in_logger):
-        self._in_logger = in_logger
+        self.in_logger = in_logger
 
     def get_in_logger(self):
-        return self._in_logger
+        return self.in_logger
 
     def _login(self, login_data):
-        self._in_logger.login(login_data)
+        self.in_logger.login(login_data)
 
     def login(self, login_data):
         self._login(login_data)
