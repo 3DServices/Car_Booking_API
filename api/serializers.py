@@ -4,18 +4,8 @@ from rest_framework import serializers
 from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 from api._serializers import project_vehicle_deploy_serializer as project_vehicle_deploy_serializer
 from authentication.serializers import DriverSerializer
-
-
-class VehicleSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
-    class Meta:
-        model = api_models.Vehicle
-        fields = '__all__'
-        lookup_field = 'id'
-        depth = 2
-
-        extra_kwargs = {
-            'id': {'validators': []},
-        }
+from api._serializers.trip_serializer import TripSerializer
+from api._serializers.vehicle_serializer import VehicleSerializer
 
 
 class OrganisationSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
@@ -120,32 +110,6 @@ class VehicleBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessa
         fields = '__all__'
         lookup_field = 'id'
         depth = 2
-
-
-class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
-    vehicle = VehicleSerializer(required=True, write_only=True, many=True)
-    driver = DriverSerializer(write_only=True, many=True)
-
-    class Meta:
-        model = api_models.Trip
-        fields = ['id', 'vehicle', 'driver', 'pick_up_location',
-                  'destination', 'date', 'time', 'reason', ]
-        lookup_field = 'id'
-        depth = 2
-        extra_kwargs = {
-            'id': {'validators': []},
-        }
-
-    def create(self, validated_data):
-        _request = self.context['request']
-        request = {'request': _request, 'validated_data': validated_data}
-        vehicle_list = validated_data.pop('vehicle')
-        driver_list = validated_data.pop('driver')
-        vehicle_id = vehicle_list[0]['id']
-        driver_id = driver_list[0]['id']
-        vehicle = api_models.Vehicle.objects.get(id=vehicle_id)
-        driver = auth_models.Driver.objects.get(id=driver_id)
-        return api_models.Trip.objects.create(vehicle=vehicle, driver=driver, **validated_data)
 
 
 class PassengerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
