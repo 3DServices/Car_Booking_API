@@ -15,6 +15,7 @@ import os
 from dotenv import load_dotenv
 from datetime import timedelta
 from corsheaders.defaults import default_headers
+import django_heroku
 
 load_dotenv(verbose=True)
 
@@ -240,3 +241,6 @@ CACHES = {
 SITE_ID = 1
 # To Be removed
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+
+django_heroku.settings(locals())
