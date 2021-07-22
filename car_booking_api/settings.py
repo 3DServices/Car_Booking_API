@@ -15,7 +15,8 @@ import os
 from dotenv import load_dotenv
 from datetime import timedelta
 from corsheaders.defaults import default_headers
-import django_heroku
+import dj_database_url
+# import django_heroku
 
 load_dotenv(verbose=True)
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic',
 
     'allauth',
     'allauth.account',
@@ -128,13 +130,11 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(
+    conn_max_age=600, default='sqlite://db/sqlite3.db')
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -177,6 +177,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
 
 STATIC_URL = '/static/'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -243,4 +249,4 @@ SITE_ID = 1
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
