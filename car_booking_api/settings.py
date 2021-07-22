@@ -130,9 +130,20 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(
-    conn_max_age=600, default='sqlite://db/sqlite3.db')
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cba_db',
+        'USER': 'timothy',
+        'PASSWORD': 'mickeygerman1',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+
+# DATABASES = {}
+# DATABASES['default'] = dj_database_url.config(
+#     conn_max_age=600, default='sqlite://db/sqlite3.db')
 # db_from_env = dj_database_url.config(conn_max_age=600)
 # DATABASES['default'].update(db_from_env)
 
