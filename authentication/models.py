@@ -268,9 +268,11 @@ class PasswordResetInfo(models.Model):
              update_fields=None):
 
         if self._state.adding:
-            code_generator = UniqueMonotonicCodeGenerator()
-            self.reset_code = code_generator.generate()
+            CodeGenerator = UniqueMonotonicCodeGenerator()
+            self.reset_code = CodeGenerator.generate()
+            self.expires_at = (timezone.now() + timezone.timedelta(hours=24))
             print(self.reset_code)
+            print(self.expires_at)
         super(PasswordResetInfo, self).save()
 
     class Meta:

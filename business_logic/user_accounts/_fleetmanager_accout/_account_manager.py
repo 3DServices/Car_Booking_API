@@ -19,7 +19,7 @@ class AccountCreator():
 
     def create(self, request):
         """
-        A method for registering a medihub fleetmanager member
+        A method for registering a carbooking fleetmanager member
         """
         try:
             validated_data = request['validated_data']

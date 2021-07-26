@@ -24,10 +24,10 @@ class EmailVerificationLinkSender:
         relative_link = reverse('verify-email')
         absurl = 'http://'+current_site+relative_link+'?token='+str(token)
         # absurl = 'http://127.0.0.1:8000'+relative_link+'?token='+str(token)
-        # absurl = 'https://medihub-api.herokuapp.com'+relative_link+'?token='+str(token)
-        # absurl = 'https://www.api.medihub.ug'+relative_link+'?token='+str(token)
+        # absurl = 'https://carbooking-api.herokuapp.com'+relative_link+'?token='+str(token)
+        # absurl = 'https://www.api.carbooking.ug'+relative_link+'?token='+str(token)
         email_body = 'Hi '+email+' You are almost there.\n\
-        Please follow the link below to verify your email and activate your medihub account.\n' \
+        Please follow the link below to verify your email and activate your carbooking account.\n' \
                  + absurl
         data = {
             'email_subject': 'Email Verification and Account Activation',
