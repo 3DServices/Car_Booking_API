@@ -7,6 +7,10 @@ import authentication._urls.passenger as passenger_urls
 import authentication._urls.system_admin as system_admin_urls
 import authentication._urls.fleet_manager as fleet_manager_urls
 from django.urls import path
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
+from rest_auth.views import (LogoutView, PasswordChangeView)
+
 from authentication.views import (
     # RegisterUserView,
     VerifyEmailView,
@@ -18,10 +22,10 @@ from authentication.views import (
 
 urlpatterns = [
     # jwt : Get Access token and its coresponding Refresh Token
-    # path(r'token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path(r'token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
-    # # jwt : User a Refresh Token to refresh the Access Token
-    # path(r'token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # jwt : User a Refresh Token to refresh the Access Token
+    path(r'token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Registration and social media authentication
     # path(r'registration/register/', RegisterUserView.as_view(),
@@ -36,19 +40,21 @@ urlpatterns = [
     ),
 
     # Resends email verification link for successfull Registration
-    # path(
-    #     r'verification-link/',
-    #     SendVerificationLinkView.as_view(),
-    #     name='email-verification-link'
-    # ),
+    path(
+        r'verification-link/',
+        SendVerificationLinkView.as_view(),
+        name='email-verification-link'
+    ),
+
+
 
     # URLs that do not require a session or valid token
-    # path(r'password/reset/', PasswordResetView.as_view(),
-    #      name='rest_password_reset'),
-    # path(r'password/reset/confirm/', PasswordResetConfirmView.as_view(),
-    #      name='rest_password_reset_confirm'),
+    path(r'password/reset/', PasswordResetView.as_view(),
+         name='rest_password_reset'),
+    path(r'password/reset/confirm/', PasswordResetConfirmView.as_view(),
+         name='rest_password_reset_confirm'),
 
-    # Login to the Medihub Platform
+    # Login to the carbooking Platform
     # path(
     #     r'login/',
     #     UserLoginView.as_view(),
@@ -56,7 +62,7 @@ urlpatterns = [
     # ),
 
     # URLs that require a user to be logged in with a valid session / token.
-    # path(r'logout/', LogoutView.as_view(), name='rest_logout'),
-    # path(r'password/change/', PasswordChangeView.as_view(),
-    #      name='rest_password_change'),
+    path(r'logout/', LogoutView.as_view(), name='rest_logout'),
+    path(r'password/change/', PasswordChangeView.as_view(),
+         name='rest_password_change'),
 ]

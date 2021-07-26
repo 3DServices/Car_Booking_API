@@ -4,7 +4,8 @@ from django.contrib.auth.forms import SetPasswordForm  # , PasswordResetForm
 
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
-from authentication.models import User, Passenger, Driver, FleetManager
+from authentication.models import (
+    User, Passenger, Driver, FleetManager, PasswordResetInfo)
 from core.mixins.serializer_mixins import (BaseSerializer, ModelSerializer)
 
 

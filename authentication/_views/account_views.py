@@ -1,5 +1,5 @@
 """
-Views for Medihub User Authentication (Account) Module
+Views for carbooking User Authentication (Account) Module
 """
 
 import jwt
@@ -39,12 +39,11 @@ class SendVerificationLinkView(generics.GenericAPIView):
         current_site = get_current_site(request).domain
         relative_link = reverse('verify-email')
         # absurl = 'http://'+current_site+relative_link+'?token='+str(token)
-        absurl = 'http://127.0.0.1:8000'+relative_link+'?token='+str(token)
-        # absurl = 'https://medihub-api.herokuapp.com' + \
-        #     relative_link+'?token='+str(token)
+        absurl = 'https://carbooking-api-3dx.herokuapp.com' + \
+            relative_link+'?token='+str(token)
 
-        email_body = 'Hi '+user.email+' You are almost done with your registration process with the Medihub Platform.\n\
-        Please follow the link below to verify your email and activate your medihub account.\n' \
+        email_body = 'Hi '+user.email+' You are almost done with your registration process with the carbooking Platform.\n\
+        Please follow the link below to verify your email and activate your carbooking account.\n' \
                  + absurl
         data = {
             'email_subject': 'Email Verification and Account Activation',
@@ -69,7 +68,7 @@ class VerifyEmailView(generics.GenericAPIView):
         try:
             token = request.GET.get('token')
             payload = jwt.decode(token, settings.SECRET_KEY)
-            user = User.objects.get(id=payload['user_id'])
+            user = User.objects.get(Id=payload['Id'])
             # allauth_user = EmailAddress.objects.filter(user=user, email=user.email)
             if not user.is_verified:
                 user.is_verified = True

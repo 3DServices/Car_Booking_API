@@ -45,38 +45,12 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # accounts
-    path(r'token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-
-    # jwt : User a Refresh Token to refresh the Access Token
-    path(r'token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
-
-    # Verifies email for successfull Registration
-    path(
-        r'verify-email/',
-        VerifyEmailView.as_view(),
-        name='verify-email'
-    ),
-
-    # Resends email verification link for successfull Registration
-    path(
-        r'verification-link/',
-        SendVerificationLinkView.as_view(),
-        name='email-verification-link'
-    ),
-
-    # URLs that do not require a session or valid token
-    path(r'password/reset/', PasswordResetView.as_view(),
-         name='rest_password_reset'),
-    path(r'password/reset/confirm/', PasswordResetConfirmView.as_view(),
-         name='rest_password_reset_confirm'),
+    path('account/', include('authentication.urls')),
 
 
 
-    # URLs that require a user to be logged in with a valid session / token.
-    path(r'logout/', LogoutView.as_view(), name='rest_logout'),
-    path(r'password/change/', PasswordChangeView.as_view(),
-         name='rest_password_change'),
+
+
 
 
     # User Routes

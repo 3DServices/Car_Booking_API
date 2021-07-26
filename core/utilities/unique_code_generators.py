@@ -1,5 +1,6 @@
 import time
 
+
 class UniqueMonotonicCodeGenerator:
     def _generate_monotonic_codes(self):
         time_monotonic_codes = []
@@ -9,7 +10,6 @@ class UniqueMonotonicCodeGenerator:
             time_monotonic_codes[0], time_monotonic_codes[3659]]
         return time_monotonic_codes
 
-
     def _generate_unique_monotonic_code(self):
         time_monotonic_codes = self._generate_monotonic_codes()
         if time_monotonic_codes[0] == time_monotonic_codes[1]:
@@ -17,4 +17,4 @@ class UniqueMonotonicCodeGenerator:
         return time_monotonic_codes[1]
 
     def generate(self):
-        self._generate_unique_monotonic_code()
+        return self._generate_unique_monotonic_code()
