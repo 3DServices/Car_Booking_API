@@ -8,7 +8,7 @@ from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
 
 
-class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+class CreateTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     vehicle = serializers.UUIDField()
     driver = serializers.UUIDField()
 
@@ -43,18 +43,18 @@ class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
         if not driver_instances.exists():
             raise ValidationError({'driver': 'Invalid value!'})
 
-        trip_instances = api_models.Trip.objects.all().filter(
-            driver=driver_instances[0]
-        ).filter(
-            vehicle=vehicle_instances[0]
-        )
+        # trip_instances = api_models.Trip.objects.all().filter(
+        #     driver=driver_instances[0]
+        # ).filter(
+        #     vehicle=vehicle_instances[0]
+        # )
 
-        if trip_instances.exists():
-            raise ValidationError({
-                'data': {
-                    'code': 400,
-                    'error': 'Bad Request',
-                    'message': 'The specified Trip has already requested!'}})
+        # if trip_instances.exists():
+        #     raise ValidationError({
+        #         'data': {
+        #             'code': 400,
+        #             'error': 'Bad Request',
+        #             'message': 'The specified Trip has already requested!'}})
 
         trip_instance = api_models.Trip.objects.create(
             driver=driver_instances[0],
@@ -62,3 +62,16 @@ class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
             **validated_data
         )
         return trip_instance
+
+
+class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    class Meta:
+        model = api_models.Trip
+        fields = ['id', 'vehicle', 'driver', 'pick_up_location',
+                  'destination', 'date', 'time', 'reason', 'status']
+        lookup_field = 'id'
+        depth = 0
+
+        extra_kwargs = {
+            'id': {'validators': []},
+        }

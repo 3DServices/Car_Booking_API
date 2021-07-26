@@ -325,6 +325,11 @@ class VehicleBlacklist(BaseModel):
 
 
 class Trip(BaseModel):
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'), 
+        ('Declined', 'Declined'), 
+    )
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     pick_up_location = models.CharField(max_length=100)
@@ -336,6 +341,12 @@ class Trip(BaseModel):
     reason = models.CharField(max_length=100)
     driver = models.ForeignKey(
         Driver, on_delete=models.CASCADE)
+
+    status = models.CharField(max_length=10, null=False, choices=STATUS, default='Pending')    
+        
+    
+
+    
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):

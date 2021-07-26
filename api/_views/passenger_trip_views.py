@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from api.models import PassengerTrip
+from authentication.models import Passenger
 from rest_framework import viewsets
 from api._serializers.passenger_trip_serializer import PassengerTripSerializer, CreatePassengerTripSerializer
 from car_booking_api.mixins import view_mixins
@@ -11,6 +12,23 @@ from car_booking_api import filters
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # Create your views here.
+
+
+def _get_queryset(view_instance):
+    try:
+        passenger_id = view_instance.kwargs['passenger_id']
+
+        # 03. Validate Vendor
+
+        # ...
+        _passengers = Passenger.objects.filter(id=passenger_id)
+        if not _passengers.exists():
+            raise ValidationError(
+                {'passenger_id': 'passenger with the specified id does not exist!'})
+
+        return PassengerTrip.objects.all().filter(passenger=_passengers[0])
+    except Exception as exception:
+        raise exception
 
 
 class CreatePassengerTripViewSet(view_mixins.BaseCreateAPIView):
@@ -56,6 +74,9 @@ class ViewPassengerTripsListViewSet(view_mixins.BaseListAPIView):
             except Exception as exception:
                 raise exception
 
+    def get_queryset(self):
+        return _get_queryset(self)
+
 
 class RetrievePassengerTripViewSet(view_mixins.BaseRetrieveAPIView):
     """
@@ -70,6 +91,9 @@ class RetrievePassengerTripViewSet(view_mixins.BaseRetrieveAPIView):
             return self.retrieve(request, id)
         except Exception as exception:
             raise exception
+
+    def get_queryset(self):
+        return _get_queryset(self)
 
 
 class UpdatePassengerTripViewSet(view_mixins.BaseUpdateAPIView):
@@ -86,6 +110,9 @@ class UpdatePassengerTripViewSet(view_mixins.BaseUpdateAPIView):
         except Exception as exception:
             raise exception
 
+    def get_queryset(self):
+        return _get_queryset(self)
+
 
 class DeletePassengerTripViewSet(view_mixins.BaseDeleteAPIView):
     """
@@ -100,3 +127,6 @@ class DeletePassengerTripViewSet(view_mixins.BaseDeleteAPIView):
             return self.destroy(request, id)
         except Exception as exception:
             raise exception
+
+    def get_queryset(self):
+        return _get_queryset(self)

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from api.models import Trip
 from rest_framework import viewsets
-from api.serializers import TripSerializer
+from api.serializers import TripSerializer, CreateTripSerializer
 from car_booking_api.mixins import view_mixins
 from django.core.cache import cache
 from django.conf import settings
@@ -18,7 +18,7 @@ class CreateTripViewSet(view_mixins.BaseCreateAPIView):
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Trip.objects.all()
-    serializer_class = TripSerializer
+    serializer_class = CreateTripSerializer
     lookup_field = 'id'
 
     def post(self, request):
