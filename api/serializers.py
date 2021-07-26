@@ -4,7 +4,8 @@ from rest_framework import serializers
 from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 from api._serializers import project_vehicle_deploy_serializer as project_vehicle_deploy_serializer
 from authentication.serializers import DriverSerializer
-from api._serializers.trip_serializer import TripSerializer
+from api._serializers.trip_serializer import (
+    TripSerializer, CreateTripSerializer)
 from api._serializers.vehicle_serializer import VehicleSerializer
 
 
