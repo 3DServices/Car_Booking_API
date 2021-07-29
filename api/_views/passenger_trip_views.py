@@ -8,6 +8,8 @@ from django.core.cache import cache
 from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from car_booking_api import filters
+from core.utilities.rest_exceptions import (ValidationError)
+
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
