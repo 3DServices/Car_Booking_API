@@ -2,6 +2,7 @@ import api.models as api_models
 import authentication.models as auth_models
 from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 from authentication.serializers import DriverSerializer, PassengerSerializer
+from api.serializers import TripSerializer
 from authentication._serializers.passenger_serializers import PassengerSerializer
 from core.mixins.serializer_mixins import ModelSerializer
 from core.modules.rest_framework_modules import serializers
@@ -79,10 +80,12 @@ class CreatePassengerTripSerializer(ModelSerializer):
         except Exception as exception:
             raise exception
 
+        # return api_models.PassengerTrip.objects.create(trip=trip, passenger=passenger)
+
 
 class PassengerTripSerializer(ModelSerializer):
     class Meta:
         model = api_models.PassengerTrip
-        fields = ['id', 'trip']
+        fields = ['id', 'trip', 'passenger']
         lookup_field = 'id'
-        depth = 2
+        depth = 1
