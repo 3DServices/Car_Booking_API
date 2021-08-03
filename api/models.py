@@ -327,8 +327,8 @@ class VehicleBlacklist(BaseModel):
 class Trip(BaseModel):
     STATUS = (
         ('Pending', 'Pending'),
-        ('Approved', 'Approved'), 
-        ('Declined', 'Declined'), 
+        ('Approved', 'Approved'),
+        ('Declined', 'Declined'),
     )
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
@@ -342,11 +342,10 @@ class Trip(BaseModel):
     driver = models.ForeignKey(
         Driver, on_delete=models.CASCADE)
 
-    status = models.CharField(max_length=10, null=False, choices=STATUS, default='Pending')    
-        
-    
-
-    
+    status = models.CharField(
+        max_length=10, null=False, choices=STATUS, default='Pending')
+    started_at = models.DateTimeField(null=True)
+    ended_at = models.DateTimeField(null=True)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
