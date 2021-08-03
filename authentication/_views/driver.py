@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from authentication.models import Driver
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from authentication._serializers.driver_serializers import DriverSerializer, CreateDriverSerializer, DriverLoginSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
-
+from rest_framework.response import Response
 
 # Create your views here.
 

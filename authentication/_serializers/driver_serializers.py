@@ -5,6 +5,7 @@ from business_logic.system_users._user import User as UserFacade
 from core.mixins.serializer_mixins import ModelSerializer
 from business_logic.utilities.mailing import EmailVerificationLinkSender
 from .user_serializers import UserSerializer
+from business_logic.auth.authentication import DriverEmailAndPasswordAuthentication
 
 
 class CreateDriverSerializer(ModelSerializer):
@@ -34,7 +35,7 @@ class CreateDriverSerializer(ModelSerializer):
     def create(self, validated_data):
         _request = self.context['request']
         request = {'request': _request, 'validated_data': validated_data}
-        return UserFacade().register_passenger(request)
+        return UserFacade().register_driver(request)
 
 
 class DriverSerializer(ModelSerializer):
@@ -67,4 +68,4 @@ class DriverLoginSerializer(ModelSerializer):
 
     def validate(self, attrs):
         login_data = attrs
-        return UserFacade().login(login_data)
+        return DriverEmailAndPasswordAuthentication().login(login_data)
