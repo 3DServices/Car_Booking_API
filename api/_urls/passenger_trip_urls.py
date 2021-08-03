@@ -7,7 +7,9 @@ from django.urls import path
 urlpatterns = [
     path(r'create/',
          views.CreatePassengerTripViewSet.as_view({'post': 'create'})),
-         
+
+    path(r'', views.ViewAllPassengerTripsListViewSet.as_view(
+        {'get': 'list'}), name="view_vehicles"),
     path(r'<str:passenger_id>/', views.ViewPassengerTripsListViewSet.as_view(
         {'get': 'list'}), name="view_vehicles"),
 
