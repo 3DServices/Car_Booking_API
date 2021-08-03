@@ -68,7 +68,7 @@ class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
         model = api_models.Trip
         fields = ['id', 'vehicle', 'driver', 'pick_up_location',
-                  'destination', 'date', 'time', 'reason', 'status']
+                  'destination', 'date', 'time', 'reason', 'status', 'started_at', 'ended_at']
         lookup_field = 'id'
         depth = 0
 
