@@ -84,6 +84,9 @@ class CreatePassengerTripSerializer(ModelSerializer):
 
 
 class PassengerTripSerializer(ModelSerializer):
+    trip = TripSerializer()
+    passenger = PassengerSerializer()
+
     class Meta:
         model = api_models.PassengerTrip
         fields = ['id', 'trip', 'passenger']
