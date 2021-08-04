@@ -84,8 +84,8 @@ class CreatePassengerTripSerializer(ModelSerializer):
 
 
 class PassengerTripSerializer(ModelSerializer):
-    trip = TripSerializer()
-    passenger = PassengerSerializer()
+    # trip = TripSerializer()
+    # passenger = PassengerSerializer()
 
     class Meta:
         model = api_models.PassengerTrip
