@@ -7,6 +7,7 @@ from authentication._serializers.passenger_serializers import PassengerSerialize
 from core.mixins.serializer_mixins import ModelSerializer
 from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
+from django.utils import timezone
 
 
 class CreatePassengerTripSerializer(ModelSerializer):
@@ -84,11 +85,65 @@ class CreatePassengerTripSerializer(ModelSerializer):
 
 
 class PassengerTripSerializer(ModelSerializer):
-    # trip = TripSerializer()
-    # passenger = PassengerSerializer()
+    # trip = TripSerializer(write_only=True)
+    # passenger = PassengerSerializer(write_only=True)
 
     class Meta:
         model = api_models.PassengerTrip
         fields = ['id', 'trip', 'passenger']
         lookup_field = 'id'
         depth = 1
+
+
+class UpdatePassengerTripSerializer(ModelSerializer):
+    trip = serializers.UUIDField(required=True, write_only=True)
+    pick_up_location = serializers.CharField(required=True, write_only=True)
+    destination = serializers.CharField(required=True, write_only=True)
+    date = serializers.DateField(required=True, write_only=True)
+    time = serializers.TimeField(required=True, write_only=True)
+    started_at = serializers.DateTimeField(required=True, write_only=True)
+    ended_at = serializers.DateTimeField(required=True, write_only=True)
+    reason = serializers.CharField(required=True, write_only=True)
+
+    class Meta:
+        model = api_models.PassengerTrip
+        fields = ['id', 'reason', 'trip', 'pick_up_location',
+                  'destination', 'date', 'time', 'started_at', 'ended_at']
+        lookup_field = 'id'
+        depth = 1
+
+    def update(self, instance, validated_data):
+
+        trip = validated_data.get('trip')
+
+        trip_instances = api_models.Trip.objects.get(id=trip)
+        if not trip_instances:
+            raise ValidationError({'trip': 'Invalid value!'})
+
+        trip_instances.reason = validated_data.get(
+            'reason', instance.trip.reason)
+
+        trip_instances.pick_up_location = validated_data.get(
+            'pick_up_location', instance.trip.pick_up_location)
+
+        trip_instances.destination = validated_data.get(
+            'destination', instance.trip.destination)
+
+        trip_instances.date = validated_data.get(
+            'date', instance.trip.date)
+
+        trip_instances.started_at = validated_data.get(
+            'started_at', instance.trip.started_at)
+
+        trip_instances.ended_at = validated_data.get(
+            'ended_at', instance.trip.ended_at)
+
+        trip_instances.time = validated_data.get(
+            'time', instance.trip.time)
+
+        trip_instances.lastupdated_at = timezone.now()
+
+        trip_instances.save()
+
+        instance.save()
+        return instance

@@ -113,14 +113,6 @@ class VehicleBlacklistSerializer(serializers.ModelSerializer, FriendlyErrorMessa
         depth = 2
 
 
-class PassengerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
-    class Meta:
-        model = api_models.PassengerTrip
-        fields = '__all__'
-        lookup_field = 'id'
-        depth = 2
-
-
 class FleetManagerTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
         model = api_models.FleetManagerTrip

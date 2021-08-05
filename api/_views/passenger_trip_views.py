@@ -2,7 +2,7 @@ from django.shortcuts import render
 from api.models import PassengerTrip
 from authentication.models import Passenger
 from rest_framework import viewsets
-from api._serializers.passenger_trip_serializer import PassengerTripSerializer, CreatePassengerTripSerializer
+from api._serializers.passenger_trip_serializer import PassengerTripSerializer, CreatePassengerTripSerializer, UpdatePassengerTripSerializer
 from car_booking_api.mixins import view_mixins
 from django.core.cache import cache
 from django.conf import settings
@@ -79,6 +79,7 @@ class ViewPassengerTripsListViewSet(view_mixins.BaseListAPIView):
     def get_queryset(self):
         return _get_queryset(self)
 
+
 class ViewAllPassengerTripsListViewSet(view_mixins.BaseListAPIView):
     """
     API endpoint that allows users to be viewed or edited.
@@ -107,7 +108,6 @@ class ViewAllPassengerTripsListViewSet(view_mixins.BaseListAPIView):
             except Exception as exception:
                 raise exception
 
-    
 
 class RetrievePassengerTripViewSet(view_mixins.BaseRetrieveAPIView):
     """
@@ -132,7 +132,7 @@ class UpdatePassengerTripViewSet(view_mixins.BaseUpdateAPIView):
     API endpoint that allows users to be viewed or edited.
     """
     queryset = PassengerTrip.objects.all()
-    serializer_class = PassengerTripSerializer
+    serializer_class = UpdatePassengerTripSerializer
     lookup_field = 'id'
 
     def put(self, request, id=None):
