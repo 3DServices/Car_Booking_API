@@ -4,6 +4,7 @@ from authentication.models import User
 from .mixins.base_model_mixin import BaseModel
 import uuid
 from authentication.models import (Driver, Passenger, FleetManager)
+from django.utils import timezone
 
 
 class Vehicle(BaseModel):
@@ -333,8 +334,7 @@ class Trip(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     pick_up_location = models.CharField(max_length=100)
-    date = models.DateField()
-    time = models.TimeField(default="00:00:00")
+    date = models.DateTimeField(default=timezone.now)
     destination = models.CharField(max_length=100)
     vehicle = models.ForeignKey(
         Vehicle, on_delete=models.CASCADE)
@@ -398,7 +398,6 @@ class FleetManagerTrip(BaseModel):
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     pick_up_location = models.CharField(max_length=100)
     date = models.DateField()
-    time = models.TimeField()
     destination = models.CharField(max_length=100)
     vehicle = models.ForeignKey(
         Vehicle, on_delete=models.CASCADE)

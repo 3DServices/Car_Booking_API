@@ -15,7 +15,6 @@ class CreatePassengerTripSerializer(ModelSerializer):
     pick_up_location = serializers.CharField(required=True, write_only=True)
     destination = serializers.CharField(required=True, write_only=True)
     date = serializers.DateField(required=True, write_only=True)
-    time = serializers.TimeField(required=True, write_only=True)
     reason = serializers.CharField(required=True, write_only=True)
     vehicle = serializers.UUIDField(required=True, write_only=True)
     driver = serializers.UUIDField(required=True, write_only=True)
@@ -28,7 +27,7 @@ class CreatePassengerTripSerializer(ModelSerializer):
     class Meta:
         model = api_models.PassengerTrip
         fields = ['id', 'vehicle', 'driver', 'pick_up_location',
-                  'destination', 'date', 'time', 'reason', 'passenger', 'data']
+                  'destination', 'date',  'reason', 'passenger', 'data']
 
         extra_kwargs = {
             'id': {'validators': []},
@@ -100,7 +99,6 @@ class UpdatePassengerTripSerializer(ModelSerializer):
     pick_up_location = serializers.CharField(required=True, write_only=True)
     destination = serializers.CharField(required=True, write_only=True)
     date = serializers.DateField(required=True, write_only=True)
-    time = serializers.TimeField(required=True, write_only=True)
     started_at = serializers.DateTimeField(required=True, write_only=True)
     ended_at = serializers.DateTimeField(required=True, write_only=True)
     reason = serializers.CharField(required=True, write_only=True)
@@ -108,7 +106,7 @@ class UpdatePassengerTripSerializer(ModelSerializer):
     class Meta:
         model = api_models.PassengerTrip
         fields = ['id', 'reason', 'trip', 'pick_up_location',
-                  'destination', 'date', 'time', 'started_at', 'ended_at']
+                  'destination', 'date', 'started_at', 'ended_at']
         lookup_field = 'id'
         depth = 1
 
@@ -137,9 +135,6 @@ class UpdatePassengerTripSerializer(ModelSerializer):
 
         trip_instances.ended_at = validated_data.get(
             'ended_at', instance.trip.ended_at)
-
-        trip_instances.time = validated_data.get(
-            'time', instance.trip.time)
 
         trip_instances.lastupdated_at = timezone.now()
 
