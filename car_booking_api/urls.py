@@ -77,6 +77,7 @@ urlpatterns = [
     path('stations/', include(api_urls.station_urls)),
     path('trips/', include(api_urls.trip_urls)),
     path('passengertrips/', include(api_urls.passenger_trip_urls)),
+    path('goats/', include(api_urls.goat_urls)),
     path('drivertrips/', include(api_urls.driver_trip_urls)),
     path('fleetmanagertrips/', include(api_urls.fleet_manager_trip_urls)),
     path('projectvehicletrips/', include(api_urls.project_vehicle_deploy_urls)),
