@@ -98,7 +98,7 @@ class UpdatePassengerTripSerializer(ModelSerializer):
     trip = serializers.UUIDField(required=True, write_only=True)
     pick_up_location = serializers.CharField(required=True, write_only=True)
     destination = serializers.CharField(required=True, write_only=True)
-    date = serializers.DateField(required=True, write_only=True)
+    date = serializers.DateTimeField(required=True, write_only=True)
     started_at = serializers.DateTimeField(required=True, write_only=True)
     ended_at = serializers.DateTimeField(required=True, write_only=True)
     reason = serializers.CharField(required=True, write_only=True)
