@@ -58,6 +58,7 @@ urlpatterns = [
     path('passengers/', include(auth_urls.passenger_urls)),
     path('systemadmins/', include(auth_urls.system_admin_urls)),
     path('fleetmanagers/', include(auth_urls.fleet_manager_urls)),
+    path('profiles/', include(auth_urls.profile_urls)),
     # TD: to add a route for user
 
     # api routes
