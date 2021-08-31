@@ -13,6 +13,7 @@ from core.mixins.model_mixins import Registrable
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from core.utilities.unique_code_generators import UniqueMonotonicCodeGenerator
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models.signals import post_save, post_delete
 
 
 class UserManager(BaseUserManager):
@@ -55,21 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     Username and password are required. Other fields are optional.
     """
-    username_validator = UnicodeUsernameValidator()
 
-    username = models.CharField(
-        _('username'),
-        max_length=150,
-        unique=False,
-        help_text=_(
-            'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-        validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
-    )
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), blank=True, unique=True)
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(
@@ -127,6 +114,55 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.Id = uuid.uuid4()
         super(User, self).save()
 
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        """Send an email to this user."""
+        send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
+
+
+class Profile(models.Model):
+    GENDER = (
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    )
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    user = models.OneToOneField(
+        User, related_name='profile', on_delete=models.CASCADE)
+
+    username_validator = UnicodeUsernameValidator()
+
+    username = models.CharField(
+        _('username'),
+        max_length=150,
+        unique=False,
+        help_text=_(
+            'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        validators=[username_validator],
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
+    )
+    first_name = models.CharField(_('first name'), max_length=30, blank=True)
+    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    gender = models.CharField(max_length=30, choices=GENDER)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(Profile, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.user.email
+        return _str
+
     def get_full_name(self):
         """
         Return the first_name plus the last_name, with a space in between.
@@ -138,16 +174,25 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Return the short name for the user."""
         return self.first_name
 
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        """Send an email to this user."""
-        send_mail(subject, message, from_email, [self.email], **kwargs)
 
-    def tokens(self):
-        refresh = RefreshToken.for_user(self)
-        return {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-        }
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+post_save.connect(create_profile, sender=User)
+
+
+def delete_user(sender, instance=None, **kwargs):
+    try:
+        instance.user
+    except User.DoesNotExist:
+        pass
+    else:
+        instance.user.delete()
+
+
+post_delete.connect(delete_user, sender=Profile)
 
 
 class SystemAdmin(Registrable):
