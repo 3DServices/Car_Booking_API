@@ -7,6 +7,7 @@ import authentication._urls.passenger as passenger_urls
 import authentication._urls.system_admin as system_admin_urls
 import authentication._urls.fleet_manager as fleet_manager_urls
 import authentication._urls.profile_urls as profile_urls
+import authentication._urls.user_urls as user_urls
 
 from django.urls import path
 from rest_framework_simplejwt.views import (TokenObtainPairView,
