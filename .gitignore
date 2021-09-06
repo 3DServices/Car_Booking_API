@@ -1,5 +1,5 @@
 my_env/
-# .env
+.env
 .idea/
 .vscode/
 # Byte-compiled / optimized / DLL files
@@ -87,7 +87,7 @@ target/
 profile_default/
 ipython_config.py
 
-# pyenv
+pyenv
 .python-version
 
 # pipenv
@@ -108,13 +108,13 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-# .env
-# .venv
-# env/
-# venv/
-# ENV/
-# env.bak/
-# venv.bak/
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # Spyder project settings
 .spyderproject
