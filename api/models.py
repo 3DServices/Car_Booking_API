@@ -420,6 +420,46 @@ class FleetManagerTrip(BaseModel):
         return _str
 
 
+class Notification(BaseModel):
+    STATUS = (
+        ('Sent', 'Sent'),
+        ('Not sent', 'Not sent'),
+    )
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    expo_token = models.CharField(max_length=100)
+    status = models.CharField(
+        max_length=10, null=False, choices=STATUS, default='Pending')
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(Notification, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.id
+        return _str
+
+
+class PassengerNotification(BaseModel):
+
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(PassengerNotification, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.id
+        return _str
+
+
 class ProjectVehicleDeploy(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
@@ -457,25 +497,4 @@ class StationVehicleDeploy(BaseModel):
 
     def __str__(self):
         _str = '%s' % self.station
-        return _str
-
-
-class Goat(BaseModel):
-    id = models.UUIDField(primary_key=True, max_length=50,
-                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
-    name = models.CharField(max_length=50, )
-    breed = models.CharField(max_length=50, )
-    description = models.CharField(max_length=255, )
-
-    user = models.ForeignKey(
-        Passenger, on_delete=models.CASCADE)
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if self._state.adding:
-            self.id = uuid.uuid4()
-        super(Goat, self).save()
-
-    def __str__(self):
-        _str = '%s' % self.name
         return _str
