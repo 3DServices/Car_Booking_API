@@ -2,12 +2,12 @@ import requests
 import json
 
 
-def send_push_message(token, extra=None):
+def send_push_message(token, username, destination, extra=None):
     url = 'https://exp.host/--/api/v2/push/send'
     data = {
         "to": token,
-        "title": "hello",
-        "body": "world",
+        "title": "Request Approved",
+        "body": "Hello " + username + ", your request to "+destination + " has been approved",
         'sound': 'default',
         # 'data': {'someData': 'goes here'},
     }
@@ -15,7 +15,6 @@ def send_push_message(token, extra=None):
     try:
         response = requests.post(
             url, data=data)
-        print(response.json())
         return response.json()
     except Exception as exception:
         raise exception
