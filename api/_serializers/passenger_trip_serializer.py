@@ -98,14 +98,17 @@ class UpdatePassengerTripSerializer(ModelSerializer):
     trip = serializers.UUIDField(required=True, write_only=True)
     pick_up_location = serializers.CharField(required=True, write_only=True)
     destination = serializers.CharField(required=True, write_only=True)
+    status = serializers.CharField(required=False, write_only=True)
     date = serializers.DateTimeField(required=True, write_only=True)
-    started_at = serializers.DateTimeField(required=True, write_only=True)
-    ended_at = serializers.DateTimeField(required=True, write_only=True)
+    started_at = serializers.DateTimeField(
+        required=False, write_only=True, allow_null=True)
+    ended_at = serializers.DateTimeField(
+        required=False, write_only=True, allow_null=True)
     reason = serializers.CharField(required=True, write_only=True)
 
     class Meta:
         model = api_models.PassengerTrip
-        fields = ['id', 'reason', 'trip', 'pick_up_location',
+        fields = ['id', 'reason', 'trip', 'pick_up_location', 'status',
                   'destination', 'date', 'started_at', 'ended_at']
         lookup_field = 'id'
         depth = 1
@@ -126,6 +129,8 @@ class UpdatePassengerTripSerializer(ModelSerializer):
 
         trip_instances.destination = validated_data.get(
             'destination', instance.trip.destination)
+        trip_instances.status = validated_data.get(
+            'status', instance.trip.status)
 
         trip_instances.date = validated_data.get(
             'date', instance.trip.date)

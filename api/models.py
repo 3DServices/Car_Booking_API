@@ -344,8 +344,8 @@ class Trip(BaseModel):
 
     status = models.CharField(
         max_length=10, null=False, choices=STATUS, default='Pending')
-    started_at = models.DateTimeField(null=True)
-    ended_at = models.DateTimeField(null=True)
+    started_at = models.DateTimeField(blank=True, null=True)
+    ended_at = models.DateTimeField(blank=True, null=True)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
