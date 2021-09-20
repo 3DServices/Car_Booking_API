@@ -91,7 +91,7 @@ class PassengerTripSerializer(ModelSerializer):
         model = api_models.PassengerTrip
         fields = ['id', 'trip', 'passenger']
         lookup_field = 'id'
-        depth = 1
+        depth = 3
 
 
 class UpdatePassengerTripSerializer(ModelSerializer):
