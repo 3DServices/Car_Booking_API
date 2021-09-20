@@ -14,4 +14,4 @@ class ProfileSerializer(ModelSerializer):
         extra_kwargs = {
             'id': {'read_only': True},
         }
-        depth = 0
+        depth = 1
