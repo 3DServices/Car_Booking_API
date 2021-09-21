@@ -65,12 +65,15 @@ class CreateTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMix
 
 
 class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+    vehicle = VehicleSerializer(read_only=True)
+    driver = DriverSerializer(read_only=True)
+
     class Meta:
         model = api_models.Trip
         fields = ['id', 'vehicle', 'driver', 'pick_up_location',
                   'destination', 'date', 'reason', 'status', 'started_at', 'ended_at']
         lookup_field = 'id'
-        depth = 0
+        depth = 1
 
         extra_kwargs = {
             'id': {'validators': []},

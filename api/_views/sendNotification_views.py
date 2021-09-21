@@ -1,5 +1,5 @@
 
-from authentication.models import Passenger, Profile
+from authentication.models import Passenger
 from api.models import Trip
 from rest_framework.response import Response
 from business_logic.utilities.expo_notification import send_push_message
@@ -25,8 +25,8 @@ class SendNotificationView(generics.GenericAPIView):
 
             passenger = Passenger.objects.get(id=passenger_id)
 
-            profile = Profile.objects.get(user=passenger.user)
-            username = profile.username
+            # profile = Profile.objects.get(user=passenger.user)
+            username = 'profile.username'
 
             trip_instances = Trip.objects.all().filter(id=trip)
             if not trip_instances.exists():

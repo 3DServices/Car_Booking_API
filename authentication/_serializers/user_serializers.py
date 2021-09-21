@@ -1,9 +1,12 @@
+from api._serializers.userphonenumber_serializers import UserPhoneNumberSerializer
+from django.db.models import fields
 from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
-from allauth.account.models import EmailAddress
 from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 from authentication.models import User
+from api._serializers.phonenumber_serializers import PhoneNumberSerializer
+
 from core.mixins.serializer_mixins import ModelSerializer
 
 
@@ -31,13 +34,12 @@ class RegisterUserSerializer(ModelSerializer):
         if password:
             instance.set_password(password)
 
-        EmailAddress.objects.create(
-            user=user, email=user.email, verified=True, primary=True)
+        # EmailAddress.objects.create(
+        #     user=user, email=user.email, verified=True, primary=True)
         return user
 
 
 class UserSerializer(ModelSerializer):
-    # address = useraddress_serializers()
     class Meta:
         model = User
         exclude = [
@@ -53,6 +55,7 @@ class UserSerializer(ModelSerializer):
             'is_driver',
             'is_passenger',
             'is_verified',
+            "last_login"
         ]
         extra_kwargs = {
             'is_verified': {'write_only': True},
@@ -62,4 +65,27 @@ class UserSerializer(ModelSerializer):
             'is_systemadmin': {'write_only': True},
             'is_fleetmanager': {'write_only': True},
         }
+        depth = 3
+
+
+class UserProfileSerializer(ModelSerializer):
+    phone_number = PhoneNumberSerializer(read_only=True, many=True)
+    # photos = UserPhotoSerializer(read_only=True, many=True)
+    # addresses = UserAddressSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = User
+        exclude = [
+            'password',
+            'is_superuser',
+            'username',
+            'is_staff',
+            'is_active',
+            'groups',
+            'user_permissions',
+            'is_verified',
+            "last_login"
+
+        ]
+
         depth = 3

@@ -58,7 +58,6 @@ urlpatterns = [
     path('passengers/', include(auth_urls.passenger_urls)),
     path('systemadmins/', include(auth_urls.system_admin_urls)),
     path('fleetmanagers/', include(auth_urls.fleet_manager_urls)),
-    path('profiles/', include(auth_urls.profile_urls)),
     path('users/', include(auth_urls.user_urls)),
     # TD: to add a route for user
 
@@ -85,6 +84,7 @@ urlpatterns = [
     path('drivertrips/', include(api_urls.driver_trip_urls)),
     path('fleetmanagertrips/', include(api_urls.fleet_manager_trip_urls)),
     path('projectvehicletrips/', include(api_urls.project_vehicle_deploy_urls)),
+    path('phonenumber/', include(api_urls.phonenumber_urls)),
 
     # drf-yasg Routes
     path('docs/swagger/', schema_view.with_ui('swagger',

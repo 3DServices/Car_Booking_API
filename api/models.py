@@ -5,6 +5,7 @@ from .mixins.base_model_mixin import BaseModel
 import uuid
 from authentication.models import (Driver, Passenger, FleetManager)
 from django.utils import timezone
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Vehicle(BaseModel):
@@ -17,6 +18,7 @@ class Vehicle(BaseModel):
     brand = models.CharField(max_length=50, default='Toyota')
     carrying_capacity = models.CharField(max_length=50,
                                          default='4')
+    is_available = models.BooleanField(default=True)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -497,4 +499,42 @@ class StationVehicleDeploy(BaseModel):
 
     def __str__(self):
         _str = '%s' % self.station
+        return _str
+
+
+class PhoneNumber(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    number = PhoneNumberField(max_length=16, unique=True, blank=False)
+    user = models.ForeignKey(
+        User,  null=False, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(PhoneNumber, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.number
+        return _str
+
+
+class UserPhoneNumber (BaseModel):
+
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    user = models.ForeignKey(
+        User, related_name='phone_numbers', null=False, on_delete=models.CASCADE)
+    phone_number = models.ForeignKey(
+        PhoneNumber, null=False, on_delete=models.CASCADE)
+    primary = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(UserPhoneNumber, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.phone_number.number
         return _str

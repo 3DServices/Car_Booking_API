@@ -43,7 +43,7 @@ class DriverSerializer(ModelSerializer):
 
     class Meta:
         model = Driver
-        fields = ['id', 'user', 'registered_at']
+        fields = ['id', 'user', 'is_available']
         depth = 2
 
         extra_kwargs = {

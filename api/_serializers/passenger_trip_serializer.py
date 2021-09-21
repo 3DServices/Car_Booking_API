@@ -84,14 +84,14 @@ class CreatePassengerTripSerializer(ModelSerializer):
 
 
 class PassengerTripSerializer(ModelSerializer):
-    # trip = TripSerializer(write_only=True)
-    # passenger = PassengerSerializer(write_only=True)
+    trip = TripSerializer(read_only=True)
+    passenger = PassengerSerializer(read_only=True)
 
     class Meta:
         model = api_models.PassengerTrip
         fields = ['id', 'trip', 'passenger']
         lookup_field = 'id'
-        depth = 3
+        depth = 1
 
 
 class UpdatePassengerTripSerializer(ModelSerializer):

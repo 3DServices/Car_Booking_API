@@ -1,11 +1,10 @@
-from django.conf.urls import url, include
 import authentication._views.user_views as views
 from django.urls import path
-from rest_framework import routers
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
-    path(r'', include(router.urls)),
+    path('', views.ViewUsersListViewSet.as_view(
+        {'get': 'list'}), name="view_user"),
+    path(r'<str:Id>/', views.RetrieveUserViewSet.as_view(
+        {'get': 'retrieve'}), name="retrieve_user"),
 ]

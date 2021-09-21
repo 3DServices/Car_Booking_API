@@ -6,9 +6,10 @@ from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 class VehicleSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
         model = api_models.Vehicle
-        fields = '__all__'
+        exclude = ["created_by", "lastupdated_by", "created_at",
+                   "lastupdated_at", ]
         lookup_field = 'id'
-        depth = 2
+        depth = 0
 
         extra_kwargs = {
             'id': {'validators': []},
