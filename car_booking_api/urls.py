@@ -85,6 +85,9 @@ urlpatterns = [
     path('fleetmanagertrips/', include(api_urls.fleet_manager_trip_urls)),
     path('projectvehicletrips/', include(api_urls.project_vehicle_deploy_urls)),
     path('phonenumber/', include(api_urls.phonenumber_urls)),
+    path('rating/', include(api_urls.rating_urls)),
+    path('passenger-rating/', include(api_urls.passenger_rating_urls)),
+    path('driver-rating/', include(api_urls.driver_rating_urls)),
 
     # drf-yasg Routes
     path('docs/swagger/', schema_view.with_ui('swagger',

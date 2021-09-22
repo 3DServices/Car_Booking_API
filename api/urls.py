@@ -23,3 +23,6 @@ import api._urls.driver_trip_urls as driver_trip_urls
 import api._urls.fleet_manager_trip_urls as fleet_manager_trip_urls
 import api._urls.project_vehicle_deploy_urls as project_vehicle_deploy_urls
 import api._urls.phonenumber_urls as phonenumber_urls
+import api._urls.rating_urls as rating_urls
+import api._urls.passenger_rating_urls as passenger_rating_urls
+import api._urls.driver_rating_urls as driver_rating_urls

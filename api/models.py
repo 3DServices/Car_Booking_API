@@ -538,3 +538,61 @@ class UserPhoneNumber (BaseModel):
     def __str__(self):
         _str = '%s' % self.phone_number.number
         return _str
+
+
+class Rating (BaseModel):
+
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    rate_value = models.FloatField(default=0.0, null=False)
+    reason = models.CharField(max_length=100)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(Rating, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.reason
+        return _str
+
+
+class PassengerRating (BaseModel):
+
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    passenger = models.ForeignKey(
+        Passenger, on_delete=models.CASCADE)
+
+    rating = models.ForeignKey(
+        Rating, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(PassengerRating, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.rating.reason
+        return _str
+
+
+class DriverRating (BaseModel):
+
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+
+    driver = models.ForeignKey(
+        Driver, on_delete=models.CASCADE)
+
+    rating = models.ForeignKey(
+        Rating, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(DriverRating, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.rating.reason
+        return _str
