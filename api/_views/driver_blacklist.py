@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from api.models import DriverBlacklist
 from rest_framework import viewsets
-from api.serializers import DriverBlacklistSerializer
+from api._serializers.driver_blacklist_serializers import DriverBlacklistSerializer, CreateDriverBlacklistSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
 
@@ -13,7 +13,7 @@ class CreateDriverBlacklistViewSet(view_mixins.BaseCreateAPIView):
     API endpoint that allows users to be viewed or edited.
     """
     queryset = DriverBlacklist.objects.all()
-    serializer_class = DriverBlacklistSerializer
+    serializer_class = CreateDriverBlacklistSerializer
     lookup_field = 'id'
 
     def post(self, request):

@@ -12,8 +12,8 @@ urlpatterns = [
         {'get': 'list'}), name="view_vehicles"),
     path(r'<str:id>/', views.RetrievePassengerBlacklistViewSet.as_view(
         {'get': 'retrieve'}), name="retrieve_vehicle"),
-    path(r'<str:id>/update/',
-         views.UpdatePassengerBlacklistViewSet.as_view({'put': 'update'})),
+    # path(r'<str:id>/update/',
+    #      views.UpdatePassengerBlacklistViewSet.as_view({'put': 'update'})),
     path(r'<str:id>/delete/',
          views.DeletePassengerBlacklistViewSet.as_view({'delete': 'destroy'})),
 ]

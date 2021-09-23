@@ -250,8 +250,7 @@ class DirectorateDepartment(BaseModel):
 class Blacklist(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
-    organisation = models.ForeignKey(
-        Organisation,  on_delete=models.CASCADE)
+    reason = models.CharField(max_length=100, default='not good')
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -272,7 +271,7 @@ class PassengerBlacklist(BaseModel):
 
     passenger = models.ForeignKey(
         Passenger, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
+    # reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -293,7 +292,7 @@ class DriverBlacklist(BaseModel):
 
     driver = models.ForeignKey(
         Driver, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
+    # reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -314,7 +313,7 @@ class VehicleBlacklist(BaseModel):
 
     vehicle = models.ForeignKey(
         Vehicle, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
+    # reason = models.CharField(max_length=100)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
