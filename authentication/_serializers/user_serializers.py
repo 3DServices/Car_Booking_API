@@ -68,6 +68,36 @@ class UserSerializer(ModelSerializer):
         depth = 3
 
 
+class UpdateUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        exclude = [
+            'password',
+            'is_superuser',
+            'email',
+            'is_staff',
+            'is_active',
+            'groups',
+            'user_permissions',
+            'date_joined',
+            'is_fleetmanager',
+            'is_systemadmin',
+            'is_driver',
+            'is_passenger',
+            'is_verified',
+            "last_login"
+        ]
+        extra_kwargs = {
+            'is_verified': {'write_only': True},
+            'is_admin': {'write_only': True},
+            'is_passenger': {'write_only': True},
+            'is_driver': {'write_only': True},
+            'is_systemadmin': {'write_only': True},
+            'is_fleetmanager': {'write_only': True},
+        }
+        depth = 3
+
+
 class UserProfileSerializer(ModelSerializer):
     phone_number = PhoneNumberSerializer(read_only=True, many=True)
     # photos = UserPhotoSerializer(read_only=True, many=True)
