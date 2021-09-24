@@ -265,6 +265,8 @@ class Passenger(Registrable):
     user = models.OneToOneField(
         User, related_name="Passenger", on_delete=models.CASCADE)
 
+    is_available = models.BooleanField(default=True)
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:

@@ -11,7 +11,7 @@ import api._views.directorate as directorate_views
 import api._views.blacklist as blacklist_views
 import api._views.passenger_blacklist as passenger_blacklist_views
 import api._views.driver_blacklist as driver_blacklist_views
-import api._views.vehicle_blacklist as vehicle_blacklist_views
+import api._views.vehicle_blacklist_views as vehicle_blacklist_views
 import api._views.trip_views as trip_views
 import api._views.passenger_trip_views as passenger_trip_views
 import api._views.driver_trip_views as driver_trip_views

@@ -43,7 +43,7 @@ class PassengerSerializer(ModelSerializer):
 
     class Meta:
         model = Passenger
-        fields = ['id', 'user', 'registered_at']
+        fields = ['id', 'user', 'is_available']
         depth = 2
 
         extra_kwargs = {

@@ -63,6 +63,7 @@ urlpatterns = [
 
     # api routes
     path('vehicles/', include(api_urls.vehicle_urls)),
+    path('vehicleblacklists/', include(api_urls.vehicle_blacklist_urls)),
     path('blacklists/', include(api_urls.blacklist_urls)),
     path('branches/', include(api_urls.branch_urls)),
     path('departments/', include(api_urls.department_urls)),

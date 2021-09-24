@@ -29,11 +29,15 @@ class CreatePassengerBlacklistSerializer(ModelSerializer):
         if not passenger_instances.exists():
             raise ValidationError({'passenger': 'Invalid value!'})
 
+        passenger_instance = passenger_instances[0]
+        passenger_instance.is_available = False
+        passenger_instance.save()
+
         blacklist_instance = api_models.Blacklist.objects.create(
             **validated_data)
 
         passenger_blacklist_instance = api_models.PassengerBlacklist.objects.create(
-            passenger=passenger_instances[0], blacklist=blacklist_instance)
+            passenger=passenger_instance, blacklist=blacklist_instance)
 
         return passenger_blacklist_instance
 

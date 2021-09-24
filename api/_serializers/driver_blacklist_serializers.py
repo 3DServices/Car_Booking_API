@@ -29,11 +29,15 @@ class CreateDriverBlacklistSerializer(ModelSerializer):
         if not driver_instances.exists():
             raise ValidationError({'driver': 'Invalid value!'})
 
+        driver_instance = driver_instances[0]
+        driver_instance.is_available = False
+        driver_instance.save()
+
         blacklist_instance = api_models.Blacklist.objects.create(
             **validated_data)
 
         driver_blacklist_instance = api_models.DriverBlacklist.objects.create(
-            driver=driver_instances[0], blacklist=blacklist_instance)
+            driver=driver_instance, blacklist=blacklist_instance)
 
         return driver_blacklist_instance
 

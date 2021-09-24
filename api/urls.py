@@ -13,6 +13,7 @@ import api._urls.station as station_urls
 import api._urls.department as department_urls
 import api._urls.directorate as directorate_urls
 import api._urls.blacklist as blacklist_urls
+import api._urls.vehicle_blacklist_urls as vehicle_blacklist_urls
 import api._urls.passenger_blacklist as passenger_blacklist_urls
 import api._urls.driver_blacklist as driver_blacklist_urls
 import api._urls.trip_urls as trip_urls
