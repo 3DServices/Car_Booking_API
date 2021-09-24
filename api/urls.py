@@ -28,3 +28,4 @@ import api._urls.phonenumber_urls as phonenumber_urls
 import api._urls.rating_urls as rating_urls
 import api._urls.passenger_rating_urls as passenger_rating_urls
 import api._urls.driver_rating_urls as driver_rating_urls
+import api._urls.reports_urls as reports_urls
