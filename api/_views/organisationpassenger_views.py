@@ -1,19 +1,19 @@
 from django.shortcuts import render
-from api.models import Organisation
+from api.models import OrganisationPassenger
 from rest_framework import viewsets
-from api.serializers import OrganisationSerializer
+from api._serializers.organisation_passenger_serializers import OrganisationPassengerSerializer, CreateOrganisationPassengerSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
 
 # Create your views here.
 
 
-class CreateOrganisationViewSet(view_mixins.BaseCreateAPIView):
+class CreateOrganisationPassengerViewSet(view_mixins.BaseCreateAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Organisation.objects.all()
-    serializer_class = OrganisationSerializer
+    queryset = OrganisationPassenger.objects.all()
+    serializer_class = CreateOrganisationPassengerSerializer
     lookup_field = 'id'
 
     def post(self, request):
@@ -23,12 +23,12 @@ class CreateOrganisationViewSet(view_mixins.BaseCreateAPIView):
             raise exception
 
 
-class ViewOrganisationsListViewSet(view_mixins.BaseListAPIView):
+class ViewOrganisationPassengersListViewSet(view_mixins.BaseListAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Organisation.objects.all()
-    serializer_class = OrganisationSerializer
+    queryset = OrganisationPassenger.objects.all()
+    serializer_class = OrganisationPassengerSerializer
     lookup_field = 'id'
     filter_backends = [filters.SearchFilter]
     search_fields = ['name']
@@ -52,12 +52,12 @@ class ViewOrganisationsListViewSet(view_mixins.BaseListAPIView):
                 raise exception
 
 
-class RetrieveOrganisationViewSet(view_mixins.BaseRetrieveAPIView):
+class RetrieveOrganisationPassengerViewSet(view_mixins.BaseRetrieveAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Organisation.objects.all()
-    serializer_class = OrganisationSerializer
+    queryset = OrganisationPassenger.objects.all()
+    serializer_class = OrganisationPassengerSerializer
     lookup_field = 'id'
 
     def get(self, request, id=None):
@@ -67,12 +67,12 @@ class RetrieveOrganisationViewSet(view_mixins.BaseRetrieveAPIView):
             raise exception
 
 
-class UpdateOrganisationViewSet(view_mixins.BaseUpdateAPIView):
+class UpdateOrganisationPassengerViewSet(view_mixins.BaseUpdateAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Organisation.objects.all()
-    serializer_class = OrganisationSerializer
+    queryset = OrganisationPassenger.objects.all()
+    serializer_class = OrganisationPassengerSerializer
     lookup_field = 'id'
 
     def put(self, request, id=None):
@@ -82,12 +82,12 @@ class UpdateOrganisationViewSet(view_mixins.BaseUpdateAPIView):
             raise exception
 
 
-class DeleteOrganisationViewSet(view_mixins.BaseDeleteAPIView):
+class DeleteOrganisationPassengerViewSet(view_mixins.BaseDeleteAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Organisation.objects.all()
-    serializer_class = OrganisationSerializer
+    queryset = OrganisationPassenger.objects.all()
+    serializer_class = OrganisationPassengerSerializer
     lookup_field = 'id'
 
     def delete(self, request, id=None):

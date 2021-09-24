@@ -1,4 +1,4 @@
-import api._views.organisation_fleet_manager as views
+import api._views.organisation_fleet_manager_views as views
 from django.urls import path
 
 # from rest_framework import routers

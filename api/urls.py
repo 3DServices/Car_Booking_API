@@ -2,10 +2,11 @@
     This module is an aggregate of all the api urls / endpoints.
 """
 import api._urls.vehicle_urls as vehicle_urls
-import api._urls.organisation as organisation_urls
-import api._urls.organisation_fleet_manager as organisation_fleet_manager_urls
-import api._urls.organisation_driver as organisation_driver_urls
-import api._urls.organisation_vehicle as organisation_vehicle_urls
+import api._urls.organisation_urls as organisation_urls
+import api._urls.organisation_fleet_manager_urls as organisation_fleet_manager_urls
+import api._urls.organisation_driver_urls as organisation_driver_urls
+import api._urls.organisation_vehicle_urls as organisation_vehicle_urls
+import api._urls.organisationpassenger_urls as organisationpassenger_urls
 import api._urls.project as project_urls
 import api._urls.branch as branch_urls
 import api._urls.station as station_urls

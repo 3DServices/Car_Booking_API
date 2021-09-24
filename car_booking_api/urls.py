@@ -69,6 +69,7 @@ urlpatterns = [
     path('directorates/', include(api_urls.directorate_urls)),
     path('driverblacklists/', include(api_urls.driver_blacklist_urls)),
     path('organisationdrivers/', include(api_urls.organisation_driver_urls)),
+    path('organisationpassengers/', include(api_urls.organisationpassenger_urls)),
     path('organisationfleetmanagers/',
          include(api_urls.organisation_fleet_manager_urls)),
     path('organisationvehicles/', include(api_urls.organisation_vehicle_urls)),

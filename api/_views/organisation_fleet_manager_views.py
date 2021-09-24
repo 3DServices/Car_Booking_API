@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from api.models import OrganisationFleetManager
 from rest_framework import viewsets
-from api.serializers import OrganisationFleetManagerSerializer
+from api._serializers.organisation_fleetmanager_serializers import OrganisationFleetManagerSerializer, CreateOrganisationFleetManagerSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
 
@@ -13,7 +13,7 @@ class CreateOrganisationFleetManagerViewSet(view_mixins.BaseCreateAPIView):
     API endpoint that allows users to be viewed or edited.
     """
     queryset = OrganisationFleetManager.objects.all()
-    serializer_class = OrganisationFleetManagerSerializer
+    serializer_class = CreateOrganisationFleetManagerSerializer
     lookup_field = 'id'
 
     def post(self, request):

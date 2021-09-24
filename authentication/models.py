@@ -107,7 +107,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
     )
     is_fleetmanager = models.BooleanField(
-        _('user is a passenger'),
+        _('user is a fleet manager'),
         default=False,
     )
     is_driver = models.BooleanField(
