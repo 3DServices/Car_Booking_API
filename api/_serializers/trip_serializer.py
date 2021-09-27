@@ -1,14 +1,14 @@
 import api.models as api_models
 import authentication.models as auth_models
 from core.modules.rest_framework_modules import serializers
-from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 from api._serializers.vehicle_serializer import VehicleSerializer
 from authentication._serializers.driver_serializers import DriverSerializer
 from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
+from core.mixins.serializer_mixins import ModelSerializer
 
 
-class CreateTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+class CreateTripSerializer(ModelSerializer):
     vehicle = serializers.UUIDField()
     driver = serializers.UUIDField()
 
@@ -64,7 +64,7 @@ class CreateTripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMix
         return trip_instance
 
 
-class TripSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+class TripSerializer(ModelSerializer):
     vehicle = VehicleSerializer(read_only=True)
     driver = DriverSerializer(read_only=True)
 

@@ -379,6 +379,24 @@ class Trip(BaseModel):
         return _str
 
 
+class OrganisationTrip(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(OrganisationTrip, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.organisation.name
+        return _str
+
+
 class PassengerTrip(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
