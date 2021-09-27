@@ -80,6 +80,8 @@ urlpatterns = [
     path('stations/', include(api_urls.station_urls)),
     path('trips/', include(api_urls.trip_urls)),
     path('organisationtrips/', include(api_urls.organisation_trip_urls)),
+    path('organisationpassengertrips/',
+         include(api_urls.organisation_passengertrip_urls)),
     path('notification/', include(api_urls.notification_urls)),
     path('passengernotification/', include(api_urls.passenger_notification_urls)),
     path('sendnotification/', include(api_urls.send_notification_urls)),
