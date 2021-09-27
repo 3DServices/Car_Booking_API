@@ -1,10 +1,12 @@
+from api.models import Organisation, OrganisationDriver, OrganisationFleetManager, OrganisationPassenger
+from api._serializers.organisation_serializers import OrganisationSerializer
 from api._serializers.userphonenumber_serializers import UserPhoneNumberSerializer
 from django.db.models import fields
 from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
 from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
-from authentication.models import User
+from authentication.models import Driver, FleetManager, Passenger, User
 from api._serializers.phonenumber_serializers import PhoneNumberSerializer
 
 from core.mixins.serializer_mixins import ModelSerializer
@@ -100,8 +102,7 @@ class UpdateUserSerializer(ModelSerializer):
 
 class UserProfileSerializer(ModelSerializer):
     phone_number = PhoneNumberSerializer(read_only=True, many=True)
-    # photos = UserPhotoSerializer(read_only=True, many=True)
-    # addresses = UserAddressSerializer(read_only=True, many=True)
+    organisation = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -119,3 +120,32 @@ class UserProfileSerializer(ModelSerializer):
         ]
 
         depth = 3
+
+    def get_organisation(self, obj):
+        org = None
+
+        _user = User.objects.get(Id=obj.Id)
+
+        if _user.is_passenger:
+
+            _passenger = Passenger.objects.get(user=_user.Id)
+            _organisationpassenger = OrganisationPassenger.objects.all().filter(passenger=_passenger)
+            organisationpassenger = _organisationpassenger[0]
+            return organisationpassenger.organisation.name
+
+        if _user.is_driver:
+
+            _driver = Driver.objects.get(user=_user.Id)
+            _organisationdriver = OrganisationDriver.objects.all().filter(driver=_driver)
+            organisationdriver = _organisationdriver[0]
+            return organisationdriver.organisation.name
+
+        if _user.is_fleetmanager:
+
+            _fleetmanager = FleetManager.objects.get(user=_user.Id)
+            _organisationfleetmanager = OrganisationFleetManager.objects.all().filter(
+                fleet_manager=_fleetmanager)
+            organisationfleetmanager = _organisationfleetmanager[0]
+            return organisationfleetmanager.organisation.name
+
+        return org

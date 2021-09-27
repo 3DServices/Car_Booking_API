@@ -136,10 +136,19 @@ class UpdatePassengerTripSerializer(ModelSerializer):
             'date', instance.trip.date)
 
         trip_instances.started_at = validated_data.get(
-            'started_at', instance.trip.started_at)
+            'started_at')
+        if trip_instances.started_at:
+            trip_instances.vehicle.is_available = False
+            trip_instances.driver.is_available = False
+            trip_instances.driver.save()
 
         trip_instances.ended_at = validated_data.get(
             'ended_at', instance.trip.ended_at)
+
+        if trip_instances.ended_at:
+            trip_instances.vehicle.is_available = True
+            trip_instances.driver.is_available = True
+            trip_instances.driver.save()
 
         trip_instances.lastupdated_at = timezone.now()
 
