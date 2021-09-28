@@ -1,4 +1,4 @@
-import authentication._views.driver as views
+import authentication._views.driver_views as views
 from django.urls import path
 
 urlpatterns = [

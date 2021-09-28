@@ -1,7 +1,7 @@
-import authentication._views.system_admin as system_admin_views
-import authentication._views.driver as driver_views
-import authentication._views.passenger as passenger_views
-import authentication._views.fleet_manager as fleet_manager_views
+import authentication._views.system_admin_views as system_admin_views
+import authentication._views.driver_views as driver_views
+import authentication._views.passenger_views as passenger_views
+import authentication._views.fleet_manager_views as fleet_manager_views
 import authentication._views.account_views as account_views
 
 

@@ -6,18 +6,8 @@ from rest_framework import routers, permissions
 import authentication.urls as auth_urls
 import api.urls as api_urls
 from django.urls import path
-from rest_framework_simplejwt.views import (TokenObtainPairView,
-                                            TokenRefreshView)
-from rest_auth.views import (LogoutView, PasswordChangeView)
 
 
-from authentication.views import (
-    #     RegisterUserView,
-    VerifyEmailView,
-    SendVerificationLinkView,
-    #     UserLoginView,
-    PasswordResetView, PasswordResetConfirmView
-)
 # DRF - YASG
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view

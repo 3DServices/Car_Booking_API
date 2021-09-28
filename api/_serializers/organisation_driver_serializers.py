@@ -42,9 +42,11 @@ class CreateOrganisationDriverSerializer(ModelSerializer):
 
 
 class OrganisationDriverSerializer(ModelSerializer):
+    driver = DriverSerializer()
+
     class Meta:
         model = api_models.OrganisationDriver
-        fields = ['id', 'organisation', 'driver']
+        fields = ['id', 'driver']
         lookup_field = 'id'
         depth = 0
 

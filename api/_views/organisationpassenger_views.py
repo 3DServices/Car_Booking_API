@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from api.models import OrganisationPassenger
+from api.models import Organisation, OrganisationPassenger
 from rest_framework import viewsets
 from api._serializers.organisation_passenger_serializers import OrganisationPassengerSerializer, CreateOrganisationPassengerSerializer
 from car_booking_api.mixins import view_mixins
@@ -16,7 +16,7 @@ def _get_queryset(view_instance):
         # 03. Validate Vendor
 
         # ...
-        _organisations = OrganisationPassenger.objects.filter(
+        _organisations = Organisation.objects.filter(
             id=organisation_id)
         if not _organisations.exists():
             raise ValidationError(

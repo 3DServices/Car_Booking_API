@@ -1,14 +1,14 @@
 from rest_framework import serializers
 
-from authentication.models import User, Passenger
+from authentication.models import User, FleetManager
 from business_logic.system_users._user import User as UserFacade
 from core.mixins.serializer_mixins import ModelSerializer
 from business_logic.utilities.mailing import EmailVerificationLinkSender
 from .user_serializers import UserProfileSerializer, UserSerializer
-from business_logic.auth.authentication import PassengerEmailAndPasswordAuthentication
+from business_logic.auth.authentication import FleetManagerEmailAndPasswordAuthentication
 
 
-class CreatePassengerSerializer(ModelSerializer):
+class CreateFleetManagerSerializer(ModelSerializer):
     email = serializers.EmailField(
         max_length=254,
         min_length=5,
@@ -38,12 +38,12 @@ class CreatePassengerSerializer(ModelSerializer):
         return UserFacade().register_passenger(request)
 
 
-class PassengerSerializer(ModelSerializer):
+class FleetManagerSerializer(ModelSerializer):
     user = UserProfileSerializer()
 
     class Meta:
-        model = Passenger
-        fields = ['id', 'user', 'is_available']
+        model = FleetManager
+        fields = ['id', 'user', ]
         depth = 2
 
         extra_kwargs = {
@@ -53,7 +53,7 @@ class PassengerSerializer(ModelSerializer):
         }
 
 
-class PassengerLoginSerializer(ModelSerializer):
+class FleetManagerLoginSerializer(ModelSerializer):
     email = serializers.EmailField(max_length=254, min_length=5)
     password = serializers.CharField(
         max_length=254,
@@ -70,4 +70,4 @@ class PassengerLoginSerializer(ModelSerializer):
 
     def validate(self, attrs):
         login_data = attrs
-        return PassengerEmailAndPasswordAuthentication().login(login_data)
+        return FleetManagerEmailAndPasswordAuthentication().login(login_data)

@@ -1,4 +1,4 @@
-import authentication._views.system_admin as views
+import authentication._views.system_admin_views as views
 from django.urls import path
 
 

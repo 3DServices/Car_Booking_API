@@ -1,4 +1,4 @@
-import authentication._views.fleet_manager as views
+import authentication._views.fleet_manager_views as views
 from django.urls import path
 
 urlpatterns = [

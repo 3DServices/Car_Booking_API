@@ -1,7 +1,8 @@
 import api.models as api_models
 import authentication.models as auth_models
 from core.modules.rest_framework_modules import serializers
-from authentication._serializers.driver_serializers import DriverSerializer
+from api._serializers.organisation_serializers import OrganisationSerializer
+from authentication._serializers.passenger_serializers import PassengerSerializer
 from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
 from core.mixins.serializer_mixins import ModelSerializer
@@ -40,11 +41,13 @@ class CreateOrganisationPassengerSerializer(ModelSerializer):
 
 
 class OrganisationPassengerSerializer(ModelSerializer):
+    passenger = PassengerSerializer()
+
     class Meta:
         model = api_models.OrganisationPassenger
-        fields = ['id', 'organisation', 'passenger']
+        fields = ['id', 'passenger']
         lookup_field = 'id'
-        depth = 0
+        depth = 1
 
         extra_kwargs = {
             'id': {'validators': []},

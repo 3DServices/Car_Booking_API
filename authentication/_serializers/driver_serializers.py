@@ -4,7 +4,7 @@ from authentication.models import User, Driver
 from business_logic.system_users._user import User as UserFacade
 from core.mixins.serializer_mixins import ModelSerializer
 from business_logic.utilities.mailing import EmailVerificationLinkSender
-from .user_serializers import UserSerializer
+from .user_serializers import UserProfileSerializer, UserSerializer
 from business_logic.auth.authentication import DriverEmailAndPasswordAuthentication
 
 
@@ -39,7 +39,7 @@ class CreateDriverSerializer(ModelSerializer):
 
 
 class DriverSerializer(ModelSerializer):
-    user = UserSerializer()
+    user = UserProfileSerializer()
 
     class Meta:
         model = Driver
