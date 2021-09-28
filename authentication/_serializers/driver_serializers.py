@@ -47,7 +47,9 @@ class DriverSerializer(ModelSerializer):
         depth = 2
 
         extra_kwargs = {
-            'id': {'validators': []},
+            'id': {
+                'read_only': True
+            }
         }
 
 

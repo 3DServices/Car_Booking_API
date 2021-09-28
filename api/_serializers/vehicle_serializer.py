@@ -1,9 +1,10 @@
 import api.models as api_models
 from rest_framework import serializers
 from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
+from core.mixins.serializer_mixins import ModelSerializer
 
 
-class VehicleSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
+class VehicleSerializer(ModelSerializer):
     class Meta:
         model = api_models.Vehicle
         exclude = ["created_by", "lastupdated_by", "created_at",
@@ -12,5 +13,7 @@ class VehicleSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin)
         depth = 0
 
         extra_kwargs = {
-            'id': {'validators': []},
+            'id': {
+                'read_only': True
+            }
         }

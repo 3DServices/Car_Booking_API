@@ -30,7 +30,9 @@ class CreatePassengerTripSerializer(ModelSerializer):
                   'destination', 'date',  'reason', 'passenger', 'data']
 
         extra_kwargs = {
-            'id': {'validators': []},
+            'id': {
+                'read_only': True
+            }
         }
 
     def create(self, validated_data):

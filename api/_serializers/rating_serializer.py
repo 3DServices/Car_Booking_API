@@ -15,7 +15,9 @@ class CreateRatingSerializer(ModelSerializer):
         lookup_field = 'id'
         depth = 2
         extra_kwargs = {
-            'id': {'validators': []},
+            'id': {
+                'read_only': True
+            }
         }
 
     def create(self, validated_data):
@@ -35,5 +37,7 @@ class RatingSerializer(ModelSerializer):
         depth = 0
 
         extra_kwargs = {
-            'id': {'validators': []},
+            'id': {
+                'read_only': True
+            }
         }

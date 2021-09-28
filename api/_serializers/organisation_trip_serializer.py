@@ -25,7 +25,9 @@ class CreateOrganisationTripSerializer(ModelSerializer):
         lookup_field = 'id'
         depth = 2
         extra_kwargs = {
-            'id': {'validators': []},
+            'id': {
+                'read_only': True
+            }
         }
 
     def create(self, validated_data):
@@ -71,5 +73,7 @@ class OrganisationTripSerializer(ModelSerializer):
         depth = 1
 
         extra_kwargs = {
-            'id': {'validators': []},
+            'id': {
+                'read_only': True
+            }
         }

@@ -30,7 +30,9 @@ class CreateOrganisationPassengerTripSerializer(ModelSerializer):
                   'destination', 'date',  'reason', 'passenger', 'data']
 
         extra_kwargs = {
-            'id': {'validators': []},
+            'id': {
+                'read_only': True
+            }
         }
 
     def create(self, validated_data):
@@ -117,7 +119,6 @@ class UpdateOrganisationPassengerTripSerializer(ModelSerializer):
         trip_instances = api_models.Trip.objects.get(id=trip)
         if not trip_instances:
             raise ValidationError({'trip': 'Invalid value!'})
-        print(instance)
 
         trip_instances.reason = validated_data.get(
             'reason', instance.passenger_trip.trip.reason)

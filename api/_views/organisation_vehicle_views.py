@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from api.models import OrganisationVehicle
 from rest_framework import viewsets
-from api.serializers import OrganisationVehicleSerializer
+from api._serializers.organisation_vehicle_serializer import CreateOrganisationVehicleSerializer, OrganisationVehicleSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
 
@@ -13,7 +13,7 @@ class CreateOrganisationVehicleViewSet(view_mixins.BaseCreateAPIView):
     API endpoint that allows users to be viewed or edited.
     """
     queryset = OrganisationVehicle.objects.all()
-    serializer_class = OrganisationVehicleSerializer
+    serializer_class = CreateOrganisationVehicleSerializer
     lookup_field = 'id'
 
     def post(self, request):
