@@ -4,6 +4,7 @@ from core.modules.rest_framework_modules import serializers
 from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
 from core.mixins.serializer_mixins import ModelSerializer
+from authentication._serializers.fleet_manager_serializers import FleetManagerSerializer
 
 
 class CreateOrganisationFleetManagerSerializer(ModelSerializer):
@@ -41,6 +42,8 @@ class CreateOrganisationFleetManagerSerializer(ModelSerializer):
 
 
 class OrganisationFleetManagerSerializer(ModelSerializer):
+    fleet_manager = FleetManagerSerializer()
+
     class Meta:
         model = api_models.OrganisationFleetManager
         fields = ['id', 'organisation', 'fleet_manager']
