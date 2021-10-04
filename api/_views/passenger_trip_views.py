@@ -87,26 +87,15 @@ class ViewAllPassengerTripsListViewSet(view_mixins.BaseListAPIView):
     queryset = PassengerTrip.objects.all()
     serializer_class = PassengerTripSerializer
     lookup_field = 'id'
-    filter_backends = [filters.SearchFilter]
+    filter_backends = []
     search_fields = ['type_of_vehicle', 'brand']
 
     def get(self, request):
-        if 'vehicles' in cache:
-            # get results from cache
-            vehicles = cache.get('vehicles')
-            try:
-                return self.list(request)
-            except Exception as exception:
-                raise exception
 
-        else:
-            results = [vehicle.to_json() for vehicle in queryset]
-            # store data in cache
-            cache.set('vehicles', results, timeout=CACHE_TTL)
-            try:
-                return self.list(request)
-            except Exception as exception:
-                raise exception
+        try:
+            return self.list(request)
+        except Exception as exception:
+            raise exception
 
 
 class RetrievePassengerTripViewSet(view_mixins.BaseRetrieveAPIView):
