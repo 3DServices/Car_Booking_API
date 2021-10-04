@@ -130,28 +130,34 @@ class UserProfileSerializer(ModelSerializer):
 
             _passenger = Passenger.objects.get(user=_user.Id)
             _organisationpassenger = OrganisationPassenger.objects.all().filter(passenger=_passenger)
-            organisationpassenger = _organisationpassenger[0]
-            return {
-                'id': organisationpassenger.organisation.id,
-                'name': organisationpassenger.organisation.name, }
+
+            if _organisationpassenger.exists():
+                organisationpassenger = _organisationpassenger[0]
+                return {
+                    'id': organisationpassenger.organisation.id,
+                    'name': organisationpassenger.organisation.name, }
 
         if _user.is_driver:
 
             _driver = Driver.objects.get(user=_user.Id)
             _organisationdriver = OrganisationDriver.objects.all().filter(driver=_driver)
-            organisationdriver = _organisationdriver[0]
-            return {
-                'id': organisationdriver.organisation.id,
-                'name': organisationdriver.organisation.name}
+
+            if _organisationdriver.exists():
+                organisationdriver = _organisationdriver[0]
+                return {
+                    'id': organisationdriver.organisation.id,
+                    'name': organisationdriver.organisation.name}
 
         if _user.is_fleetmanager:
 
             _fleetmanager = FleetManager.objects.get(user=_user.Id)
             _organisationfleetmanager = OrganisationFleetManager.objects.all().filter(
                 fleet_manager=_fleetmanager)
-            organisationfleetmanager = _organisationfleetmanager[0]
-            return {
-                'id': organisationfleetmanager.organisation.id,
-                'name': organisationfleetmanager.organisation.name}
+
+            if _organisationfleetmanager.exists():
+                organisationfleetmanager = _organisationfleetmanager[0]
+                return {
+                    'id': organisationfleetmanager.organisation.id,
+                    'name': organisationfleetmanager.organisation.name}
 
         return org
