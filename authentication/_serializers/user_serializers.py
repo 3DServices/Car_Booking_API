@@ -141,10 +141,11 @@ class UserProfileSerializer(ModelSerializer):
 
         if _user.is_driver:
 
-            _driver = Driver.objects.get(user=_user.Id)
-            if _driver:
+            _driver = Driver.objects.filter(user=_user.Id)
+            if _driver.exists():
 
-                _organisationdriver = OrganisationDriver.objects.all().filter(driver=_driver)
+                _organisationdriver = OrganisationDriver.objects.all().filter(
+                    driver=_driver[0])
 
                 if _organisationdriver.exists():
                     organisationdriver = _organisationdriver[0]
