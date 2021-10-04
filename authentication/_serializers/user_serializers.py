@@ -128,10 +128,11 @@ class UserProfileSerializer(ModelSerializer):
 
         if _user.is_passenger:
 
-            _passenger = Passenger.objects.get(user=_user.Id)
+            _passenger = Passenger.objects.filter(user=_user.Id)
 
-            if _passenger:
-                _organisationpassenger = OrganisationPassenger.objects.all().filter(passenger=_passenger)
+            if _passenger.exists():
+                _organisationpassenger = OrganisationPassenger.objects.all().filter(
+                    passenger=_passenger[0])
 
                 if _organisationpassenger.exists():
                     organisationpassenger = _organisationpassenger[0]
@@ -155,11 +156,11 @@ class UserProfileSerializer(ModelSerializer):
 
         if _user.is_fleetmanager:
 
-            _fleetmanager = FleetManager.objects.get(user=_user.Id)
-            if _fleetmanager:
+            _fleetmanager = FleetManager.objects.filter(user=_user.Id)
+            if _fleetmanager.exists():
 
                 _organisationfleetmanager = OrganisationFleetManager.objects.all().filter(
-                    fleet_manager=_fleetmanager)
+                    fleet_manager=_fleetmanager[0])
 
                 if _organisationfleetmanager.exists():
                     organisationfleetmanager = _organisationfleetmanager[0]
