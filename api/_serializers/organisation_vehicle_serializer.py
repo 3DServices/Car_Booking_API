@@ -1,3 +1,4 @@
+from rest_framework import fields
 import api.models as api_models
 from core.mixins.serializer_mixins import ModelSerializer
 from api._serializers.vehicle_serializer import VehicleSerializer
@@ -42,10 +43,11 @@ class CreateOrganisationVehicleSerializer(ModelSerializer):
 
 
 class OrganisationVehicleSerializer(ModelSerializer):
+    vehicle = VehicleSerializer(read_only=True)
+
     class Meta:
         model = api_models.OrganisationVehicle
-        exclude = ["created_by", "lastupdated_by", "created_at",
-                   "lastupdated_at", ]
+        fields = ['id', 'vehicle']
         lookup_field = 'id'
         depth = 0
 

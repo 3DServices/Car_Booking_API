@@ -1,11 +1,26 @@
 from django.shortcuts import render
-from api.models import OrganisationDriver
+from api.models import Organisation, OrganisationDriver
 from rest_framework import viewsets
 from api._serializers.organisation_driver_serializers import OrganisationDriverSerializer, CreateOrganisationDriverSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
+from core.utilities.rest_exceptions import (ValidationError)
 
 # Create your views here.
+
+
+def _get_queryset(view_instance):
+    try:
+        organisation_id = view_instance.kwargs['organisation_id']
+
+        _organisations = Organisation.objects.filter(id=organisation_id)
+        if not _organisations.exists():
+            raise ValidationError(
+                {'organisation_id': 'organisation with the specified id does not exist!'})
+
+        return OrganisationDriver.objects.all().filter(organisation=_organisations[0])
+    except Exception as exception:
+        raise exception
 
 
 class CreateOrganisationDriverViewSet(view_mixins.BaseCreateAPIView):
@@ -52,6 +67,9 @@ class ViewOrganisationDriversListViewSet(view_mixins.BaseListAPIView):
             except Exception as exception:
                 raise exception
 
+    def get_queryset(self):
+        return _get_queryset(self)
+
 
 class RetrieveOrganisationDriverViewSet(view_mixins.BaseRetrieveAPIView):
     """
@@ -66,6 +84,9 @@ class RetrieveOrganisationDriverViewSet(view_mixins.BaseRetrieveAPIView):
             return self.retrieve(request, id)
         except Exception as exception:
             raise exception
+
+    def get_queryset(self):
+        return _get_queryset(self)
 
 
 class UpdateOrganisationDriverViewSet(view_mixins.BaseUpdateAPIView):
@@ -82,6 +103,9 @@ class UpdateOrganisationDriverViewSet(view_mixins.BaseUpdateAPIView):
         except Exception as exception:
             raise exception
 
+    def get_queryset(self):
+        return _get_queryset(self)
+
 
 class DeleteOrganisationDriverViewSet(view_mixins.BaseDeleteAPIView):
     """
@@ -96,3 +120,6 @@ class DeleteOrganisationDriverViewSet(view_mixins.BaseDeleteAPIView):
             return self.destroy(request, id)
         except Exception as exception:
             raise exception
+
+    def get_queryset(self):
+        return _get_queryset(self)
