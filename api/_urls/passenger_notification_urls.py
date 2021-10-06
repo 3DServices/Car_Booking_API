@@ -1,11 +1,8 @@
 import api._views.passenger_notitification_views as views
 from django.urls import path
 
-# from rest_framework import routers
-# router = routers.DefaultRouter()
 
 urlpatterns = [
-    # path('', include(router.urls)),
     path(r'', views.ViewPassengerNotificationsListViewSet.as_view(
         {'get': 'list'}), name="view_vehicles"),
     path(r'create/',

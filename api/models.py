@@ -516,6 +516,23 @@ class PassengerNotification(BaseModel):
         _str = '%s' % self.id
         return _str
 
+class DriverNotification(BaseModel):
+
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(DriverNotification, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.id
+        return _str
+
 
 class ProjectVehicleDeploy(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
