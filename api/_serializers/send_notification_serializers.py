@@ -11,25 +11,39 @@ class SendNotification:
 
 
 class SendNotificationSerializer(serializers.Serializer):
-    passenger = serializers.UUIDField(required=True, write_only=True)
-    trip = serializers.UUIDField(required=True, write_only=True)
+    passenger_trip = serializers.UUIDField(required=True, write_only=True)
 
     def create(self, validated_data):
-        passenger = validated_data.pop('passenger')
+        passenger_trip = validated_data.pop('passenger_trip')
 
-        passenger_instances = Passenger.objects.all().filter(id=passenger)
-        if not passenger_instances.exists():
-            raise ValidationError({'passenger': 'Passenger doesnt exist !'})
+        passenger_trip_instances = PassengerTrip.objects.all().filter(id=passenger_trip)
+        if not passenger_trip_instances.exists():
+            raise ValidationError(
+                {'passenger_trip': 'Passenger doesnt exist !'})
+
+        trip = passenger_trip_instances[0].trip
+        passenger = passenger_trip_instances[0].passenger
 
         passenger_notification_instances = PassengerNotification.objects.filter(
-            passenger=passenger_instances[0])
+            passenger=passenger.id)
+
+        driver_notification_instances = DriverNotification.objects.filter(
+            driver=trip.driver.id)
 
         if not passenger_notification_instances.exists():
             raise ValidationError(
                 {'passenger': 'Passenger has not yet regisered his application to receive notifications !'})
 
-        token = passenger_notification_instances[0].notification.expo_token
+        if not driver_notification_instances.exists():
+            raise ValidationError(
+                {'Driver': 'Driver has not yet regisered his application to receive notifications !'})
 
-        # send_push_message(token)
+        notification_details = {
+            'passenger_token': passenger_notification_instances[0].notification.expo_token,
+            'driver_token': driver_notification_instances[0].notification.expo_token,
+            'driver_name': trip.driver.user.username,
+            'passenger_name': passenger.user.username,
+            'destination': trip.destination
+        }
 
-        return token
+        return notification_details

@@ -19,22 +19,9 @@ class SendNotificationView(generics.GenericAPIView):
         serializer = SendNotificationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            trip = request.data['trip']
-            passenger_id = request.data['passenger']
-            token = (serializer.create(request.data))
+            notification_details = (serializer.create(request.data))
 
-            passenger = Passenger.objects.get(id=passenger_id)
-
-            # profile = Profile.objects.get(user=passenger.user)
-            username = 'profile.username'
-
-            trip_instances = Trip.objects.all().filter(id=trip)
-            if not trip_instances.exists():
-                raise ValidationError(
-                    {'trip': 'Trip with that id  doesnt exist !'})
-            trip = trip_instances[0]
-            destination = trip.destination
-            res = send_push_message(token, username, destination)
+            res = send_push_message(notification_details)
 
             return Response(res,
                             status=status.HTTP_201_CREATED)
