@@ -1,11 +1,10 @@
-from api.models import Organisation, OrganisationDriver, OrganisationFleetManager, OrganisationPassenger
+from api.models import DriverRating, Organisation, OrganisationDriver, OrganisationFleetManager, OrganisationPassenger, PassengerRating
 from api._serializers.organisation_serializers import OrganisationSerializer
 from api._serializers.userphonenumber_serializers import UserPhoneNumberSerializer
 from django.db.models import fields
 from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
-from rest_framework_friendly_errors.mixins import FriendlyErrorMessagesMixin
 from authentication.models import Driver, FleetManager, Passenger, User
 from api._serializers.phonenumber_serializers import PhoneNumberSerializer
 
@@ -103,6 +102,7 @@ class UpdateUserSerializer(ModelSerializer):
 class UserProfileSerializer(ModelSerializer):
     phone_number = PhoneNumberSerializer(read_only=True, many=True)
     organisation = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -169,3 +169,37 @@ class UserProfileSerializer(ModelSerializer):
                         'name': organisationfleetmanager.organisation.name}
 
         return org
+
+    def get_rating(self, obj):
+
+        _user = User.objects.get(Id=obj.Id)
+
+        if _user.is_passenger:
+
+            _passenger = Passenger.objects.filter(user=_user.Id)
+
+            if _passenger.exists():
+                _passenger_rating = PassengerRating.objects.all().filter(
+                    passenger=_passenger[0])
+
+                if _passenger_rating.exists():
+                    ratings = []
+                    for rating in _passenger_rating:
+                        ratings.append(rating.rating.rate_value)
+                    return sum(ratings) / len(ratings)
+
+        if _user.is_driver:
+
+            _driver = Driver.objects.filter(user=_user.Id)
+
+            if _driver.exists():
+                _driver_rating = DriverRating.objects.all().filter(
+                    driver=_driver[0])
+
+                if _driver_rating.exists():
+                    ratings = []
+                    for rating in _driver_rating:
+                        ratings.append(rating.rating.rate_value)
+                    return int(sum(ratings) / len(ratings))
+
+        return 0
