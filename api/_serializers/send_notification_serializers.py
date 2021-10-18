@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from business_logic.utilities.expo_notification import send_push_message
 from authentication.models import *
 from api.models import *
 from core.utilities.rest_exceptions import (ValidationError)

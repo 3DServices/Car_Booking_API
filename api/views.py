@@ -18,4 +18,5 @@ import api._views.driver_trip_views as driver_trip_views
 import api._views.fleet_manager_trip_views as fleet_manager_trip_views
 import api._views.project_vehicle_deploy_views as project_vehicle_deploy_views
 import api._views.sendNotification_views as sendNotification_views
+import api._views.sendDesktopNotification_views as sendDesktopNotification_views
 import api._views.phonenumber_views as phonenumber_views

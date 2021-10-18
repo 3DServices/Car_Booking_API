@@ -18,9 +18,11 @@ import api._urls.passenger_blacklist as passenger_blacklist_urls
 import api._urls.driver_blacklist as driver_blacklist_urls
 import api._urls.trip_urls as trip_urls
 import api._urls.notification_urls as notification_urls
+import api._urls.send_desktop_notification_urls as send_desktop_notification_urls
 import api._urls.send_notification_urls as send_notification_urls
 import api._urls.passenger_notification_urls as passenger_notification_urls
 import api._urls.driver_notification_urls as driver_notification_urls
+import api._urls.fleet_manager_notification_urls as fleet_manager_notification_urls
 import api._urls.passenger_trip_urls as passenger_trip_urls
 import api._urls.driver_trip_urls as driver_trip_urls
 import api._urls.fleet_manager_trip_urls as fleet_manager_trip_urls
