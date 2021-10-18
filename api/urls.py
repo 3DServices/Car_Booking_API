@@ -34,3 +34,4 @@ import api._urls.driver_rating_urls as driver_rating_urls
 import api._urls.reports_urls as reports_urls
 import api._urls.organisation_trip_urls as organisation_trip_urls
 import api._urls.organisation_passengertrip_urls as organisation_passengertrip_urls
+import api._urls.driver_available_urls as driver_available_urls

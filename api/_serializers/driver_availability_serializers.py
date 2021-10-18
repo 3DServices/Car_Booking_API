@@ -4,5 +4,5 @@ from api.models import *
 from core.utilities.rest_exceptions import (ValidationError)
 
 
-class SendDesktopNotificationSerializer(serializers.Serializer):
-    fleet_manager = serializers.UUIDField(required=True, write_only=True)
+class DriverAvailableSerializer(serializers.Serializer):
+    driver = serializers.UUIDField(required=True, write_only=True)

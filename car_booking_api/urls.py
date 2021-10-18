@@ -89,6 +89,7 @@ urlpatterns = [
     path('passenger-rating/', include(api_urls.passenger_rating_urls)),
     path('driver-rating/', include(api_urls.driver_rating_urls)),
     path('reports/', include(api_urls.reports_urls)),
+    path('get-driver-time/', include(api_urls.driver_available_urls)),
 
     # drf-yasg Routes
     path('docs/swagger/', schema_view.with_ui('swagger',
