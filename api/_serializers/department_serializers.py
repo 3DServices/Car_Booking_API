@@ -5,10 +5,10 @@ from core.utilities.rest_exceptions import (ValidationError)
 from core.mixins.serializer_mixins import ModelSerializer
 
 
-class CreateOrganisationSerializer(ModelSerializer):
+class CreateDepartmentSerializer(ModelSerializer):
 
     class Meta:
-        model = api_models.Organisation
+        model = api_models.Department
         fields = ['name']
         lookup_field = 'id'
         depth = 2
@@ -22,15 +22,15 @@ class CreateOrganisationSerializer(ModelSerializer):
         _request = self.context['request']
         request = {'request': _request, 'validated_data': validated_data}
 
-        Organisation_instance = api_models.Organisation.objects.create(
+        Department_instance = api_models.Department.objects.create(
             **validated_data)
-        return Organisation_instance
+        return Department_instance
 
 
-class OrganisationSerializer(ModelSerializer):
+class DepartmentSerializer(ModelSerializer):
     class Meta:
-        model = api_models.Organisation
-        fields = ['id', 'name', ]
+        model = api_models.Department
+        fields = ['id', 'name', 'organisation']
         lookup_field = 'id'
         depth = 0
 

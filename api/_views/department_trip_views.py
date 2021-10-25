@@ -1,19 +1,24 @@
 from django.shortcuts import render
-from api.models import Department
+from api.models import DepartmentTrip
 from rest_framework import viewsets
-from api._serializers.department_serializers import DepartmentSerializer, CreateDepartmentSerializer
+from api._serializers.department_trip_serializer import DepartmentTripSerializer, CreateDepartmentTripSerializer
 from car_booking_api.mixins import view_mixins
+from django.core.cache import cache
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from car_booking_api import filters
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # Create your views here.
 
 
-class CreateDepartmentViewSet(view_mixins.BaseCreateAPIView):
+class CreateDepartmentTripViewSet(view_mixins.BaseCreateAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Department.objects.all()
-    serializer_class = CreateDepartmentSerializer
+    queryset = DepartmentTrip.objects.all()
+    serializer_class = CreateDepartmentTripSerializer
     lookup_field = 'id'
 
     def post(self, request):
@@ -23,41 +28,41 @@ class CreateDepartmentViewSet(view_mixins.BaseCreateAPIView):
             raise exception
 
 
-class ViewDepartmentsListViewSet(view_mixins.BaseListAPIView):
+class ViewDepartmentTripsListViewSet(view_mixins.BaseListAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
+    queryset = DepartmentTrip.objects.all()
+    serializer_class = DepartmentTripSerializer
     lookup_field = 'id'
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name']
+    search_fields = ['type_of_vehicle', 'brand']
 
     def get(self, request):
-        if 'departments' in cache:
+        if 'vehicles' in cache:
             # get results from cache
-            departments = cache.get('departments')
+            vehicles = cache.get('vehicles')
             try:
                 return self.list(request)
             except Exception as exception:
                 raise exception
 
         else:
-            results = [department.to_json() for department in queryset]
+            results = [vehicle.to_json() for vehicle in queryset]
             # store data in cache
-            cache.set('departments', results, timeout=CACHE_TTL)
+            cache.set('vehicles', results, timeout=CACHE_TTL)
             try:
                 return self.list(request)
             except Exception as exception:
                 raise exception
 
 
-class RetrieveDepartmentViewSet(view_mixins.BaseRetrieveAPIView):
+class RetrieveDepartmentTripViewSet(view_mixins.BaseRetrieveAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
+    queryset = DepartmentTrip.objects.all()
+    serializer_class = DepartmentTripSerializer
     lookup_field = 'id'
 
     def get(self, request, id=None):
@@ -67,12 +72,12 @@ class RetrieveDepartmentViewSet(view_mixins.BaseRetrieveAPIView):
             raise exception
 
 
-class UpdateDepartmentViewSet(view_mixins.BaseUpdateAPIView):
+class UpdateDepartmentTripViewSet(view_mixins.BaseUpdateAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
+    queryset = DepartmentTrip.objects.all()
+    serializer_class = DepartmentTripSerializer
     lookup_field = 'id'
 
     def put(self, request, id=None):
@@ -82,12 +87,12 @@ class UpdateDepartmentViewSet(view_mixins.BaseUpdateAPIView):
             raise exception
 
 
-class DeleteDepartmentViewSet(view_mixins.BaseDeleteAPIView):
+class DeleteDepartmentTripViewSet(view_mixins.BaseDeleteAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
+    queryset = DepartmentTrip.objects.all()
+    serializer_class = DepartmentTripSerializer
     lookup_field = 'id'
 
     def delete(self, request, id=None):

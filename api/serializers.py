@@ -33,14 +33,6 @@ class StationSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin)
         depth = 2
 
 
-class DepartmentSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
-    class Meta:
-        model = api_models.Department
-        fields = '__all__'
-        lookup_field = 'id'
-        depth = 2
-
-
 class DirectorateSerializer(serializers.ModelSerializer, FriendlyErrorMessagesMixin):
     class Meta:
         model = api_models.Directorate

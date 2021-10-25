@@ -182,7 +182,7 @@ class OrganisationVehicle(BaseModel):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE)
 
-    vehicle = models.ForeignKey(
+    vehicle = models.OneToOneField(
         Vehicle, on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
@@ -278,7 +278,7 @@ class Department(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     name = models.CharField(max_length=50, default='departmentx')
-    organisation = models.ForeignKey(
+    organisation = models.OneToOneField(
         Organisation, on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
@@ -296,7 +296,8 @@ class DepartmentVehicle(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    vehicle = models.OneToOneField(
+        OrganisationVehicle, on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -305,7 +306,8 @@ class DepartmentVehicle(BaseModel):
         super(DepartmentVehicle, self).save()
 
     def __str__(self):
-        _str = '%s %s' % (self.department.name, self.vehicle.type_of_vehicle)
+        _str = '%s %s' % (self.department.name,
+                          self.vehicle.vehicle.type_of_vehicle)
         return _str
 
 
@@ -313,16 +315,36 @@ class DepartmentPassenger(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    passenger = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    passenger = models.OneToOneField(
+        OrganisationPassenger, on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(Department, self).save()
+        super(DepartmentPassenger, self).save()
 
     def __str__(self):
-        _str = '%s %s' % (self.department.name, self.passenger.user.last_name)
+        _str = '%s %s' % (self.department.name,
+                          self.passenger.passenger.user.last_name)
+        return _str
+
+
+class DepartmentDriver(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    driver = models.ForeignKey(OrganisationDriver, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(DepartmentDriver, self).save()
+
+    def __str__(self):
+        _str = '%s %s' % (self.department.name,
+                          self.driver.user.last_name)
         return _str
 
 
@@ -336,7 +358,7 @@ class DepartmentTrip(BaseModel):
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(Department, self).save()
+        super(DepartmentTrip, self).save()
 
     def __str__(self):
         _str = '%s %s' % (self.department.name, self.trip.destination)
@@ -353,7 +375,7 @@ class DepartmentPassengerTrip(BaseModel):
              update_fields=None):
         if self._state.adding:
             self.id = uuid.uuid4()
-        super(Department, self).save()
+        super(DepartmentPassengerTrip, self).save()
 
     def __str__(self):
         _str = '%s %s' % (self.department.name,
