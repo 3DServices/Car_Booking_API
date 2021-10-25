@@ -48,6 +48,75 @@ class Organisation(BaseModel):
         return _str
 
 
+class Trip(BaseModel):
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Declined', 'Declined'),
+    )
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    pick_up_location = models.CharField(max_length=100)
+    date = models.DateTimeField(default=timezone.now)
+    destination = models.CharField(max_length=100)
+    vehicle = models.ForeignKey(
+        Vehicle, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=100)
+    driver = models.ForeignKey(
+        Driver, on_delete=models.CASCADE)
+
+    status = models.CharField(
+        max_length=10, null=False, choices=STATUS, default='Pending')
+    started_at = models.DateTimeField(blank=True, null=True)
+    ended_at = models.DateTimeField(blank=True, null=True)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(Trip, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.id
+        return _str
+
+
+class OrganisationTrip(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(OrganisationTrip, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.organisation.name
+        return _str
+
+
+class PassengerTrip(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    passenger = models.ForeignKey(
+        Passenger, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(PassengerTrip, self).save()
+
+    def __str__(self):
+        _str = '%s' % self.id
+        return _str
+
+
 class OrganisationFleetManager(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
@@ -223,6 +292,75 @@ class Department(BaseModel):
         return _str
 
 
+class DepartmentVehicle(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(DepartmentVehicle, self).save()
+
+    def __str__(self):
+        _str = '%s %s' % (self.department.name, self.vehicle.type_of_vehicle)
+        return _str
+
+
+class DepartmentPassenger(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    passenger = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(Department, self).save()
+
+    def __str__(self):
+        _str = '%s %s' % (self.department.name, self.passenger.user.last_name)
+        return _str
+
+
+class DepartmentTrip(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(Department, self).save()
+
+    def __str__(self):
+        _str = '%s %s' % (self.department.name, self.trip.destination)
+        return _str
+
+
+class DepartmentPassengerTrip(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    passenger_trip = models.ForeignKey(PassengerTrip, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(Department, self).save()
+
+    def __str__(self):
+        _str = '%s %s' % (self.department.name,
+                          self.passenger_trip.trip.destination)
+        return _str
+
+
 class Directorate(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
@@ -343,75 +481,6 @@ class VehicleBlacklist(BaseModel):
 
     def __str__(self):
         _str = '%s' % self.vehicle.type_of_vehicle
-        return _str
-
-
-class Trip(BaseModel):
-    STATUS = (
-        ('Pending', 'Pending'),
-        ('Approved', 'Approved'),
-        ('Declined', 'Declined'),
-    )
-    id = models.UUIDField(primary_key=True, max_length=50,
-                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
-    pick_up_location = models.CharField(max_length=100)
-    date = models.DateTimeField(default=timezone.now)
-    destination = models.CharField(max_length=100)
-    vehicle = models.ForeignKey(
-        Vehicle, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100)
-    driver = models.ForeignKey(
-        Driver, on_delete=models.CASCADE)
-
-    status = models.CharField(
-        max_length=10, null=False, choices=STATUS, default='Pending')
-    started_at = models.DateTimeField(blank=True, null=True)
-    ended_at = models.DateTimeField(blank=True, null=True)
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if self._state.adding:
-            self.id = uuid.uuid4()
-        super(Trip, self).save()
-
-    def __str__(self):
-        _str = '%s' % self.id
-        return _str
-
-
-class OrganisationTrip(BaseModel):
-    id = models.UUIDField(primary_key=True, max_length=50,
-                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
-    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-    organisation = models.ForeignKey(
-        Organisation, on_delete=models.CASCADE)
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if self._state.adding:
-            self.id = uuid.uuid4()
-        super(OrganisationTrip, self).save()
-
-    def __str__(self):
-        _str = '%s' % self.organisation.name
-        return _str
-
-
-class PassengerTrip(BaseModel):
-    id = models.UUIDField(primary_key=True, max_length=50,
-                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
-    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-    passenger = models.ForeignKey(
-        Passenger, on_delete=models.CASCADE)
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if self._state.adding:
-            self.id = uuid.uuid4()
-        super(PassengerTrip, self).save()
-
-    def __str__(self):
-        _str = '%s' % self.id
         return _str
 
 

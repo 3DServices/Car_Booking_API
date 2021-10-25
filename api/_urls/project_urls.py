@@ -1,4 +1,4 @@
-import api._views.project as views
+import api._views.project_views as views
 from django.urls import path
 
 # from rest_framework import routers

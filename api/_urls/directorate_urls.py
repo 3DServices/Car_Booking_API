@@ -1,4 +1,4 @@
-import api._views.directorate as views
+import api._views.directorate_views as views
 from django.urls import path
 
 # from rest_framework import routers

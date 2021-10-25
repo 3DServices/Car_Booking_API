@@ -1,4 +1,4 @@
-import api._views.blacklist as views
+import api._views.blacklist_views as views
 from django.urls import path
 
 # from rest_framework import routers
