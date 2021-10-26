@@ -27,7 +27,7 @@ class CreateDepartmentDriverSerializer(ModelSerializer):
         request = {'request': _request, 'validated_data': validated_data}
         driver = validated_data.pop('driver', None)
         department = validated_data.pop('department', None)
-        driver_instances = auth_models.Driver.objects.all().filter(id=driver)
+        driver_instances = api_models.OrganisationDriver.objects.all().filter(id=driver)
         department_instances = api_models.Department.objects.all().filter(id=department)
 
         if not driver_instances.exists():

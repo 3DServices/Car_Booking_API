@@ -344,7 +344,7 @@ class DepartmentDriver(BaseModel):
 
     def __str__(self):
         _str = '%s %s' % (self.department.name,
-                          self.driver.user.last_name)
+                          self.driver.driver.user.last_name)
         return _str
 
 

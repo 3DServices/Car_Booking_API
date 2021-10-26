@@ -26,11 +26,12 @@ class CreateDepartmentPassengerSerializer(ModelSerializer):
         request = {'request': _request, 'validated_data': validated_data}
         passenger = validated_data.pop('passenger', None)
         department = validated_data.pop('department', None)
-        passenger_instances = auth_models.Passenger.objects.all().filter(id=passenger)
+        passenger_instances = api_models.OrganisationPassenger.objects.all().filter(id=passenger)
         department_instances = api_models.Department.objects.all().filter(id=department)
 
         if not passenger_instances.exists():
-            raise ValidationError({'passenger': 'Invalid value!'})
+            raise ValidationError(
+                {'passenger': 'Passenger Doesnt exist in the organisation!'})
         if not department_instances.exists():
             raise ValidationError({'department': 'Invalid value!'})
 
