@@ -1,7 +1,7 @@
 from rest_framework import fields
 import api.models as api_models
 from core.mixins.serializer_mixins import ModelSerializer
-from api._serializers.vehicle_serializer import VehicleSerializer
+from api._serializers.organisation_vehicle_serializer import OrganisationVehicleSerializer
 from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
 
@@ -43,7 +43,7 @@ class CreateDepartmentVehicleSerializer(ModelSerializer):
 
 
 class DepartmentVehicleSerializer(ModelSerializer):
-    vehicle = VehicleSerializer(read_only=True)
+    vehicle = OrganisationVehicleSerializer(read_only=True)
 
     class Meta:
         model = api_models.DepartmentVehicle
