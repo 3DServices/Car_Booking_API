@@ -334,7 +334,7 @@ class DepartmentDriver(BaseModel):
     id = models.UUIDField(primary_key=True, max_length=50,
                           default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    driver = models.ForeignKey(OrganisationDriver, on_delete=models.CASCADE)
+    driver = models.OneToOneField(OrganisationDriver, on_delete=models.CASCADE)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -345,6 +345,25 @@ class DepartmentDriver(BaseModel):
     def __str__(self):
         _str = '%s %s' % (self.department.name,
                           self.driver.driver.user.last_name)
+        return _str
+
+
+class DepartmentFleetManager(BaseModel):
+    id = models.UUIDField(primary_key=True, max_length=50,
+                          default=uuid.UUID('a365c526-2028-4985-848c-312a82699c7b'))
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    fleet_manager = models.OneToOneField(
+        OrganisationFleetManager, on_delete=models.CASCADE)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self._state.adding:
+            self.id = uuid.uuid4()
+        super(DepartmentFleetManager, self).save()
+
+    def __str__(self):
+        _str = '%s %s' % (self.department.name,
+                          self.fleet_manager.fleet_manager.user.last_name)
         return _str
 
 

@@ -1,4 +1,4 @@
-from api.models import DriverRating, Organisation, OrganisationDriver, OrganisationFleetManager, OrganisationPassenger, PassengerRating
+from api.models import DepartmentDriver, DepartmentFleetManager, DriverRating, Organisation, OrganisationDriver, OrganisationFleetManager, DepartmentPassenger, OrganisationPassenger, PassengerRating
 from api._serializers.organisation_serializers import OrganisationSerializer
 from api._serializers.userphonenumber_serializers import UserPhoneNumberSerializer
 from django.db.models import fields
@@ -123,6 +123,12 @@ class UserProfileSerializer(ModelSerializer):
 
     def get_organisation(self, obj):
         org = None
+        organisation = {
+            "organisation_id": None,
+            "organisation_name": None,
+            "department_id": None,
+            "department_name": None
+        }
 
         _user = User.objects.get(Id=obj.Id)
 
@@ -136,9 +142,18 @@ class UserProfileSerializer(ModelSerializer):
 
                 if _organisationpassenger.exists():
                     organisationpassenger = _organisationpassenger[0]
-                    return {
-                        'id': organisationpassenger.organisation.id,
-                        'name': organisationpassenger.organisation.name, }
+                    organisation["organisation_id"] = organisationpassenger.organisation.id
+                    organisation["organisation_name"] = organisationpassenger.organisation.name
+
+                    _departmentpassenger = DepartmentPassenger.objects.all().filter(
+                        passenger=_organisationpassenger[0])
+
+                    if _departmentpassenger.exists():
+                        departmentpassenger = _departmentpassenger[0]
+                        organisation["department_id"] = departmentpassenger.department.id
+                        organisation["department_name"] = departmentpassenger.department.name
+
+                return organisation
 
         if _user.is_driver:
 
@@ -150,9 +165,18 @@ class UserProfileSerializer(ModelSerializer):
 
                 if _organisationdriver.exists():
                     organisationdriver = _organisationdriver[0]
-                    return {
-                        'id': organisationdriver.organisation.id,
-                        'name': organisationdriver.organisation.name}
+
+                    organisation["organisation_id"] = organisationdriver.organisation.id
+                    organisation["organisation_name"] = organisationdriver.organisation.name
+
+                    _departmentdriver = DepartmentDriver.objects.all().filter(
+                        driver=_organisationdriver[0])
+
+                    if _departmentdriver.exists():
+                        departmentdriver = _departmentdriver[0]
+                        organisation["department_id"] = departmentdriver.department.id
+                        organisation["department_name"] = departmentdriver.department.name
+                return organisation
 
         if _user.is_fleetmanager:
 
@@ -164,9 +188,17 @@ class UserProfileSerializer(ModelSerializer):
 
                 if _organisationfleetmanager.exists():
                     organisationfleetmanager = _organisationfleetmanager[0]
-                    return {
-                        'id': organisationfleetmanager.organisation.id,
-                        'name': organisationfleetmanager.organisation.name}
+                    organisation["organisation_id"] = organisationfleetmanager.organisation.id
+                    organisation["organisation_name"] = organisationfleetmanager.organisation.name
+
+                    _departmentfleetmanager = DepartmentFleetManager.objects.all().filter(
+                        fleet_manager=_organisationfleetmanager[0])
+
+                    if _departmentfleetmanager.exists():
+                        departmentfleetmanager = _departmentfleetmanager[0]
+                        organisation["department_id"] = departmentfleetmanager.department.id
+                        organisation["department_name"] = departmentfleetmanager.department.name
+                return organisation
 
         return org
 
