@@ -1,3 +1,4 @@
+from api._serializers.organisation_passenger_serializers import OrganisationPassengerSerializer
 import api.models as api_models
 import authentication.models as auth_models
 from core.modules.rest_framework_modules import serializers
@@ -42,7 +43,7 @@ class CreateDepartmentPassengerSerializer(ModelSerializer):
 
 
 class DepartmentPassengerSerializer(ModelSerializer):
-    passenger = PassengerSerializer()
+    passenger = OrganisationPassengerSerializer()
 
     class Meta:
         model = api_models.DepartmentPassenger

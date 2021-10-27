@@ -153,7 +153,7 @@ class OrganisationDriver(BaseModel):
 
     def __str__(self):
         _str = '%s %s' % (self.organisation.name,
-                          self.driver.driver.user.first_name)
+                          self.driver.user.first_name)
         return _str
 
 

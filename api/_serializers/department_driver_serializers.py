@@ -1,3 +1,4 @@
+from api._serializers.organisation_driver_serializers import OrganisationDriverSerializer
 import api.models as api_models
 import authentication.models as auth_models
 from core.modules.rest_framework_modules import serializers
@@ -42,7 +43,7 @@ class CreateDepartmentDriverSerializer(ModelSerializer):
 
 
 class DepartmentDriverSerializer(ModelSerializer):
-    driver = DriverSerializer()
+    driver = OrganisationDriverSerializer()
 
     class Meta:
         model = api_models.DepartmentDriver
