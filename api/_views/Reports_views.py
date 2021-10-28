@@ -13,7 +13,7 @@ class ReportsView(generics.GenericAPIView):
     serializer_class = ReportSerializer
 
     def post(self, request, format=None):
-        print(request.data)
+        # print(request.data)
         report = report_generator()
         # return Response('res', status=status.HTTP_201_CREATED)
         return FileResponse(open('report.pdf', 'rb'), as_attachment=True, content_type='application/pdf')
