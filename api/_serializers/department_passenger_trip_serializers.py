@@ -84,11 +84,10 @@ class CreateDepartmentPassengerTripSerializer(ModelSerializer):
 
 class DepartmentPassengerTripSerializer(ModelSerializer):
     passenger_trip = PassengerTripSerializer(read_only=True)
-    department = DepartmentSerializer(read_only=True)
 
     class Meta:
         model = api_models.DepartmentPassengerTrip
-        fields = ['id', 'department', 'passenger_trip']
+        fields = ['id', 'passenger_trip']
         lookup_field = 'id'
         depth = 1
 

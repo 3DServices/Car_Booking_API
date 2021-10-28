@@ -109,7 +109,6 @@ class UserProfileSerializer(ModelSerializer):
         exclude = [
             'password',
             'is_superuser',
-            'username',
             'is_staff',
             'is_active',
             'groups',
