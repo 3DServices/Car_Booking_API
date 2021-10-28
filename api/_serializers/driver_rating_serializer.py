@@ -1,3 +1,4 @@
+from api._serializers.rating_serializer import RatingSerializer
 import api.models as api_models
 import authentication.models as auth_models
 from core.modules.rest_framework_modules import serializers
@@ -44,11 +45,14 @@ class CreateDriverRatingSerializer(ModelSerializer):
 
 
 class DriverRatingSerializer(ModelSerializer):
+    rating = RatingSerializer()
+    driver = DriverSerializer()
+
     class Meta:
         model = api_models.DriverRating
-        fields = ['id', 'rating', 'driver', ]
+        fields = ['id', 'rating', 'driver']
         lookup_field = 'id'
-        depth = 0
+        depth = 1
 
         extra_kwargs = {
             'id': {

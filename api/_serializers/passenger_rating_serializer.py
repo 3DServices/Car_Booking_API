@@ -1,7 +1,9 @@
+from api._serializers.rating_serializer import RatingSerializer
 import api.models as api_models
 import authentication.models as auth_models
 from core.modules.rest_framework_modules import serializers
 from authentication._serializers.driver_serializers import DriverSerializer
+from authentication._serializers.passenger_serializers import PassengerSerializer
 from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
 from core.mixins.serializer_mixins import ModelSerializer
@@ -44,11 +46,14 @@ class CreatePassengerRatingSerializer(ModelSerializer):
 
 
 class PassengerRatingSerializer(ModelSerializer):
+    rating = RatingSerializer()
+    passenger = PassengerSerializer()
+
     class Meta:
         model = api_models.PassengerRating
         fields = ['id', 'rating', 'passenger', ]
         lookup_field = 'id'
-        depth = 0
+        depth = 1
 
         extra_kwargs = {
             'id': {
