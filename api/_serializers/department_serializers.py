@@ -6,10 +6,11 @@ from core.mixins.serializer_mixins import ModelSerializer
 
 
 class CreateDepartmentSerializer(ModelSerializer):
+    organisation = serializers.UUIDField(required=True, write_only=True)
 
     class Meta:
         model = api_models.Department
-        fields = ['name']
+        fields = ['name', 'organisation']
         lookup_field = 'id'
         depth = 2
         extra_kwargs = {
@@ -21,9 +22,14 @@ class CreateDepartmentSerializer(ModelSerializer):
     def create(self, validated_data):
         _request = self.context['request']
         request = {'request': _request, 'validated_data': validated_data}
+        organisation = validated_data.pop('organisation', None)
+        organisation_instances = api_models.Organisation.objects.all().filter(id=organisation)
+
+        if not organisation_instances.exists():
+            raise ValidationError({'organisation': 'Invalid value!'})
 
         Department_instance = api_models.Department.objects.create(
-            **validated_data)
+            **validated_data, organisation=organisation_instances[0])
         return Department_instance
 
 
