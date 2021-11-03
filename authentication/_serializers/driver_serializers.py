@@ -71,3 +71,13 @@ class DriverLoginSerializer(ModelSerializer):
     def validate(self, attrs):
         login_data = attrs
         return DriverEmailAndPasswordAuthentication().login(login_data)
+
+
+class UpdateDriverSerializer(ModelSerializer):
+    is_available = serializers.BooleanField(required=True, write_only=True)
+
+    class Meta:
+        model = Driver
+        fields = ['is_available']
+        lookup_field = 'id'
+        depth = 1

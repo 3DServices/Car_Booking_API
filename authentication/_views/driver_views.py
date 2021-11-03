@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from authentication.models import Driver
 from rest_framework import viewsets, generics, status
-from authentication._serializers.driver_serializers import DriverSerializer, CreateDriverSerializer, DriverLoginSerializer
+from authentication._serializers.driver_serializers import DriverSerializer, CreateDriverSerializer, DriverLoginSerializer, UpdateDriverSerializer
 from car_booking_api.mixins import view_mixins
 from car_booking_api import filters
 from rest_framework.response import Response
@@ -73,7 +73,7 @@ class UpdateDriverViewSet(view_mixins.BaseUpdateAPIView):
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Driver.objects.all()
-    serializer_class = DriverSerializer
+    serializer_class = UpdateDriverSerializer
     lookup_field = 'id'
 
     def put(self, request, id=None):

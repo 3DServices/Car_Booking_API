@@ -1,7 +1,8 @@
 import api.models as api_models
 import authentication.models as auth_models
 from core.modules.rest_framework_modules import serializers
-from authentication._serializers.driver_serializers import DriverSerializer
+from authentication._serializers.passenger_serializers import PassengerSerializer
+from api._serializers.blacklist_serializer import BlacklistSerializer
 from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
 from core.mixins.serializer_mixins import ModelSerializer
@@ -45,6 +46,10 @@ class CreatePassengerBlacklistSerializer(ModelSerializer):
 
 
 class PassengerBlacklistSerializer(ModelSerializer):
+
+    blacklist = BlacklistSerializer()
+    passenger = PassengerSerializer()
+
     class Meta:
         model = api_models.PassengerBlacklist
         fields = ['id', 'blacklist', 'passenger']

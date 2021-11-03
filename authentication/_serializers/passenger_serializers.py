@@ -53,6 +53,16 @@ class PassengerSerializer(ModelSerializer):
         }
 
 
+class UpdatePassengerSerializer(ModelSerializer):
+    is_available = serializers.BooleanField(required=True, write_only=True)
+
+    class Meta:
+        model = Passenger
+        fields = ['is_available']
+        lookup_field = 'id'
+        depth = 1
+
+
 class PassengerLoginSerializer(ModelSerializer):
     email = serializers.EmailField(max_length=254, min_length=5)
     password = serializers.CharField(

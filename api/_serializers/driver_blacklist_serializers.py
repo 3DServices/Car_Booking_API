@@ -2,6 +2,7 @@ import api.models as api_models
 import authentication.models as auth_models
 from core.modules.rest_framework_modules import serializers
 from authentication._serializers.driver_serializers import DriverSerializer
+from api._serializers.blacklist_serializer import BlacklistSerializer
 from core.modules.rest_framework_modules import serializers
 from core.utilities.rest_exceptions import (ValidationError)
 from core.mixins.serializer_mixins import ModelSerializer
@@ -45,6 +46,9 @@ class CreateDriverBlacklistSerializer(ModelSerializer):
 
 
 class DriverBlacklistSerializer(ModelSerializer):
+    blacklist = BlacklistSerializer()
+    driver = DriverSerializer()
+
     class Meta:
         model = api_models.DriverBlacklist
         fields = ['id', 'blacklist', 'driver']

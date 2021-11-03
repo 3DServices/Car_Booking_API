@@ -233,4 +233,4 @@ class UserProfileSerializer(ModelSerializer):
                         ratings.append(rating.rating.rate_value)
                     return int(sum(ratings) / len(ratings))
 
-        return 0
+        return None
