@@ -35,7 +35,7 @@ class CreateFleetManagerSerializer(ModelSerializer):
     def create(self, validated_data):
         _request = self.context['request']
         request = {'request': _request, 'validated_data': validated_data}
-        return UserFacade().register_passenger(request)
+        return UserFacade().register_fleetmanager(request)
 
 
 class FleetManagerSerializer(ModelSerializer):
