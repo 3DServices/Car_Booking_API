@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django_filters',
+    'python_wialon',
     'core',
     'business_logic',
 
