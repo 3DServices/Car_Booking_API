@@ -6,7 +6,7 @@ from core.mixins.serializer_mixins import ModelSerializer
 from business_logic.utilities.mailing import EmailVerificationLinkSender
 from .user_serializers import UserProfileSerializer, UserSerializer
 from business_logic.auth.authentication import PassengerEmailAndPasswordAuthentication
-
+from api._serializers.organisation_serializers import OrganisationSerializer
 
 class CreatePassengerSerializer(ModelSerializer):
     email = serializers.EmailField(
@@ -23,6 +23,8 @@ class CreatePassengerSerializer(ModelSerializer):
         help_text='Required',
         style={'input_type': 'password', 'placeholder': 'Password'}
     )
+    # add logic  organisation view
+    organisation = serializers.CharField(max_length=254,)
     data = serializers.DictField(
         required=False,
         read_only=True,
@@ -30,7 +32,7 @@ class CreatePassengerSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'data']
+        fields = ['email', 'password','organisation', 'data']
 
     def create(self, validated_data):
         _request = self.context['request']
