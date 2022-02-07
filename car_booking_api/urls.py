@@ -53,6 +53,8 @@ urlpatterns = [
 
     # api routes
     path('vehicles/', include(api_urls.vehicle_urls)),
+    path('equipment/', include(api_urls.equipment_urls)),
+    path('equipment-booking/', include(api_urls.equipment_booking_urls)),
 
     path('departments/', include(api_urls.department_urls)),
     path('departmentvehicles/', include(api_urls.department_vehicle_urls)),

@@ -42,3 +42,8 @@ import api._urls.reports_urls as reports_urls
 import api._urls.organisation_trip_urls as organisation_trip_urls
 import api._urls.organisation_passengertrip_urls as organisation_passengertrip_urls
 import api._urls.driver_available_urls as driver_available_urls
+
+
+# add equipments
+import api._urls.equipment_urls as equipment_urls
+import api._urls.equipment_booking_urls as equipment_booking_urls
